@@ -1,0 +1,7 @@
+Dendrites and locations to be tested:
+[['apical_dendrite[5]', 0.125, 'prox'], ['apical_dendrite[5]', 0.375, 'dist']]
+---------------------------------------------------------------------------------------------------
+The dendritic spike at dendrite apical_dendrite[5](0.125) generated somatic AP - this location is not used in the test
+---------------------------------------------------------------------------------------------------
+ZScore_avg = 0.83
+---------------------------------------------------------------------------------------------------

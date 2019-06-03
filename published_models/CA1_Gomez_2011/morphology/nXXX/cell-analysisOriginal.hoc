@@ -1,0 +1,65 @@
+// This function loads all morphology-related files and templates that will 
+// most probably be needed in the experiments to follow.
+// written by Terrence Brannon, modified Yiota Poirazi, July 2001, poirazi@LNC.usc.edu
+// modified Jose Gomez, April 2006, jfcgomez@ull.es
+//  I calculated the center of the soma, and adjustment is the distance from
+//  trunk[0] to center of soma (before was trunk[1] and adjustment 41.1???)
+ 
+objref vRP, vAPEX
+
+proc cell_analysis() {
+
+										 // load_template("ObliquePath")
+xopen_filehoc("../../template","ObliquePath")
+										 // load_template("BasalPath")
+xopen_filehoc("../../template","BasalPath")
+
+
+  forall insert d3   // mod file to enable 3-D mapping of each point along the cell
+
+  $o1.defvar("Distance Calculation", "adjustment", "-0.637", "This adjustment factor is supplied to the vector distance function so that distance calculations are measured at the cell body.")
+
+  $o1.xopen_library("Terrence","vector-distance")
+
+  vRP=new Vector()
+ 				 //access  apical_dendrite[4]   // set point of reference (if adjustment=0). With adjustment factor = 41.1
+  access trunk[0]		// trunk[1] in n123_trunk_axonB = apical_dendrite[4]	 in old cell
+  vcreate(vRP)                 // the point of reference is the soma
+
+  vAPEX=new Vector()
+ 				 //access apical_dendrite[92]  // set the apex point
+  access trunk[15]   // apical_dendrite[67] in n123_trunk_axonB =apical_dendrite[92] in old cell
+  vcreate2(vAPEX,0.5)
+
+	$o1.xopen_geometry_dependent("soma-list")			// It's the same for every pruned cell
+	$o1.xopen_geometry_dependent("axon-sec-list")			// It's the same for every pruned cell
+	$o1.xopen_geometry_dependent("basal-tree-list")			// It's the same name but it's the file written by Jose Gomez
+	$o1.xopen_geometry_dependent("apical-trunk-list")		// It's the same name but it's the file written by Jose Gomez
+	$o1.xopen_geometry_dependent("apical-non-trunk-list")		// It's the same name but it's the file written by Jose Gomez
+
+
+//************   The rest of List are created in principal file .hoc (Jose Gomez)  **************
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+}
+
+
+
+
+
+
+
+
+

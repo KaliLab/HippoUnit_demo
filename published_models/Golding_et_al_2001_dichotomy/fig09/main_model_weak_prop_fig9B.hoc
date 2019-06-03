@@ -1,0 +1,70 @@
+//Original file 'run_fig9.hoc' modified by Sára Sáray in order to run validation tests on the base model
+
+//load_file("nrngui.hoc")
+load_file("stdrun.hoc")
+
+/*************************************************
+* load dendritic morphology                      *
+*************************************************/
+
+xopen("dend2.nrn")
+
+/*************************************************
+* load 'fake' axon                               *
+*************************************************/
+
+xopen("naceaxon.nrn")
+
+/*************************************************
+* set up section lists and initialize parameters *
+*************************************************/
+
+xopen("init_basic.hoc")
+
+/*************************************************
+* initialization routines                        *
+*************************************************/
+
+initchannels()
+
+proc init() {
+
+     /* add initchannels() to init(), so parameter changes show up */
+     initchannels()       
+     finitialize(v_init)
+     fcurrent()
+}
+
+
+/* parameters for steps of KA channel density profile */
+
+kasomastart=0.1
+kasomastep=0.005
+dslopestart=0.01
+dslopestep=0.0
+kanumsteps=5
+  
+/* Na parameters */
+                 
+gnabar=0.027	
+nalimit=275  
+naslope=0.00625   
+
+/* K channel parameters */
+
+gkdr=0.040  
+gkap=0.1 
+gkad=0.1 
+dslope=0.01 
+
+gkap=kasomastart+kanumsteps*kasomastep //0.125
+gkad=gkap
+dslope=dslopestart+kanumsteps*dslopestep //0.01
+
+init()
+
+
+
+
+
+

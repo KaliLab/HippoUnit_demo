@@ -1,0 +1,92 @@
+
+objref sr,k
+objref matrix_coord,vector_L 
+objref TP_list
+
+
+
+//----------------------	Tip_sections()	----------------------------------
+//Outputs:	matrix_coord is the a matrix with TP coord.
+//		TP_list is a list with the TP sections 
+//		vector_L is a vector with the lenght of the Terminal section
+//		num_tips is the number of Tips
+//Inputs:	$o1 is object type SectionList() where are dendrites (or apical dendrites) sections
+//		$o2 is object type SectionList() where are soma (or trunk) sections
+//		$s3 is a string where has "Dendrites" or "Apical dendrites"
+objref jo
+proc Tip_sections(){local i, nrow
+	i=0
+	nrow=1
+	matrix_coord = new Matrix(nrow,3)
+	TP_list = new SectionList()
+	vector_L=new Vector(nrow)
+
+	strdef tmp_str, tmp_str2
+	print "**************** Terminal point and Parent sections ******"
+	forsec $o1{	
+		sr=new SectionRef()
+		if (sr.nchild==0) {
+		
+			secname() TP_list.append()
+
+			matrix_coord.resize(nrow,3)
+			matrix_coord.x[nrow-1][0]=x3d(n3d()-1)
+			matrix_coord.x[nrow-1][1]=y3d(n3d()-1)
+			matrix_coord.x[nrow-1][2]=z3d(n3d()-1)
+			
+			vector_L.resize(nrow)
+			vector_L.x[nrow-1]=L
+
+			nrow+=1
+		
+		}
+	}
+	TP_list.printnames()
+	nrow-=1
+	print "\nNumber of Terminal Point in ",$s3,": ", nrow, "\n"
+
+	num_tips=nrow
+
+}
+//----------------------------------   oblique_sections()     ----------------------------
+//Inputs:	$o1 is the SectionList called Tip_list
+
+objref pl[100],opl[100]
+
+proc oblique_sections(){local plcount
+	plcount=0
+
+	
+	forsec $o1{	
+		sr=new SectionRef()
+		print sr.sec.diam	
+	//	pl[plcount]=new SectionList()
+		k= new SectionList()
+	//	sr.sec pl[plcount].append()
+	//	sr.sec k.append()
+		plcount+=1
+/*	
+			if (sr.has_parent){
+				sr.parent sprint(tmp_str2,"%s", secname())
+				access sr.parent
+				ifsec $o2{
+						sprint(tmp_str2,"%s",secname())
+				} 
+			} else {
+				sprint(tmp_str2,"%s","not")
+			}
+		
+			tmp_str2 parent_TP_list.append()
+
+		
+			i+=1
+*/
+		
+	}
+
+
+
+
+
+	
+}

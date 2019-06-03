@@ -1,0 +1,12 @@
+// This function makes a list with all trunk sections
+// written by Jose Gomez, April 2006, jfcgomez@ull.es
+
+	objref apical_trunk_list
+	apical_trunk_list=new SectionList()
+
+	
+	forsec "trunk" {
+  		apical_trunk_list.append()
+	}
+		
+

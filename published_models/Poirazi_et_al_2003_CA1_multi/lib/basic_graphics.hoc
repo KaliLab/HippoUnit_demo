@@ -1,0 +1,48 @@
+// This function creates a new graphical display and allows printing
+// of graphs to eps files (slightly different outlook than basic-graphics.hoc).
+// edited by Yiota Poirazi, July 2001, poirazi@LNC.usc.edu
+
+objectvar win[20]		// max 20 graphs
+ngraph = 0
+
+proc addgraph() { 	        // define subroutine to add a new graph
+				// addgraph("variable", minvalue, maxvalue)
+	ngraph = ngraph+1
+	windex = ngraph-1
+	win[windex] = new Graph()
+	win[windex].size(0,tstop,$2,$3)
+//	win[windex].view(0,$2,tstop,$3-$2,0,0,600,100)	// only for printing
+	win[windex].xaxis()
+	win[windex].yaxis()
+	win[windex].addvar($s1,1,0)
+	win[windex].save_name("graphList[0].")
+	graphList[0].append(win[windex])
+}
+
+if(ismenu==0) {
+  nrnmainmenu()			// create main menu
+  nrncontrolmenu()		// crate control menu
+  ismenu=1
+}
+
+objref win[2000]
+proc addgraph_2() { 	        // define subroutine to add a new graph
+				// addgraph("variable", minvalue, maxvalue)
+	ngraph = ngraph+1
+	windex = ngraph-1
+	win[windex] = new Graph()
+	win[windex].size($2,$3,$4,$5)
+//	win[windex].view(0,$2,tstop,$3-$2,0,0,600,100)	// only for printing
+	win[windex].xaxis()
+	win[windex].yaxis()
+	win[windex].addvar($s1,1,0)
+	win[windex].save_name("graphList[0].")
+	graphList[0].append(win[windex])
+}
+
+if(ismenu==0) {
+  nrnmainmenu()			// create main menu
+  nrncontrolmenu()		// crate control menu
+  ismenu=1
+}
+

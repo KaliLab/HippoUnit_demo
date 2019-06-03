@@ -1,0 +1,78 @@
+// This function is used to calculate the maximum and minimum values in a set
+// written by Terrence Brannon, last modified by Yiota Poirazi, July 2001, poirazi@LNC.usc.edu
+
+strdef maxmin_str
+proc maxmin () {
+  maxmin_max=-9e99
+  maxmin_min= 9e99
+  maxmin_samples=0
+  forall {
+    if (ismembrane($s1)) {
+      sprint(maxmin_str, "maxmin_val=%s", $s2)
+      execute1(maxmin_str)
+      if (maxmin_val > maxmin_max) {
+        maxmin_max=maxmin_val
+      }
+      if (maxmin_val < maxmin_min) {
+        maxmin_min=maxmin_val
+      }
+
+     maxmin_samples=maxmin_samples+1
+    }
+  }
+
+//  print "samples ", maxmin_samples
+//  print "min:    ", maxmin_min
+//  print "max:    ", maxmin_max
+
+
+}
+
+proc maxmin_intrinsic () {
+  maxmin_max=-9e99
+  maxmin_min= 9e99
+  maxmin_samples=0
+  forall {
+      sprint(maxmin_str, "maxmin_val=%s", $s1)
+      execute1(maxmin_str)
+      if (maxmin_val > maxmin_max) {
+        maxmin_max=maxmin_val
+      }
+      if (maxmin_val < maxmin_min) {
+        maxmin_min=maxmin_val
+      }
+     maxmin_samples=maxmin_samples+1
+  }
+
+//  print "samples ", maxmin_samples
+//  print "min:    ", maxmin_min
+//  print "max:    ", maxmin_max
+
+
+
+}
+proc maxmin_point_process () { local pps, ppe
+  maxmin_max=-9e99
+  maxmin_min= 9e99
+  maxmin_samples=0
+
+  pps=$3
+  ppe=$4
+
+  for i=pps,ppe {
+      sprint(maxmin_str, "maxmin_val=%s[%d].%s", $s1, i, $s2)
+      execute1(maxmin_str)
+      if (maxmin_val > maxmin_max) {
+        maxmin_max=maxmin_val
+      }
+      if (maxmin_val < maxmin_min) {
+        maxmin_min=maxmin_val
+      }
+     maxmin_samples=maxmin_samples+1
+  }
+
+//  print "Maxmin for ", $s1, "[ ].", $s2
+//  print "samples ", maxmin_samples
+//  print "min:    ", maxmin_min
+//  print "max:    ", maxmin_max
+}

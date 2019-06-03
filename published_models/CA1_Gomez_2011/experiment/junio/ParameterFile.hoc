@@ -1,0 +1,63 @@
+Kfactor = Kfactor_v.x[run_protocol] //increase of NMDA conductance for 2nd pulse
+
+
+sim_stop=sim_stop_v.x[run_protocol]
+
+//Blockers 
+alfa_AMPA=alfa_AMPA_v.x[run_protocol]
+alfa_NMDA=alfa_NMDA_v.x[run_protocol]
+alfa_GABAa=0
+alfa_GABAb=0
+Ca_flag=Ca_flag_v.x[run_protocol]
+Na_flag=Na_flag_v.x[run_protocol]
+
+//obsolete, no GABA used...
+gmax_default = 0.0005                           // GABA_A explicit conductance value (S/cm^2)
+gmaxb_default = gmax_default/3                  // GABA_B explicit conductance value (S/cm^2)
+
+
+
+asyn =ISD.x[run_protocol]      //ISD - Delay between synapses (input) (ms intervals)
+
+sprint(comment,"  cell %g synapses 2microns apart,  2  pulse    pos 40microns from branch point -  asynchronous - %g ms",n_runs,asyn)
+
+	var_AMPA.start=0	
+	var_AMPA.number=pulse_v.x[run_protocol]
+	var_AMPA.interval=ISI.x[run_protocol]
+	var_AMPA.noise=0	
+	var_AMPA.burst=2000
+	var_AMPA.delay_stim=delay_stim_v.x[run_protocol]
+
+
+	var_NMDA.start=0
+	var_NMDA.number=pulse_v.x[run_protocol]
+	var_NMDA.interval=ISI.x[run_protocol]
+	var_NMDA.noise=0
+	var_NMDA.burst=2000
+	var_NMDA.delay_stim=delay_stim_v.x[run_protocol]
+
+
+	var_GABAa.start=30.0
+	var_GABAa.number=50.0
+//	var_GABAa.interval=20.0
+	var_GABAa.noise=0.5
+	var_GABAa.burst=2000.0
+//	var_GABAa.delay_stim=50.0
+
+	var_GABAb.start=30.0
+	var_GABAb.number=50.0
+//	var_GABAb.interval=20.0
+	var_GABAb.noise=0.5
+	var_GABAb.burst=2000.0
+//	var_GABAb.delay_stim=50.0
+
+
+	xopen_filehoc(".","blockers")
+
+if(Ca_flag){
+	Ca_block(0.1,0.1,0.1,0.1,0.1)
+}
+if(Na_flag){
+	Na_block(0.1,0.1,0.1)
+}
+

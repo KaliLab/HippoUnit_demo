@@ -1,0 +1,41 @@
+// This function is used to balance the membrane potential to v_init (= -70 mV)
+// written by Yiota Poirazi, July 2001, poirazi@LNC.usc.edu
+
+proc current_balance() {
+
+  finitialize($1)
+  fcurrent()
+
+  printf("Balancing each compartment to %d mV\n", $1)
+
+  forall {
+    for (x) {
+    	if (ismembrane("na_ion")) {e_pas(x)=v(x)+ina(x)/g_pas(x)} 
+   	if (ismembrane("k_ion")) {e_pas(x)=e_pas(x)+ik(x)/g_pas(x)} 
+
+    	//if (ismembrane("hha2") || ismembrane("hha_old") || ismembrane("h") ) {e_pas(x)=v(x)+ina(x)/g_pas(x)} 
+    	//if (ismembrane("kdr") || ismembrane("kdr2")) {e_pas(x)=e_pas(x)+ik(x)/g_pas(x)} 
+    	if (ismembrane("ca_ion")) {e_pas(x)=e_pas(x)+ica(x)/g_pas(x)}
+        if (ismembrane("Ca_ion")) {e_pas(x)=e_pas(x)+iCa(x)/g_pas(x)}
+        if (ismembrane("n_ion")) {e_pas(x)=e_pas(x)+in(x)/g_pas(x)} //ican
+//	if (ismembrane("cal_ion")) {e_pas(x)=e_pas(x)+ical(x)/g_pas(x)}
+//	if (ismembrane("can_ion")) {e_pas(x)=e_pas(x)+ican(x)/g_pas(x)}
+      	if (ismembrane("h")) {e_pas(x)=e_pas(x)+ihi(x)/g_pas(x)}
+
+        d = distance(1,x)
+	xdist = find_vector_distance_precise(secname(),x)    // calc. perpedicular distance      
+  //	 printf("x = %e, xdist = %e, d = %e, e_pas = %e mV, rm = %e mA/(mVcm2)\n", x,  xdist, d, e_pas(x), 1./g_pas(x))
+      //	fcurrent()
+    }
+  }
+
+finitialize(v_init)
+fcurrent()
+        if (cvode.active()) {
+        cvode.re_init()
+        }       else {
+        fcurrent()
+        }
+frecord_init()
+
+}

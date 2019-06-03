@@ -1,0 +1,136 @@
+
+
+
+
+//------------------------ SAVE ANALYSIS OF CLUSTER
+analysisref=new File()			// Save the MAX of summed SOMA
+sprint(temp, "%s/Measured/max_soma_c/max_soma_c_%s_%g.dat", econ.data_dir,dendrite2test,runs)
+analysisref.wopen(temp)
+max_vsoma_c.printf(analysisref, "%f\n")
+analysisref.close()  
+
+
+analysisref=new File()			// Save the MAX of summed DENDRITE
+sprint(temp, "%s/Measured/max_apical_c/max_apical_c_%s_%g.dat", econ.data_dir,dendrite2test,runs)
+analysisref.wopen(temp)
+max_vapical_c.printf(analysisref, "%f\n")
+analysisref.close()  
+
+
+analysisref=new File()			// Save the MEAN of summed SOMA
+sprint(temp, "%s/Measured/mean_soma_c/mean_soma_c_%s_%g.dat", econ.data_dir,dendrite2test,runs)
+analysisref.wopen(temp)
+mean_vsoma_c.printf(analysisref, "%f\n")
+analysisref.close()  
+
+
+analysisref=new File()			// Save the MEAN of summed DENDRITE
+sprint(temp, "%s/Measured/mean_apical_c/mean_apical_c_%s_%g.dat", econ.data_dir,dendrite2test,runs)
+analysisref.wopen(temp)
+mean_vapical_c.printf(analysisref, "%f\n")
+analysisref.close() 
+
+analysisref=new File()			// Save the MAX of summed SOMA
+sprint(temp, "%s/Measured/max_dif_soma_c/max_dif_soma_c_%s_%g.dat", econ.data_dir,dendrite2test,runs)
+analysisref.wopen(temp)
+max_dif_vsoma_c.printf(analysisref, "%f\n")
+analysisref.close()  
+
+
+analysisref=new File()			// Save the MAX of summed DENDRITE
+sprint(temp, "%s/Measured/max_dif_apical_c/max_dif_apical_c_%s_%g.dat", econ.data_dir,dendrite2test,runs)
+analysisref.wopen(temp)
+max_dif_vapical_c.printf(analysisref, "%f\n")
+analysisref.close() 
+
+
+
+//------------------ SAVE MATRIX OF CLUSTER
+
+analysisref=new File()			// Save the MAX of summed SOMA
+sprint(temp, "%s/Measured/max_soma_c/max_soma_c_matrix.dat", econ.data_dir)
+analysisref.wopen(temp)
+max_vsoma_c_matrix.fprint(0,analysisref,"%f\t")
+analysisref.close()  
+
+
+analysisref=new File()			// Save the MAX of summed DENDRITE
+sprint(temp, "%s/Measured/max_apical_c/max_apical_c_matrix.dat", econ.data_dir)
+analysisref.wopen(temp)
+max_vapical_c_matrix.fprint(0,analysisref,"%f\t")
+analysisref.close()  
+
+
+analysisref=new File()			// Save the MEAN of summed SOMA
+sprint(temp, "%s/Measured/mean_soma_c/mean_soma_c_matrix.dat", econ.data_dir)
+analysisref.wopen(temp)
+mean_vsoma_c_matrix.fprint(0,analysisref,"%f\t")
+analysisref.close()  
+
+
+analysisref=new File()			// Save the MEAN of summed DENDRITE
+sprint(temp, "%s/Measured/mean_apical_c/mean_apical_c_matrix.dat", econ.data_dir)
+analysisref.wopen(temp)
+mean_vapical_c_matrix.fprint(0,analysisref,"%f\t")
+analysisref.close() 
+
+analysisref=new File()			// Save the MAX of summed SOMA
+sprint(temp, "%s/Measured/max_dif_soma_c/max_dif_soma_c_matrix.dat", econ.data_dir)
+analysisref.wopen(temp)
+max_dif_vsoma_c_matrix.fprint(0,analysisref,"%f\t")
+analysisref.close()  
+
+
+analysisref=new File()			// Save the MAX of summed DENDRITE
+sprint(temp, "%s/Measured/max_dif_apical_c/max_dif_apical_c_matrix.dat", econ.data_dir)
+analysisref.wopen(temp)
+max_dif_vapical_c_matrix.fprint(0,analysisref,"%f\t")
+analysisref.close() 
+
+
+
+
+
+
+
+
+//-------------------------------------------------------------
+/*
+g_ana1=new Graph()
+g_ana1.size(0,15,0,15)
+max_sum_vsoma.plot(g_ana1,1)
+max_vsoma_c.plot(g_ana1,1)
+
+
+g_ana2=new Graph()
+g_ana2.size(0,15,0,15)
+g_ana2.label(0.1,0.95, "Expected EPSP - (soma)")
+g_ana2.label(0.1,0.75, "Measured EPSP +")
+for i=0,max_sum_vsoma.size()-1{ 
+	   g_ana2.line(max_sum_vsoma.x[i], max_sum_vsoma.x[i])
+}
+
+for i=0,max_sum_vsoma.size()-1{
+	  g_ana2.mark(max_sum_vsoma.x[i], max_vsoma_c.x[i], "+")
+}
+g_ana2.flush()
+
+g_ana3=new Graph()
+g_ana3.size(0,15,0,15)
+max_sum_vapical.plot(g_ana3,1)
+max_vapical_c.plot(g_ana3,1)
+
+
+g_ana4=new Graph()
+g_ana4.size(0,15,0,15)
+g_ana4.label(0.1,0.95, "Expected EPSP -(apical)")
+g_ana4.label(0.1,0.75, "Measured EPSP +")
+for i=0,max_sum_vapical.size()-1{ 
+	   g_ana4.line(max_sum_vapical.x[i], max_sum_vapical.x[i])	 
+}
+
+for i=0,max_sum_vapical.size()-1{
+	  g_ana4.mark(max_sum_vapical.x[i], max_vapical_c.x[i], "+")
+}
+g_ana4.flush()
+*/

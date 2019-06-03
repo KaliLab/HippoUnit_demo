@@ -1,0 +1,38 @@
+../Date70219: Time 145338
+BACK_GROUND=0
+Simulation time (ms)= 350
+Number of synapsis= 15
+Asynchronous input pattern (ms)=2
+----   cell 15 synapses 2microns apart,  2  pulse    pos 40microns from branch point -  asynchronous - 2 ms ----
+check_AMPA= 1, alfa (alfa*weight)=1
+var_AMPA.start : 0
+var_AMPA.number : 1
+var_AMPA.interval : 0
+var_AMPA.noise : 0
+var_AMPA.burst : 2000
+var_AMPA.delay_stim : 50
+
+check_NMDA= 1, alfa (alfa*weight)=1
+var_NMDA.start : 0
+var_NMDA.number : 1
+var_NMDA.interval : 0
+var_NMDA.noise : 0
+var_NMDA.burst : 2000
+var_NMDA.delay_stim : 50
+
+check_GABAa= 0, alfa (alfa*weight)=0
+var_GABAa.start : 30
+var_GABAa.number : 50
+var_GABAa.interval : 20
+var_GABAa.noise : 0.5
+var_GABAa.burst : 2000
+var_GABAa.delay_stim : 50
+
+check_GABAb= 0, alfa (alfa*weight)=0
+var_GABAb.start : 30
+var_GABAb.number : 50
+var_GABAb.interval : 20
+var_GABAb.noise : 0.5
+var_GABAb.burst : 2000
+var_GABAb.delay_stim : 50
+

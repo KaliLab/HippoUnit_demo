@@ -1,0 +1,12 @@
+// The NMDA conductance at each synapse in the cell is estimated as 
+// a percent of the AMPA conductance. The ratio of NMDA/AMPA conductances
+// for different cell regions are given by the following values.
+// modified by Yiota Poirazi, July 2001, poirazi@LNC.usc.edu
+
+SOMA_NMDA_AMPA_RATIO=0.6
+AXON_NMDA_AMPA_RATIO=0.6
+BASAL_NMDA_AMPA_RATIO=0.6
+APICAL_TRUNK_NMDA_AMPA_RATIO=0.6
+APICAL_NON_TRUNK_NMDA_AMPA_RATIO=2.5
+
+

@@ -1,0 +1,78 @@
+//Original file 'run.hoc' modified by Sára Sáray in order to run validation tests on the base model
+
+/* This is the code for the model presented in the paper "Synapse Distribution Suggests
+a Two-Stage Model of Dendritic Integration" published in Neuron by Katz et al., 2009 */
+
+
+br1 = 9			// We loop over apical oblique branches from br1 to br2. For a single branch, set br1=br2	 
+br2 = 9			// The branches are specified in seclists_bday.hoc; note that the numbering system in NEURON and in Fig. 3 are not the same.
+numberofsyns = 10	// This is the number of synapses activated on the given branch
+backwards = 0		// For the synapse distribution of the 2-stage integration model, backwards=0; for the global integration model, backwards=1
+ntrials = 1		// How many trials do you want to run per branch (starts from zero)
+
+tstop = 15		// the time each simulation should stop
+tstop1 = tstop		// needed for graphics
+
+segL = 5		// the length (in microns) of each dendritic segment
+setgk = .036		// A-type potassium starting density, used in init_bday.hoc
+setokslope = 0		// slope of A-type potassium conductance along individual oblique branches. set to 0 in all simulations
+
+gpart = 0.025/1000	// assumed conductance per immunogold particle labelling AMPA receptors. units are microS
+
+// Output file stuff
+objref f
+f = new File()
+strdef scommand
+strdef fname
+fname = "10syns"	// this is the prefix for output files -- files will be named fname_branch#.dat
+
+
+
+/*************************************************
+* morphology                                     *
+*************************************************/
+xopen("morphology_ri06.nrn")	// pyramidal neuron geometry
+xopen("naceaxon.nrn")		// axon geometry (fake)
+
+/* reset nseg so none smaller than segL microns */
+
+forall { ns=int(L/segL+0.5)
+        if (ns==0) {
+             ns=1
+        }
+        if ((ns-int(ns/2)*2)==0) {
+             ns=ns+1
+        }
+        nseg = ns
+}
+
+access somaA
+distance()
+area(0.5)
+
+/*************************************************
+* ion channels and parameters                    *
+*************************************************/
+xopen("seclists.hoc")
+xopen("init.hoc")
+
+/*************************************************
+* initialization routine                        *
+*************************************************/
+proc init() {
+	finitialize(v_init)
+	fcurrent()
+}
+
+init()
+
+//creating oblique section list for validation
+
+objref oblique_dendrites
+oblique_dendrites = new SectionList()
+
+for i = 0, 15 {
+	forsec d[i] { oblique_dendrites.append() }
+}
+oblique_dendrites.printnames()
+//quit()

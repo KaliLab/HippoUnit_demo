@@ -1,0 +1,63 @@
+// This function is used to deduce the maximum AMPA coductance value 
+// at any location along the cell, such that a single current pulse will give
+// rise to approximately 5mV local depolarization.
+// tune-epsps.hoc is used is advance to calculate maximum AMPA conductance values
+// for a few locations along each section (reference list). This function is used to 
+// deduce the AMPA conductance for ANY specified location in ANY section by finding 
+// the estimated AMPA value of the reference point closest to the specified point.  
+// written by Terrence Brannon, last modified by Yiota Poirazi, July 2001, poirazi@LNC.usc.edu
+
+objref find_gmax_vec, find_gmax_dest, find_gmax_index, find_gmax_tmp
+func find_gmax() { local range_ref, pre_diff, pre_i, post_gmax, diff, i,R
+  
+  range_ref = $1 
+  find_gmax_vec = new Vector()
+  find_gmax_index = new Vector()
+  find_gmax_tmp = new Vector()
+ 
+  post_i=-1     
+
+  for i=0,tune_epsp_list.count()-1 {        // for all sections in tune_epsp_list (reference list) 
+
+    if (issection(tune_epsp_list.object(i).section_name)) { 
+
+//      print "\t\t-- tuning", secname()
+//      printf("R=tune_epsp_list.object(%d).range_ref\n", i)
+
+      R = tune_epsp_list.object(i).range_ref
+//      printf("R=tune_epsp_list.object(%d).range_ref == %g\n", i,R)
+      if (R <= range_ref) {
+        pre_i=i
+        pre_R=R
+        }
+
+      if (R >  range_ref) {
+        if (post_i < 0) {
+           post_i=i
+           post_R=R
+        }
+      }
+    }
+
+  }
+
+//print "===================================== calculating ret_gmax, ret_R"
+
+  if ( (post_i < 0) || (abs(pre_R-range_ref) < abs(post_R-range_ref)) ) {
+//        print "pre_i", pre_i
+        ret_gmax=tune_epsp_list.object(pre_i).gbar_ampa
+        ret_R=pre_R
+   } else {
+//        print "post_i", post_i, "post_R ", post_R
+        ret_gmax=tune_epsp_list.object(post_i).gbar_ampa
+        ret_R=post_R
+   }
+
+  // printf("%g was the closest range_ref to %g for %s\n", ret_R, range_ref, secname())
+
+   return(ret_gmax)     
+}
+
+
+
+

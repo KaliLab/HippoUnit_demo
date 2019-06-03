@@ -1,0 +1,107 @@
+// The goal of this experiment is to insure that our cell responses
+// are reasonably similar to the data on back propagating action potentials
+// where the site of current injection is either at the soma or the apical trunk
+
+
+//load_proc("nrnmainmenu")             // load main NEURON library
+//load_template("ExperimentControl")   // load a custom made library function that centralizes parameters so as to 
+load_file("nrngui.hoc")
+load_file("../../template/load_templates.hoc")
+
+strdef accstr                                                // not confuse experimental variable bindings with neurophysiological variable bindings
+objref econ                          // Create an experiment object
+show_errs=1
+debug_lev=1
+econ=new ExperimentControl(show_errs,debug_lev)
+econ.self_define(econ) // points the object at itself
+econ.morphology_dir = "../../morphology/n123"                             // Setup morphology directory
+econ.generic_dir = "../../experiment/"                                    // Setup directory with cell-setup file
+econ.add_lib_dir("Terrence","../../lib")                                  // Setup directory with library functions 
+
+if (unix_mac_pc() ==1 ) {
+	econ.data_dir       = "data"                       // Define directory to save produced data 
+	sprint(econ.syscmd, "mkdir -p %s", econ.data_dir)  // make the data directory
+	system(econ.syscmd)
+}
+
+// Setup cell
+
+econ.xopen_geometry_dependent("cell")              // load the raw cell morphology
+econ.xopen_geometry_dependent("cell-analysis")     // load user-defined semantics on morphology 
+cell_analysis(econ)
+
+printf("Opening cell setup\n")
+econ.xopen_generic("cell-setup")                   // load the cell-setup file (define specific 
+printf("Opened. Setting up cell\n")                // channels, membrane properties etc)
+cell_setup(econ)
+
+// Set simulation parameters for the experiment 
+
+econ.defvar("Simulation Control", "tstop", "750", "Defines when the simulation stops.")
+econ.defvar("Simulation Control", "dt", "0.1", "Timestep")
+econ.defvar("Simulation Control", "steps_per_ms", "10", "How many points are plotted per ms")
+setdt()
+
+
+// Define directories for different cases tested
+strdef data_dir
+//data_dir       = "data/BPAP/Soma"             // Define directory to save produced data for somatic stimulation 
+//data_dir       = "data/BPAP/Dend62"          // Define directory to save produced data for dendrite 62 stimulation
+data_dir       = "data/BPAP/Dend64"          // Define directory to save produced data for dendrite 64 stimulation
+
+if (unix_mac_pc() ==1 ) {
+	sprint(econ.syscmd,  "mkdir -p %s", data_dir)                               // make directory
+	system(econ.syscmd) 
+}
+
+// Insert current clamp into soma or dendritic section
+
+access soma
+//access apical_dendrite[62]  //stimulate for dendritic bpap train
+//access apical_dendrite[64]  //stimulate for single-Ca++-dendritic spike in apical_dendrite[64]
+objref ic,ic2
+ic = new IClamp(0.5)
+
+// Configure current clamp
+econ.defvar("Current Clamp Control", "ic.del", "20", "Determines the delay before onset of the current clamp.")
+econ.defvar("Current Clamp Control", "ic.dur", "720", "Determines the duration of the current clamp.")
+
+// current used with somatic stimulation
+econ.defvar("Current Clamp Control", "ic.amp", ".22", "Determines the amplitude of the current clamp at the soma.")  
+
+// current used with dendrite 62 stimulation, for dendritically induced trains of BPAP
+//econ.defvar("Current Clamp Control", "ic.amp", ".48", "Determines the amplitude of the current clamp at dendrite [62].")
+
+// current used with dendrite 64 stimulation, single Ca++ spike
+//econ.defvar("Current Clamp Control", "ic.amp", ".48", "Determines the amplitude of the current clamp at debdrite [64].") 
+//econ.defvar("Current Clamp Control", "ic.dur", "700", "Determines the duration of the current clamp.")
+
+
+// Create basic graphics
+
+econ.xopen_library("Terrence","basic-graphics")                            // open graphics library file   
+// section used in train-with-single-Ca++-spike figure
+//addgraph_2("apical_dendrite[64].v(0.5)", 0,tstop,-72,20)     // 233.67 um from soma
+
+//sections used in BPAP figure
+addgraph_2("soma.v(0.5)",              0,tstop,-72,20)
+addgraph_2("apical_dendrite[46].v(0.5)",0,tstop,-72,20)    // 156.96 um from soma
+addgraph_2("apical_dendrite[71].v(0.5)", 0,tstop,-72,20)   // 324.53 um from soma
+
+
+// Initialize and run the experiment
+
+finitialize(v_init)
+fcurrent()
+run()
+
+// Dump the graphical output to .eps files
+
+//econ.xopen_library("Terrence","verbose-system")
+for i=0,windex {
+
+  sprint(econ.tmp_str, "%s/graph-%d.eps",data_dir, i)    // define the name of the .eps file  
+  win[i].printfile(econ.tmp_str)
+
+}
+

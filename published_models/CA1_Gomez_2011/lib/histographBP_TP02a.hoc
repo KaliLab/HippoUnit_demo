@@ -1,0 +1,66 @@
+// This function plot Histogram of Radial distance of
+// Branch Point and Terminal Point
+// Outputs:	Historgram Plots
+// Inputs:	vector_distance_Apic_BP_a
+//		vector_distance_Basal_BP_a
+//		vector_distance_Apic_TP_a
+//		vector_distance_Basal_TP_a
+// written by Jose Gomez, March 2006, jfcgomez@ull.es
+
+
+objref Hbox_Hista
+objref hist1,hist2,hist3, hist4, hist5, hist6, g1,g2,g3,v1,v4
+hist1=vector_distance_Apic_BP_a.c
+hist2=vector_distance_Basal_BP_a.c
+hist3=vector_distance_Apic_TP_a.c
+hist4=vector_distance_Basal_TP_a.c
+
+hist5=L_TP_apical_a.c
+hist6=L_TP_basal_a.c
+
+proc hist_graph() {
+		
+		$o1=$o1.histogram(0,$3,50)
+		$o1=$o1.reverse
+		v1=new Vector($o1.size())
+		v1.indgen(-($3+50),50)
+		$o4=$o4.histogram(0,$5,50)
+		v4=new Vector($o4.size())
+		v4.indgen(0,50)	
+		$o1=$o1.append($o4)
+		v1=v1.append(v4)
+		$o1.plot($o2,v1)
+}
+
+Hbox_Hista=new HBox()
+Hbox_Hista.intercept(1)
+
+g1=new Graph()
+g1.size(-600,350,0,15)
+g2=new Graph()
+g2.size(-650,400,0,15)
+g3=new Graph()
+g3.size(-1500,750,0,15)
+
+
+
+
+hist_graph(hist1,g1,550,hist2,250)
+g1.label(0.1,0.95, "BP Radial from soma(um)")
+g1.label(0.1,0.75,"Apical")
+g1.label(0.90,0.75,"Basal")
+
+hist_graph(hist3,g2,600,hist4,400)
+g2.label(0.1,0.95, "TP Radial from soma(um)")
+g2.label(0.1,0.75,"Apical")
+g2.label(0.90,0.75,"Basal")
+
+hist_graph(hist5,g3,1500,hist6,700)
+g3.label(0.1,0.95, "TP Lenght to soma(um)")
+g3.label(0.1,0.75,"Apical")
+g3.label(0.90,0.75,"Basal")
+
+
+Hbox_Hista.intercept(0)
+Hbox_Hista.map()
+

@@ -1,0 +1,40 @@
+
+//Original file 'run_fig8.hoc' modified by Sára Sáray in order to run validation tests on the base model
+
+//load_file("nrngui.hoc")
+load_file("stdrun.hoc")
+
+/*************************************************
+* load dendritic morphology                      *
+*************************************************/
+
+xopen("dend2.nrn")
+
+/*************************************************
+* load 'fake' axon                               *
+*************************************************/
+
+xopen("naceaxon.nrn")
+
+/*************************************************
+* set up section lists and initialize parameters *
+*************************************************/
+
+xopen("init_fig8.hoc")
+
+initchannels()
+
+/*************************************************
+* initialization routines                        *
+*************************************************/
+
+initchannels()
+
+proc init() {
+
+     /* add initchannels() to init(), so parameter changes show up */
+     initchannels()       
+     finitialize(v_init)
+     fcurrent()
+}
+

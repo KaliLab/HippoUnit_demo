@@ -1,0 +1,14 @@
+objref ampa[5]
+objref hold[5]
+proc it() {
+  hold=$o1
+  print hold[3]
+}
+
+create soma
+access soma
+ampa[3]=new GLU(0.4)
+it(&ampa)
+
+
+GLU

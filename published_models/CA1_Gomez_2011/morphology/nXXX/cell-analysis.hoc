@@ -1,0 +1,126 @@
+// This function loads all morphology-related files and templates that will 
+// most probably be needed in the experiments to follow.
+// based in Terrence Brannon and  modified Yiota Poirazi version, July 2001, poirazi@LNC.usc.edu
+// Writen by Jose Gomez, October 2008, jfcgomez@ull.es
+//  I calculated the center of the soma, and unitary vector, NOW  it is not
+//used the adjustment (=0)
+ 
+
+
+
+objref vRP, vAPEX
+
+proc cell_analysis() {
+									 
+   xopen_filehoc("../../template","ObliquePath")   
+   xopen_filehoc("../../template","BasalPath")
+   forall insert d3   // mod file to enable 3-D mapping of each point along the cell
+
+  $o1.defvar("Distance Calculation", "adjustment", "0", "This adjustment factor is supplied to the vector distance function so that distance calculations are measured at the cell body.")
+
+  $o1.xopen_library("Terrence","vector-distance")
+  $o1.xopen_geometry_dependent("soma-list")			// It's the same for every pruned cell
+  $o1.xopen_geometry_dependent("axon-sec-list")			// It's the same for every pruned cell
+  $o1.xopen_geometry_dependent("basal-tree-list")		// It's the same name but it's the file written by Jose Gomez
+  $o1.xopen_geometry_dependent("apical-trunk-list")		// It's the same name but it's the file written by Jose Gomez
+  $o1.xopen_geometry_dependent("apical-non-trunk-list")		// It's the same name but it's the file written by Jose Gomez
+
+
+  vRP=new Vector(3)
+  vAPEX=new Vector(3)
+  CenterOfMass() 
+  myunitvector()
+
+print  "reference point at the soma", vRP.x[0],   vRP.x[1],   vRP.x[2]
+}
+
+
+//-------------------------  Calculate the Center of Mass of the soma
+objref sr
+proc CenterOfMass(){
+     xcg=0
+     ycg=0
+     zcg=0
+     ncp=0
+     Sum_diam=0
+     strdef temp
+
+     forsec "soma" {
+	print secname()," Area= ",area(0.5)
+	n=n3d()
+	nseg=n
+	ncp+=n		
+	for i=0,n-1 {
+		print "# of segment",i,"\tDiam",diam3d(i),"\tx=",x3d(i),"\ty=",y3d(i),"\tz=",z3d(i)
+		xcg+=x3d(i)*diam3d(i)
+		ycg+=y3d(i)*diam3d(i)
+		zcg+=z3d(i)*diam3d(i)
+		Sum_diam+=diam3d(i)
+	}
+     }	
+     xcg/=Sum_diam
+     ycg/=Sum_diam
+     zcg/=Sum_diam
+     print "Center of soma: ","Xcg= ", xcg ,"\tYcg= ", ycg,"\tZcg= ", zcg
+
+     vRP.x[0]=xcg
+     vRP.x[1]=ycg
+     vRP.x[2]=zcg
+
+}
+//----------------------------  End Center of Mass
+
+//----------------------------------  myunitvector()     ----------------------------
+//Inputs:	$o1 is the SectionList called apical_trunk_list
+//		$o2 is the SectionLIst called apical_non_trunk_list
+// IMPORTANT NOTES:
+// In the vector-distance.hoc from folder /lib/ the APEX is trasladated 
+// to the soma (I mean, the soma will be the position (0,0,0)
+// and then normalizated. For this reason, if we want to follow using
+// that function we have to add the soma position again to vector_ui 
+
+
+proc myunitvector(){local loop, leght
+
+     vector_ux=0
+     vector_uy=0
+     vector_uz=0	
+	forsec "trunk"{	
+	
+		sr=new SectionRef()
+		lenght=sr.sec.L		//I use the lenght as a weight to give more
+				    	//importance to longer dendrites
+		diameter=diam3d(0)
+		vector_ux+=lenght*diameter*(-xcg+x3d(0))/sqrt((xcg-x3d(0))^2+(ycg-y3d(0))^2+(zcg-z3d(0))^2)
+		vector_uy+=lenght*diameter*(-ycg+y3d(0))/sqrt((xcg-x3d(0))^2+(ycg-y3d(0))^2+(zcg-z3d(0))^2)
+		vector_uz+=lenght*diameter*(-zcg+z3d(0))/sqrt((xcg-x3d(0))^2+(ycg-y3d(0))^2+(zcg-z3d(0))^2)
+	
+	i+=1
+	}
+	
+
+	modulevector=sqrt((vector_ux)^2+(vector_uy)^2+(vector_uz)^2)
+	vector_ux=vector_ux/modulevector
+	vector_uy=vector_uy/modulevector
+	vector_uz=vector_uz/modulevector
+
+
+	vAPEX.x[0]=vector_ux+xcg //I add the soma position in the absolute 3D reference sistem
+	vAPEX.x[1]=vector_uy+ycg // in this case I can use the same funcion in vector-distance.hoc
+	vAPEX.x[2]=vector_uz+zcg // the previous versions
+
+	print "FINAL vector normal = ",(vector_ux)^2+(vector_uy)^2+(vector_uz)^2
+	print "FINAL vector coord = ",vector_ux,vector_uy,vector_uz	
+
+}
+//------------------------------END myunitvector()--------------------------------------------------
+
+
+
+
+
+
+
+
+
+

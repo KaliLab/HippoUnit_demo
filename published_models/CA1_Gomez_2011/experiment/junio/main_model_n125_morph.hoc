@@ -1,0 +1,192 @@
+//Original file 'proximalCA1_1.hoc' modified by Sára Sáray in order to run validation tests on the base model
+//****************************************************
+//****************************************************
+// SELECT THE CELL THAT YOU WANT TO STUDY
+
+ID_cell=2 //1=n123, 2=n125, 3=n128, 4=n129, 5=n130 //YOUNG CELL 
+	  
+//****************************************************
+//****************************************************
+//the data is save and zip in a file type ".tar"
+
+synch = 0  // synapses are stimulated randomly (NOT synchronously), set to 1 for synchronous stimulation
+
+//load_file("nrngui.hoc")
+//load_proc("nrnmainmenu")             // load main NEURON library
+cvode.active(0)
+
+
+//----------------------	xopen_filehoc()	------------------ 
+//Outputs:	Load Files.hoc 
+//Inputs:	$s1 is a string root to "file.hoc" from the actual root
+//		$s2 is a string with the file name (not put .hoc)
+
+proc xopen_filehoc() {
+	strdef tmp_str
+	
+	sprint(tmp_str,"xopen(\"%s/%s.hoc\")",$s1,$s2)	
+	execute1(tmp_str)
+}
+
+//------------------------------------------------------------------------------------------------
+
+xopen_filehoc("../../template","ExperimentControl")
+xopen_filehoc("../../template","EPSPTuning")
+xopen_filehoc("../../template","RangeRef")
+//xopen_filehoc("../../template","SynapseBand")  //Appearing shape plot would cause trouble during validation
+
+strdef accstr     // not confuse experimental variable bindings with neurophysiological variable bindings
+objref econ      // Create an experiment object
+show_errs=1
+debug_lev=1
+econ=new ExperimentControl(show_errs,debug_lev)
+econ.self_define(econ) 			// points the object at itself
+
+econ.generic_dir = "../../experiment/"   // Setup directory with cell-setup file
+econ.lib_dir="../../lib"
+econ.add_lib_dir("Terrence","../../lib") // Setup directory with library functions 
+
+
+if(ID_cell==1){	//n123
+	econ.morphology_dir = "../../morphology/nXXX/youngcell"   // Setup morphology directory
+	econ.data_dir       = "datan123"                   // Define directory to save produced data 
+	econ.xopen_geometry_dependent("n123")  // load the raw cell morphology
+}
+
+if(ID_cell==2){	//n125
+	econ.morphology_dir = "../../morphology/nXXX/youngcell"
+	econ.data_dir       = "datan125"                   // Define directory to save produced data 
+	econ.xopen_geometry_dependent("n125")
+}
+
+if(ID_cell==3){	//n128
+	econ.morphology_dir = "../../morphology/nXXX/youngcell"
+	econ.data_dir       = "datan128"                   // Define directory to save produced data 
+	econ.xopen_geometry_dependent("n128")
+}
+
+if(ID_cell==4){	//n129
+	econ.morphology_dir = "../../morphology/nXXX/youngcell"
+	econ.data_dir       = "datan129"                   // Define directory to save produced data 
+	econ.xopen_geometry_dependent("n129")
+}
+
+if(ID_cell==5){	//n130
+	econ.morphology_dir = "../../morphology/nXXX/youngcell"
+	econ.data_dir       = "datan130"                   // Define directory to save produced data 
+	econ.xopen_geometry_dependent("n130")  
+}
+
+
+if(ID_cell==6){	//n170
+	econ.morphology_dir = "../../morphology/nXXX/agedcell"
+	econ.data_dir       = "datan170"                   // Define directory to save produced data 
+	econ.xopen_geometry_dependent("n170")  
+}
+
+if(ID_cell==7){	//n172
+	econ.morphology_dir = "../../morphology/nXXX/agedcell"
+	econ.data_dir       = "datan172"                   // Define directory to save produced data 
+	econ.xopen_geometry_dependent("n172")  
+}
+
+
+//if(ID_cell==8){	//n175
+//	econ.morphology_dir = "../../morphology/nXXX/agedcell"
+//	econ.data_dir       = "datan175"                   // Define directory to save produced data 
+//	econ.xopen_geometry_dependent("n175")  
+//}
+
+
+if(ID_cell==8){	//n178
+	econ.morphology_dir = "../../morphology/nXXX/agedcell"
+	econ.data_dir       = "datan178"                   // Define directory to save produced data 
+	econ.xopen_geometry_dependent("n178")  
+}
+
+if(ID_cell==9){	//n180
+	econ.morphology_dir = "../../morphology/nXXX/agedcell"
+	econ.data_dir       = "datan180"                   // Define directory to save produced data 
+	econ.xopen_geometry_dependent("n180")  
+}
+
+if(ID_cell==10){	//n182
+	econ.morphology_dir = "../../morphology/nXXX/agedcell"
+	econ.data_dir       = "datan182"                   // Define directory to save produced data 
+	econ.xopen_geometry_dependent("n182")  
+}
+
+
+
+
+	econ.morphology_dir = "../../morphology/nXXX"
+
+
+sprint(econ.syscmd, "mkdir -p %s", econ.data_dir)  // make the data directory
+system(econ.syscmd)
+//-------setup cell-----------------------------------------------------------
+econ.xopen_geometry_dependent("cell-analysis")     	// load user-defined semantics on morphology 
+cell_analysis(econ)
+
+
+
+econ.xopen_lib_dependent("TP-lib")
+Tip_sections(apical_non_trunk_list,apical_trunk_list,"Apical")		
+objref apical_tip_list
+apical_tip_list=TP_list		// Apical Tip list
+
+objref tmp_pl[num_tips],pl[num_tips],opl[num_tips],degree_apical_tip,distance_apical_tip,peri_trunk_list
+objref bl[num_tips],obl[num_tips],degree_basal_tip
+econ.xopen_lib_dependent("Oblique-lib2")
+
+oblique_sections(apical_tip_list,apical_trunk_list,num_tips)	// apical dendrite path lists and degree of tips
+
+//creating oblique section list for validation (plcount, tmp_pl are from Oblique-lib2.hoc/oblique_sections
+
+objref oblique_dendrites
+oblique_dendrites = new SectionList()
+
+for i = 0, plcount {
+	forsec tmp_pl[i] { oblique_dendrites.append() }
+}
+oblique_dendrites.unique()
+oblique_dendrites.remove(apical_trunk_list)
+//oblique_dendrites.printnames()
+
+
+//-----------------End creating more lists------------------
+
+
+
+//load the cell-setup file (define specific
+econ.xopen_generic("cell-setupNXXX_MODIFIED")
+
+
+
+printf("Opened. Setting up cell\n")		//channels, membrane properties etc
+cell_setup(econ)
+
+
+forsec "apical" {
+ //	print secname(),diam
+	diam=diam*1.25
+// print secname(),diam
+}
+
+forsec "trunk" {
+// 	print secname(),diam
+//	diam=diam*1.25
+// print secname(),diam
+}
+
+
+//--- End Setup cell ------------------------------------------------------
+
+//sprint(econ.syscmd, "mkdir -p %s", econ.data_dir)                      
+//system(econ.syscmd)
+
+ 
+
+
+
+

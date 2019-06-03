@@ -1,0 +1,62 @@
+{
+    "('trunk[1]', 0.7)": {
+        "distance": 133.67344351146681, 
+        "attenuation_soma/dendrite": 0.8953528841030127
+    }, 
+    "('trunk[7]', 0.7)": {
+        "distance": 323.5615623584028, 
+        "attenuation_soma/dendrite": 0.4335223927774413
+    }, 
+    "('trunk[3]', 0.30000000000000004)": {
+        "distance": 197.81852958164, 
+        "attenuation_soma/dendrite": 0.7326419385382078
+    }, 
+    "('trunk[3]', 0.1)": {
+        "distance": 188.99047135157517, 
+        "attenuation_soma/dendrite": 0.7629162048621269
+    }, 
+    "('trunk[5]', 0.1)": {
+        "distance": 255.7597530811978, 
+        "attenuation_soma/dendrite": 0.5751310553759631
+    }, 
+    "('trunk[4]', 0.1)": {
+        "distance": 231.252390292558, 
+        "attenuation_soma/dendrite": 0.6300316246767591
+    }, 
+    "('trunk[7]', 0.5)": {
+        "distance": 309.9748021722534, 
+        "attenuation_soma/dendrite": 0.458988897205608
+    }, 
+    "('trunk[2]', 0.1)": {
+        "distance": 147.0310408362326, 
+        "attenuation_soma/dendrite": 0.8657778896199725
+    }, 
+    "('trunk[3]', 0.5)": {
+        "distance": 206.64658781170488, 
+        "attenuation_soma/dendrite": 0.7028378764503135
+    }, 
+    "('trunk[4]', 0.8999999999999999)": {
+        "distance": 251.53764553808594, 
+        "attenuation_soma/dendrite": 0.5838240747665724
+    }, 
+    "('trunk[5]', 0.7)": {
+        "distance": 265.8784569057232, 
+        "attenuation_soma/dendrite": 0.5540716929876273
+    }, 
+    "('trunk[1]', 0.5)": {
+        "distance": 127.54951947275707, 
+        "attenuation_soma/dendrite": 0.908579666541002
+    }, 
+    "('trunk[2]', 0.7)": {
+        "distance": 172.06130843643933, 
+        "attenuation_soma/dendrite": 0.8054860968726425
+    }, 
+    "('trunk[0]', 0.8999999999999999)": {
+        "distance": 107.18338675606768, 
+        "attenuation_soma/dendrite": 0.9467161495802486
+    }, 
+    "('trunk[4]', 0.7)": {
+        "distance": 246.46633172670397, 
+        "attenuation_soma/dendrite": 0.5941911702664323
+    }
+}

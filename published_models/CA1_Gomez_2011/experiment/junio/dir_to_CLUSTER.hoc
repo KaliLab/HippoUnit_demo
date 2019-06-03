@@ -1,0 +1,35 @@
+sprint(tmpstr,"%s/soma_c_%s", econ.data_dir,dendrite2test)
+sprint(econ.syscmd,  "mkdir -p %s", tmpstr) 
+system(econ.syscmd)                       // make a directory for this experiment
+
+sprint(tmpstr,"%s/apical_c_%s", econ.data_dir,dendrite2test)
+sprint(econ.syscmd,  "mkdir -p %s", tmpstr) 
+system(econ.syscmd)                       // make a directory for this experiment
+
+//sprint(tmpstr,"%s/Measured/max_apical_c", econ.data_dir)
+//sprint(econ.syscmd,  "mkdir -p %s", tmpstr) 
+//system(econ.syscmd)                       // make a directory for this experiment
+
+//sprint(tmpstr,"%s/Measured/max_dif_apical_c", econ.data_dir)
+//sprint(econ.syscmd,  "mkdir -p %s", tmpstr) 
+//system(econ.syscmd)                       // make a directory for this experiment
+
+//sprint(tmpstr,"%s/Measured/max_dif_soma_c", econ.data_dir)
+//sprint(econ.syscmd,  "mkdir -p %s", tmpstr) 
+//system(econ.syscmd)                       // make a directory for this experiment
+
+//sprint(tmpstr,"%s/Measured/max_dif_soma_c", econ.data_dir)
+//sprint(econ.syscmd,  "mkdir -p %s", tmpstr) 
+//system(econ.syscmd)                       // make a directory for this experiment
+
+//sprint(tmpstr,"%s/Measured/max_soma_c", econ.data_dir)
+//sprint(econ.syscmd,  "mkdir -p %s", tmpstr) 
+//system(econ.syscmd)
+
+//sprint(tmpstr,"%s/Measured/mean_apical_c", econ.data_dir)
+//sprint(econ.syscmd,  "mkdir -p %s", tmpstr) 
+//system(econ.syscmd)                       // make a directory for this experiment
+
+//sprint(tmpstr,"%s/Measured/mean_soma_c", econ.data_dir)
+//sprint(econ.syscmd,  "mkdir -p %s", tmpstr) 
+//system(econ.syscmd)                       // make a directory for this experiment

@@ -1,0 +1,434 @@
+// This experiment is used to study the effect of synapse clustering
+// on the firing rate of our model cell. To this end, we perform a gradual
+// dispersion of synaptic 32, 35, 36 or 40 contacts onto the thin oblique dendrites.  
+// We start with the optimal number of clusters each consisting of the optimal 
+// number of synapses and in each step we destroy one cluster and disperse
+// it's synapses until we end up with no intact clusters.
+// Type of inhibition included: 11 gabaa/gabab synapses, 5 in soma sections and 6 
+// every 60um along the apical trunk 
+
+// Cluster_size x Cluster_number cases tested with this file: 8x4, 4x8, 5x7, 7x5, 6x6, 8x5, 4x10
+// Synchronous (synch=1) or asynchronous (synch=0) cases can also be tested
+
+// In this experiment we can also include background synapses (50 excitatory and 50 inhibitory)
+// firing in 5Hz for the entire duration of the experiments to account for background activity
+
+BACK_GROUND = 0 // set to 1 when using background synapses
+synch = 0        // synapses are stimulated randomly (NOT synchronously), set to 1 for synchronous stimulation
+
+//load_proc("nrnmainmenu")
+//load_template("ExperimentControl")         // load needed templates
+//load_template("EPSPTuning")
+//load_template("RangeRef")
+load_file("nrngui.hoc")
+load_file("../../template/load_templates.hoc")
+
+objref econ                               // initialize template parameters
+show_errs=1
+debug_lev=1
+econ=new ExperimentControl(show_errs,debug_lev)
+econ.self_define(econ)
+econ.morphology_dir = "../../morphology/n123"                                 // set location for morphology files
+econ.add_lib_dir("Terrence","../../lib")                                      // set location for library files
+econ.generic_dir    = "../../experiment/"                                     // set location for cell-setup file
+econ.data_dir       = "data"                                                  // set directory to store data
+strdef tips_dir
+tips_dir = "../single-branch-potency/data/Apical_Tips" // set directory with single branch
+sprint(econ.syscmd, "mkdir -p %s", econ.data_dir)                             // 50 Hz stimulation results
+system(econ.syscmd)
+
+actual_resolution=75                                                          // maximum nseg number 
+desired_resolution=1
+
+econ.xopen_geometry_dependent("cell")                                         // load raw cell morphology	
+econ.xopen_geometry_dependent("cell-analysis")                                // load user-defined semantics on morphology 
+cell_analysis(econ) 
+
+printf("Opening cell setup\n")                                   
+econ.xopen_generic("cell-setup")                                              // load cell-setup to
+printf("Opened. Setting up cell\n")                                           // specify all mechanisms,
+maximum_segment_length=actual_resolution                                      // membrane properties etc	 
+cell_setup(econ)
+
+// Set simulation parameters for the experiment
+
+econ.defvar("Simulation Control", "tstop", "600", "Defines when the simulation stops.")
+econ.defvar("Simulation Control", "dt", "0.1", "Timestep")
+econ.defvar("Simulation Control", "steps_per_ms", "10", "How many points are plotted per ms")
+setdt()
+
+// open files with NMDA/AMPA, GABA_A/AMPA and GABA_B/GABA_A ratios
+econ.xopen_geometry_dependent("nmda-ampa-ratio")
+econ.xopen_geometry_dependent("gabab-gabaa-uniform-ratio")  // use to estimate GABA_A, GABA_B conductances
+
+// Open file with tuned AMPA conductance values for all sections
+objref tune_epsp_list
+tune_epsp_list=new List()
+strdef tunings_file
+sprint(tunings_file, "%s", "tunings")
+xopen("../tune-synapses/tunings.dat")
+
+// Open library functions that will be needed
+econ.xopen_library("Terrence","choose-secs")    // used to randomly select sections from a list
+econ.xopen_library("Terrence","salloc")         // used to allocate synapses on sections
+econ.xopen_library("Terrence","deduce-ratio")   // used to extract NMDA/AMPA, GABA_A/AMPA and GABA_B/GABA_B ratios
+econ.xopen_library("Terrence","basic-graphics") // used to plot graphics 
+econ.xopen_library("Terrence","spikecount")     // used to count spikes
+load_template("SynapseBand")                    // template for making bands of synapses
+
+// use 8x4, 6x6, 7x5, 8x5 
+// for cluster_size x cluster_number = 8x4 case
+//init_cluster_number = 4                        // number of full-sized clusters of synapses
+//init_cluster_size = 8                          // number of synapses per cluster
+//disp_size = 1 			         // dispersion step size, one cluster at a time 
+
+// use 4x8, 4x10
+// Cut the cluster size in two
+//for cluster_size x cluster_number = 4x8 case
+//init_cluster_number = 8                         // number of full-sized clusters of synapses
+//init_cluster_size = 4                           // number of synapses per cluster
+//disp_size = 2                                   // dispersion step size, two clusters at a time
+                               			  // dispersion step size, two clusters at a time
+
+gmax_default = 0.0005                           // GABA_A explicit conductance value (S/cm^2)
+gmaxb_default = gmax_default/3                  // GABA_B explicit conductance value (S/cm^2)
+all_synapses=init_cluster_size*init_cluster_number     // total number of AMPA/NMDA synapses used 
+gaba_synapses = 100                                    // maximum number of GABA synapses used  
+
+// used with background synapses
+back_syne = 50
+back_syni = 50
+      
+objref input, co
+input = new Vector()
+co = new Vector()
+
+experiments = init_cluster_number/disp_size + 1                 // number of experiments to run
+ 
+print "Number of experiments ", experiments
+double exp_ta[experiments]
+
+for i=0, experiments-1  {
+  exp_ta[i]=   init_cluster_number - i*disp_size      // number of intact clusters
+  printf("-----------------------------------\n")       
+  printf("Experiment %d\n", i)
+  printf("Number of Intact Clusters: %d\n", exp_ta[i] )   
+  }
+
+
+// define variables
+objref  vf, vf2, tmpo, vrec, spikevec, band, vrec, splot, rpid, i_nmda[40], g
+objref ampa[all_synapses], nmda[all_synapses], gabaa[gaba_synapses], gabab[gaba_synapses]
+objref ampa_bg[back_syne], nmda_bg[back_syne], gabaa_bg[back_syni], gabab_bg[back_syni]
+objref apical_tipl, cluster_list, random_list, inh_list
+strdef tmpstr, tmpstr2, Fc
+Deadtime_GLU=dt
+Deadtime_NMDA=dt
+Deadtime_GABAa=dt
+Deadtime_GABAb=dt
+
+//                                   Cluster allocation proceedure
+//--------------------------------------------------------------------------------------------------------
+
+proc cluster_salloc() { local cluster_size, cluster_amount, b, b2
+   cluster_size=$2                  // number of synapses per cluster
+   cluster_amount=$3                // number of clusters
+
+   sprint(tmpstr, "%s/cluster-sections", econ.data_dir)   // open file to store the name of branches containing a cluster
+   vf = new File()
+   vf.wopen(tmpstr)
+
+// For cluster_amount clusters, pick a different branch and put synapses on it
+
+   cluster_list = new SectionList()
+   for b=0,cluster_amount-1 {
+       $o1.pick_and_remove()           // select a branch to put a cluster of synapses on
+//       $o1.pick()                    // to allow branches with multiple clusters
+       cluster_list.append()           // store selected branches in a list
+       nseg = cluster_size             // set number of segments = number of synapses in cluster
+       vf.printf("%s\n", secname())    // print branch name in file with cluster-section names
+
+//     sprint(tmpstr,"%s.v(0.5)", secname())       
+//     if (b < 4) {
+//         addgraph(tmpstr,-70,0)      // use to plot trace in current branch 
+//     }
+
+// distribute synapses uniformly along each branch in the cluster
+
+       for b2=1,cluster_size {
+
+          posn=(2*b2 -1)/(2*cluster_size)             // define location for a new synapse  
+//          rpid = new Random (b2*b) 
+//          posn=rpid.uniform(0.1,0.9)
+          ampa[synapses_alloced]=new GLU(posn)        // insert an AMPA mechanism at the above location 
+          nmda[synapses_alloced]=new NMDA(posn)       // insert an NMDA mechanism at the above location
+                                                      // allocate mechanisms and plot on shape graph 
+          salloc2(ampa[synapses_alloced],nmda[synapses_alloced],posn,1,splot,COLOR) 
+          synapses_alloced = synapses_alloced + 1     // update the counter of AMPA/NMDA synapses allocated
+ 
+        }
+
+   }
+
+//  Randomly distribute remaining synapses on the remaining obliques
+     
+     sprint(tmpstr2, "%s/random-sections", econ.data_dir)
+     vf2 = new File()                                 // open file to store the name of branches with random   
+     vf2.wopen(tmpstr2)                               // number of synapses on 
+    
+     for b=0, (all_synapses - cluster_size*cluster_amount)-1 {
+ 
+       $o1.pick()                                     // pick a branch
+       nseg = cluster_size                            // set number of segments = number of synapses in cluster
+       vf2.printf("%s random_list.append()\n", secname()) // print branch name in file with random-sections names
+       ampa[synapses_alloced]=new GLU(0.5)            // insert an AMPA mechanism in the middle of the branch
+       nmda[synapses_alloced]=new NMDA(0.5)           // insert an NMDA mechanism in the middle of the branch
+                                                      // allocate mechanisms and plot on shape graph 
+       salloc2(ampa[synapses_alloced],nmda[synapses_alloced],0.5,1,splot,COLOR+1)
+       synapses_alloced=synapses_alloced+1            // update the counter of AMPA/NMDA synapses allocated
+ 
+     }
+
+// add a small fixed amount of inhibition on soma and trunk (one gabaa/gabab) per section in list
+  
+   forsec inh_list {
+       posa = 0.5
+       posb = 0.5
+       gabaa[gaba_synapses] = new GABAa(posa)       
+       gabab[gaba_synapses] = new GABAb(posb)
+       gmaxb = 3*gmaxb_default                     // explicitly define GABA_A and GABA_B conductances
+       gmaxa = 4.8*gmax_default                    // for these sections (don't use GABA/AMPA ratios)
+       ifsec soma_list {                      
+           gmaxb = 0.03*gmaxb_default              // very little GABA_B at the soma
+           gmaxa = 6*gmax_default                  // more GABA_A at the soma
+       }
+       SALLOC_GABAa(gabaa[gaba_synapses],posa,0,gmaxa)   // allocate synapses using the above conductances
+       SALLOC_GABAb(gabab[gaba_synapses],posb,0,gmaxb)
+       //splot.point_mark(gabab[gaba_synapses],COLOR+2)
+           
+       gaba_synapses = gaba_synapses + 1           // update GABA synapse counter
+   }
+
+  vf.close()
+  vf2.close()
+}                                                 // End of cluster allocation proceedure
+
+//--------------------------------------------------------------------------------------------------------
+
+hertz=50                                          // frequency of stimulation for AMPA/NMDA synapses
+gaba_hertz=50                                     // frequency of stimulation for GABA synapses
+perio=0                                           // spike trains for each synapse are NOT periodic
+
+
+econ.xopen_library("Terrence","basic-graphics")   // open library file for graphics
+addgraph_2("soma.v(0.5)",0,tstop,-72,20)                    // make a graph of somatic voltage trace
+//addgraph_2("apical_dendrite[60].v(0.5)",0,tstop,-72,20)     // make a graph of dendrite 60 voltage trace
+//addgraph_2("apical_dendrite[95].v(0.5)",0,tstop,-72,20)     // make a graph of dendrite 95 voltage trace
+
+apical_tipl=new SectionList()                     // make a list of all apical oblique dendrites
+forsec apical_tip_list {
+       apical_tipl.append()
+}
+forsec apical_tip_list_addendum {
+       apical_tipl.append()
+}
+
+// make a list of soma/trunk sections where a fixed amount of inhibition will be inserted
+
+inh_list=new SectionList()
+forsec "soma" {
+ inh_list.append()
+}
+
+apical_dendrite[6]  inh_list.append()
+apical_dendrite[26] inh_list.append()
+apical_dendrite[48] inh_list.append()
+apical_dendrite[64] inh_list.append()
+apical_dendrite[81] inh_list.append()
+apical_dendrite[104] inh_list.append()
+
+
+for eiter=0,experiments-1 {                  // for all different cluster sizes
+                                             // define data directory 
+   sprint(econ.data_dir, "data/Syns=%d-Synch=%d-BACK_GROUND=%d/T600N=%d-NoCL=%d-SiCl=%d",all_synapses, synch, BACK_GROUND, all_synapses, init_cluster_number, init_cluster_size)
+   //econ.data_dir  = "data/MSEPredictions/T600N=50-NoCL=5-SiCL=10"  
+
+   print " ------------------------ Experiment ", eiter
+   
+   cluster_n = exp_ta[eiter]                 // get the cluster number
+   // set directory name
+   sprint(econ.data_dir,"%s/N=%d-CLn=%d-hertz=%d-experiment-%d",econ.data_dir, all_synapses,cluster_n,hertz,eiter)
+   sprint(econ.syscmd,  "mkdir -p %s", econ.data_dir) 
+   system(econ.syscmd)                       // make a directory for this experiment
+
+   for runs=0, 9 {  // do this experiment 10 times (10 different synapse distributions for the same number of clusters)
+
+      splot=new Shape()   
+      COLOR=6+runs
+      rpid=new Random(runs+eiter)
+      PID=int(rpid.uniform(1,10000))  // random seed for AMPA/NMDA synapses
+      PID=-PID // choose branchwise  
+      rpid=new Random(runs+eiter+1)
+      PIDh=int(rpid.uniform(1,10000)) // random seed for GABA synapses
+ 
+      lo=0                           // smallest distance of selected obliques from soma
+      hi=10000                       // maximum  distance of selected obliques from soma
+
+      // make a band (list) of randomly selected obliques within lo and hi microns from soma
+      band=new SynapseBand(apical_tipl,lo,hi,actual_resolution,desired_resolution,PID)
+      synapses_alloced=0              // initialize AMPA/NMDA synapse counter 
+      gaba_synapses=0                 // initialize GABA synapse counter 
+
+
+     //BACKGROUND stimulation
+     // randomly distribute exitatory and inhibitory background synapses
+     if (BACK_GROUND) {
+      
+            for i=0, back_syne -1 { 
+              band.pick()                                     // pick a branch
+              nseg = 10
+              rpid=new Random(i+runs)
+              pos1=int(rpid.uniform(0,10))/10                   // random selection of synapse location        
+              ampa_bg[i]=new GLU(pos1)                       // insert an AMPA mechanism in the middle of the branch
+              nmda_bg[i]=new NMDA(pos1)                      // insert an NMDA mechanism in the middle of the branch
+              salloc2(ampa_bg[i],nmda_bg[i],pos1,1,splot,COLOR+1)
+            }
+     
+            for i=0, back_syni -1 {
+              band.pick()                                     // pick a branch
+              nseg = 10
+              rpid=new Random(2*i+3+runs)     
+              pos2=int(rpid.uniform(0,10))/10                    // random selection of synapse location
+              gabaa_bg[i] = new GABAa(pos2) 
+              SALLOC_GABAa(gabaa_bg[i],pos2,1,gmax_default)  // allocate mechanism using the AMPA-deduced conductance 
+              splot.point_mark(gabaa_bg[i],COLOR+1)         // plot on shape graph
+              gabab_bg[i] = new GABAb(pos2)                  // insert a GABA_B mechanism at the above location
+       }
+     }     
+
+      printf("cluster_salloc(band, cluster_size, cluster_number)\n") // display cluster allocation proceedure start
+
+      cluster_salloc(band,init_cluster_size,exp_ta[eiter])           // run cluster allocation proceedure
+ 
+      GABA_flag = 0                                     // don't make both AMPA/NMDA and GABA trains in shiftsyn_init
+      temporal_offset=0                                 // no temporal offset for spike train initiation 
+
+      // create the stimulation trains for AMPA & NMDA synapses
+      econ.xopen_library("Terrence","shiftsyn-initA")
+      shiftsyn_init(all_synapses,tstop,dt,hertz,synch,perio,PID,temporal_offset,GABA_flag,"ampa","nmda")
+     
+      // Create the stimulation trains for GABA synapses
+      econ.xopen_library("Terrence","GABA_shiftsyn")
+      gaba_shift(gaba_synapses,tstop,dt,gaba_hertz,synch,perio,PIDh,temporal_offset,"gabaa","gabab")
+        
+       
+      //BACKGROUND stimulation
+      if (BACK_GROUND) {
+      // create the stimulation trains for AMPA & NMDA background synapses
+      econ.xopen_library("Terrence","shiftsyn-init_bg")
+      shiftsyn_init(back_syne,tstop,dt,5,synch,perio,PID+2,temporal_offset,GABA_flag,"ampa_bg","nmda_bg")
+      // Create the stimulation trains for GABA background synapses
+      econ.xopen_library("Terrence","GABA_shiftsyn_bg")
+      gaba_shift(back_syni,tstop,dt,5,synch,perio,PIDh+5,temporal_offset,"gabaa_bg","gabab_bg")
+      }
+      
+      vrec=new Vector(tstop/dt)                                // prepare to record somatic voltage 
+      vrec.record(&soma.v(0.5))
+              
+      finitialize(v_init)                                      // initialize and run
+      fcurrent()
+      run()
+ 
+
+// print the synapse distribution on the cell and the respective branch names to be used later 
+// to estimate the cell firing rate using various mathematical models (linear, sigmoidal, quadratic etc).
+// Model predictions are calculated (with matlab scripts) using the alpha branch coefficients estimated from 
+// single-branch-stimulation experiments. The alpha coefficent for each branch is just the mean somatic
+// depolarization in response to 50 Hz stimulation of increasing numbers of synapses (1-10) within
+// each side branch
+
+// sort the randomly selected sections and count the number of synapses in each one.
+// Save the numbers (of synapses) in random_syn using the sorted order
+
+     sprint(Fc, "%s/random_syn", econ.data_dir )  
+     sprint(econ.syscmd,  "sort < %s | uniq -c | awk '{print $1}' > %s", tmpstr2, Fc )
+     system(econ.syscmd)
+
+// sort and save the list of randomly selected sections in random-sections
+  
+     strdef tmpstr3
+     sprint(tmpstr2, "%s/random-sections", econ.data_dir)
+     sprint(tmpstr3, "%s/random-sections-sorted", econ.data_dir)
+     sprint(econ.syscmd,  "sort < %s | uniq > %s", tmpstr2, tmpstr3)
+     system(econ.syscmd)
+
+// read the sorted list of randomly selected sections
+   
+     random_list = new SectionList()
+     xopen(tmpstr3)
+
+// read the number of synapses per randomly selected section
+  
+     vf=new File()
+     vf.ropen(Fc)
+     input.scanf(vf) 
+     vf.close()
+     
+
+// store the input configuration in a file, to be read from matlab scripts
+     vf=new File()
+     sprint(tmpstr, "%s/input_profile", econ.data_dir)    
+     vf.aopen(tmpstr)    
+
+     forsec apical_tipl {
+        sprint(tmpstr, "%s", secname())    
+        flag = 0
+        forsec cluster_list {
+            ifsec tmpstr {
+                x = init_cluster_size
+                vf.printf("%d\t", x)
+                flag = 1
+                break
+            }
+        }
+        if (flag==0) {
+           i = 0  
+           forsec random_list {
+               ifsec tmpstr {
+                   x = input.x[i] 
+                   vf.printf("%d\t", x)
+                   flag = 1
+                   break
+               }
+               i = i + 1
+          }
+       }
+      if (flag==0)  {vf.printf("%d\t", 0)}
+     }
+     vf.printf("\n")
+     vf.close()
+
+     vf=new File()
+     sprint(tmpstr, "%s/%d_synapses", econ.data_dir, all_synapses)    // define file to save actual cell firing rate 
+     spikevec=new Vector()
+     spikevec.spikebin(vrec,0)
+ 
+     // open file and print: spikes, time, 
+     vf.aopen(tmpstr)    
+     vf.printf("%d %5d\n", spikevec.sum(), tstop)
+     vf.close()
+
+     //sprint(tmpstr, "%s/syn_distribution-CL=%d.eps", econ.data_dir, cluster_n)  // print the shape graph
+     //splot.printfile(tmpstr)                                                    // with current synapse distribution
+
+    // econ.xopen_library("Terrence","verbose-system")
+    // for i=0,windex {
+    //   sprint(econ.tmp_str, "%s/graph-%d.eps",econ.data_dir, i)      
+    //   win[i].printfile(econ.tmp_str)
+    // }
+ 
+    }  // end of runs
+
+}    // end of experiments to run
+
+

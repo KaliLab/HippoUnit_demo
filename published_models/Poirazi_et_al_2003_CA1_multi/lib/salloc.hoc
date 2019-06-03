@@ -1,0 +1,111 @@
+// set the pointers for AMPA, NMDA, GABA_A or GABA_B synapses
+// to a defined location
+
+econ.xopen_library("Terrence","find-gmax")
+
+proc salloc() { local nmdaR
+// $o1 and $o2 are the first 2 arguments to this function
+// They should be an AMPA and NMDA synapse or a
+// GABA_A and GABA_B synapse
+
+// .loc() places them at a normalized and segment-resolved position [0..1] 
+// along the section	 
+
+  $o1.loc($3)
+  $o2.loc($3)
+
+// here we call a library function to figure out the maximum AMPA
+// conductance which should be used at this synapse based on synapse
+// tunings calculated from a previously run tuning experiments
+
+// this number will be anywhere from 0.5nS to 5nS depending on what
+// was required to generate a 5mV local depolarization
+  $o1.gmax = find_gmax($3) 
+
+// next we decide what the NMDA-AMPA gmax ratio should be --- ie,
+// a Mainen-Sejnowski article suggested that maximum NMDA should be
+// (0.6)*gbar_AMPA. 
+
+  nmdaR = deduce_ratio()
+
+// Assuming (and expecting and hoping!) that the first object passed in
+// was an AMPA synapse and the second object passed in was an NMDA
+// synapse, then the NMDA synapses' gbar_NMDA is now changed by a factor
+// of nmdaR
+
+  $o2.gmax=$o1.gmax*nmdaR
+//  printf("ampa: %g nmda: %g * %g\n", $o1.gmax, $o1.gmax, nmdaR)
+}
+
+// This is a variation of the above designed to work with
+// GABA syns as well as AMPA syns.
+
+// It is a work in progress.
+proc SALLOC() { local ratio, ampa_flag
+        ampa_flag=0
+        ampa_flag=$4
+  $o1.loc($3)
+  $o2.loc($3)
+        if (ampa_flag) {
+                $o1.gmax=find_gmax($3) 
+                nmdaR=deduce_ratio()
+                $o2.gmax=$o1.gmax*nmdaR
+//                printf("ampa: %g nmda: %g * %g\n", $o1.gmax, $o1.gmax, nmdaR)
+        } else {
+                $o1.gmax=GABA_AMPA_RATIO*find_gmax($3) 
+                nmdaR=deduce_ratio()
+                $o2.gmax=GABAB_GABAA_RATIO*$o1.gmax
+//                printf("gabaa: %g gabab: %g * %g\n", $o1.gmax, $o1.gmax, GABAB_GABAA_RATIO)
+        }
+}
+
+
+// same for GABAa synapses
+
+proc SALLOC_GABAa() { local flag
+        flag=0
+        flag=$3
+        $o1.loc($2)
+
+        if (flag){  
+            $o1.gmax=GABA_AMPA_RATIO*find_gmax($2) // as a function of ampa conductance 
+        } else {
+            $o1.gmax = $4
+        }
+//        printf("gabaa: %g\n", $o1.gmax)
+        
+}
+
+// same for GABAb synapses
+
+proc SALLOC_GABAb() { local flag
+        flag=0
+        flag=$3
+        $o1.loc($2)
+
+        if (flag){  
+            $o1.gmax=GABAb_GABAa_RATIO*(GABA_AMPA_RATIO*find_gmax($2)) // as a function of ampa conductance 
+        } else {
+            $o1.gmax = $4
+        }
+//        printf("gabab: %g\n", $o1.gmax)
+        
+}
+
+// display synaptic locations on a graph
+
+proc salloc2() {
+/*
+  $o1.loc($3)
+  $o2.loc($3)
+  $o1.gmax=find_gmax($3) 
+  $o2.gmax=$o1.gmax*deduce_ratio()
+  print $o1, $o1.gmax
+  print $o2, $o2.gmax
+*/
+  salloc($o1,$o2,$3)    
+  if ($4) {
+    $o5.point_mark($o1,$6)
+  }
+}
+

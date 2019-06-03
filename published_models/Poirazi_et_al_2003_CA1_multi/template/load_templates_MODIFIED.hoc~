@@ -1,0 +1,8 @@
+//Original file 'load_templates.hoc' modified by Sára Sáray in order to run validation tests on the base model
+
+load_file("ExperimentControl.hoc")   // load needed templates
+load_file("EPSPTuning.hoc")
+load_file("RangeRef.hoc")
+load_file("ObliquePath.hoc")
+load_file("BasalPath.hoc")
+//load_file("SynapseBand.hoc") //appearing shape plots would cause trouble during validation

@@ -1,0 +1,205 @@
+/*************************************************
+* initialize basic parameters                    *
+*************************************************/
+objref osec[10]
+
+celsius = 35
+v_init=-70
+global_ra=200.00 	/* internal resistivity in ohm-cm */
+Cm=1.5 //0.75		/* specific membrane capacitance in uF/cm^2 */
+Cmy=0.075 		/* capacitance in myelin */
+Rm=40000		/* specific membrane resistivity in ohm-cm^2 */ 
+Rn=50			/* nodal resistivity */
+Vleak=-66		/* leak reversal -66 in Cs+*/
+Vrest=-70		/* resting potential -60 in control, -66 in Cs+*/
+
+spinelimit=100      	/* distance beyond which to modify for spines */
+spinefactor=2.0     	/* factor by which to change passive properties */
+
+gnabar=0.042		/* sodium conductance */
+gnode=50.0		/* sodium conductance at a node */
+
+gkdr=0.040          	/* delayed rectifier density */
+gkap=setgk          	/* proximal A-type potassium starting density */
+gkad=setgk          	/* distal A-type potassium  starting density */
+
+dlimit=300          	/* cut-off for increase of A-type density */
+dprox=50           	/* distance to switch from proximal to distal type */
+dslope=0.01         	/* slope of A-type density */
+
+okslope = setokslope	/* oblique potassium channel gradient */
+okmax = .5		/* max potassium channel conductance */ 
+
+forall {
+	insert pas  g_pas=1/(Rm)  Ra=global_ra  e_pas=Vleak
+	insert dv
+	insert gsyn
+	insert id
+}
+
+forall {
+	for (x) {
+		id1_id(x) = 0
+		id2_id(x) = 0
+		id3_id(x) = 0
+		id4_id(x) = 0
+		id5_id(x) = 0
+	}
+}
+
+proc initchannels(){
+
+	somaA { 
+		insert nax  gbar_nax=gnabar  
+		insert kdr  gkdrbar_kdr=gkdr
+		insert kap  gkabar_kap=gkap
+		insert kad  gkabar_kad=0
+		insert pas	e_pas=Vleak  g_pas=1/Rm   Ra=global_ra  cm=Cm
+	}
+	
+	hill { 
+		insert nax  gbar_nax=gnabar  
+		insert kdr  gkdrbar_kdr=gkdr
+		insert kap  gkabar_kap=gkap
+		insert kad  gkabar_kad=0
+		insert pas	e_pas=Vleak  g_pas=1/Rm   Ra=global_ra   cm=Cm
+	}
+	
+	iseg { 
+		insert nax  gbar_nax=gnabar  
+		insert kdr  gkdrbar_kdr=gkdr
+		insert kap  gkabar_kap=gkap
+		insert kad  gkabar_kad=0
+		insert pas	e_pas=Vleak  g_pas=1/Rm   Ra=global_ra   cm=Cm
+	}
+	
+	for i=0,2 inode[i] { 
+		insert nax  gbar_nax=gnabar  
+		insert kdr  gkdrbar_kdr=gkdr
+		insert kap  gkabar_kap=gkap*0.2
+		insert kad  gkabar_kad=0
+		insert pas	e_pas=Vleak  g_pas=1/Rm   Ra=global_ra   cm=Cmy
+	}
+	
+	for i=0,1 node[i] { 
+		insert nax  gbar_nax=gnode  
+		insert kdr  gkdrbar_kdr=gkdr
+		insert kap  gkabar_kap=gkap*0.2
+		insert kad  gkabar_kad=0
+		insert pas	e_pas=Vleak  g_pas=1/Rn   Ra=global_ra   cm=Cm
+	}
+	
+	forsec all_basals {
+		insert nax  gbar_nax=gnabar  
+		insert kdr  gkdrbar_kdr=gkdr
+		insert kap  gkabar_kap=gkap
+		insert kad  gkabar_kad=0
+		insert pas	e_pas=Vleak  g_pas=1/Rm   Ra=global_ra  cm=Cm
+	}
+	
+	access somaA
+	area(0.5)
+	distance()
+		
+	forsec all_apicals {
+		insert pas	e_pas=Vleak  Ra=global_ra 
+		for (x) {
+			xdist=distance(x)
+			id2_id(x) = xdist		// id2 stores xdist, the path distance of each segment from the soma
+			if (xdist <= spinelimit) {
+				g_pas(x) = 1/Rm
+				cm(x) = Cm
+			} else {
+				g_pas(x) = spinefactor/Rm
+				cm(x) = spinefactor*Cm
+			}
+		}
+		insert nax	gbar_nax=gnabar
+		insert kdr	gkdrbar_kdr=gkdr
+		insert kap
+		insert kad
+		gkabar_kap = 0
+		gkabar_kad = 0
+		for (x) {
+			xdist = distance(x)
+			if (xdist > dlimit) {
+				xdist = dlimit
+			}
+			gkabar_kap(x) = 0
+			gkabar_kad(x) = 0
+			if (xdist > dprox) {
+				gkabar_kad(x) = gkad*(1+xdist*dslope)
+			} else {
+				gkabar_kap(x) = gkap*(1+xdist*dslope)
+			}
+		}
+	}
+	   
+	forsec primary_apical_list {
+		id1_id = 1				// id1=1 means the section is on the primary apical branch
+	}
+	
+	forsec all_apicals {
+		if (id1_id == 1) {			// skip the sections on the primary branch
+			continue
+		}
+		osec[0] = new SectionRef()		// osec[0] contains the current oblique branch in the list
+		for p = 1, 10 {
+			osec[p-1].parent {
+				osec[p] = new SectionRef()	// osec[1] references the parent of osec[0], osec[2] references 
+				id1 = id1_id			// the parent of osec[1] etc. until the primary branch
+			}
+			if (id1 == 1) { 		// if osec[p] is the primary branch, stop incrementing p 
+				break
+			}
+		}
+		access osec[p-1].sec	// access the first parent oblique branch
+		pdist = id2_id(0)	// pdist is the distance of the parent oblique branch from the soma
+		for (x) {
+			if (x == 0) {
+				odist = distance()	// odist is zeroed to where the parent oblique branch intersects the primary branch
+			}
+		}
+		access osec[0].sec
+		for (x) {
+			odist = distance(x) 	// odist is the distance of each segment along the oblique branch
+			id3_id(x) = odist
+			if (pdist > dlimit) {
+				pdist_k = dlimit
+			} else {
+				pdist_k = pdist
+			}				
+			if (gkabar_kap(x) > 0) {
+				gkabar_kap(x) = gkap*(1+pdist_k*dslope+odist*okslope)
+			}
+			if (gkabar_kad(x) > 0) {
+			gkabar_kad(x) = gkad*(1+pdist_k*dslope+odist*okslope)
+			}
+			if (gkabar_kap(x) > okmax) {
+				gkabar_kap(x) = okmax
+			}
+			if (gkabar_kad(x) > okmax) {
+				gkabar_kad(x) = okmax
+			}
+			
+		}
+	}
+	
+	somaA { 
+		distance()
+	}
+	forsec all_basals {
+		for (x) {
+			odist=distance(x)
+			id3_id(x) = odist	
+			gkabar_kap(x) = gkap*(1+odist*okslope)
+			if (gkabar_kap(x) > okmax) {
+				gkabar_kap(x) = okmax
+			}
+		}
+	}
+
+print "Passive properties and channels initialized\n"
+}
+
+initchannels()

@@ -1,0 +1,10 @@
+
+if (unix_mac_pc() ==1 ) {
+	system("cd mechanism; nrnivmodl")
+	system("cd lib; gcc -o newshiftsyn newshiftsyn.c -Ilib -lm")
+	system("export HOC_LIBRARY_PATH=../../template; cd experiment/hyperpolarization-current; sh ./run")
+	quit()
+}else {
+	print "this model currently only runs under unix/linux"
+	quit()
+}

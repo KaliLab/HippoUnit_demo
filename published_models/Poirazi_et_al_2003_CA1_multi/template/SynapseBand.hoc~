@@ -1,0 +1,97 @@
+// This template is used to create a band of sections by
+// randomly selecting sections within a specified region (in
+// interval [lo hi]). Sections can be selected with or without
+// repetition and synapses can be allocated at predifined
+// locations along these sections 
+// written by Yiota Poirazi, July 2001, poirazi@LNC.usc.edu
+
+
+objref synapse_band_shape, gaba_band_shape
+synapse_band_shape=new Shape() // shape graph to plot AMPA and NMDA synapses
+gaba_band_shape=new Shape()    // shape graph to plot GABA_A and GABA_B synapses
+
+begintemplate SynapseBand
+
+public pick_and_salloc, pick_and_SALLOC, pick, pick_and_remove, pick_and_SALLOC_GABAa, pick_and_SALLOC_GABAb
+objref all_secs, secs_in_band, selected_secs, rnum, ltmp
+strdef exec_str
+
+proc init () {
+  all_secs=$o1     // list of all sections to choose from
+  lo=$2            // minimum distance from soma
+  hi=$3            // maximum distance from soma
+  actual_res=$4    // obsolete. Used only if more than one synapses are to be placed at a specific location
+  desired_res=$5   // obsolete. Used only if more than one synapses are to be placed at a specific location
+  PID=$6           // random number generator seed 
+
+//  print "choosing sections that are between ", lo, " and ", hi, " microns from the soma"	
+
+  secs_in_band=new List()
+  if (PID < 0) {
+     PID=-PID       // if PID < 0 choose sections branchwise
+     sprint(exec_str,"choose_secs_branchwise(%s,%s,%g,%g,%g,%g)", all_secs,secs_in_band,lo,hi,actual_res,desired_res)
+  } else {  	
+     sprint(exec_str,"choose_secs(%s,%s,%g,%g,%g,%g)", all_secs,secs_in_band,lo,hi,actual_res,desired_res)
+  }
+  execute1(exec_str)  // use ../lib/choose-secs.hoc to choose sections and store them in "secs_in_band"
+
+  rnum=new Random(PID)
+}
+
+proc cdto() {    // Access a given section
+  ltmp=secs_in_band.object(num)
+  access ltmp.section_ref.sec
+//  print secname(), "accessed by SynapseBand.pick()"
+}
+
+proc cdto_rm() { // Remove the section just accessed
+  ltmp=secs_in_band.object(num)
+  access ltmp.section_ref.sec
+//  print secname(), " accessed by SynapseBand.pick(). cdto_rm() is removing it."
+  secs_in_band.remove(num)
+}
+
+proc pick() {  //randomly (uniformly) pick a section in band and access it
+  num=rnum.uniform(0,secs_in_band.count()-1)
+  cdto(num)
+}
+
+proc pick_and_remove() { //randomly (uniform) pick a section in band, access and remove it 
+    num=rnum.uniform(0,secs_in_band.count()-1)
+    cdto_rm(num)
+}
+
+proc pick_and_salloc() { // randomly pick a section in band, access it and allocate a synapse (AMPA or NMDA) on it
+  pick()
+  sprint(exec_str,"salloc(%s,%s,%g)", $o1,$o2,ltmp.range_ref)     // in ../lib/salloc.hoc
+  execute1(exec_str)
+  sprint(exec_str,"synapse_band_shape.point_mark(%s,%d)", $o1,$3) // make a shape graph and print a 
+  execute1(exec_str)						  // dot at the location of the synapse 
+}
+
+proc pick_and_SALLOC() { // same as above but made to work with both AMPA/NMDA and GABA synapses (not used)
+  pick()
+  sprint(exec_str,"SALLOC(%s,%s,%g,%d)", $o1,$o2,ltmp.range_ref,$4) // in ../lib/salloc.hoc
+  execute1(exec_str)
+  sprint(exec_str,"synapse_band_shape.point_mark(%s,%d)", $o1,$3)
+  execute1(exec_str)
+}
+
+proc pick_and_SALLOC_GABAa() { // Used if only GABA_A synapses will be allocated
+  pick()
+  sprint(exec_str,"SALLOC_GABAa(%s,%g,%d,%g)", $o1,ltmp.range_ref, $3, $4)   // in ../lib/salloc.hoc 
+  execute1(exec_str)
+  sprint(exec_str,"gaba_band_shape.point_mark(%s,%d)", $o1, $2)
+  execute1(exec_str)
+}
+
+proc pick_and_SALLOC_GABAb() {  // Used if only GABA_B synapses will be allocated
+  pick()
+  sprint(exec_str,"SALLOC_GABAb(%s,%g,%d,%g)", $o1,ltmp.range_ref, $3, $4)   // in ../lib/salloc.hoc
+  execute1(exec_str)
+  sprint(exec_str,"gaba_band_shape.point_mark(%s,%d)", $o1,$2)
+  execute1(exec_str)
+}
+
+endtemplate SynapseBand
+

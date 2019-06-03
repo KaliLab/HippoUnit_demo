@@ -1,0 +1,7 @@
+create soma
+access soma
+insert h
+
+for i=-80,70 {
+	ninf_h()
+}

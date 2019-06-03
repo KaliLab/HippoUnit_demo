@@ -1,0 +1,121 @@
+/*************************************************
+* section lists                                  *
+*************************************************/
+
+objref soma
+somaA soma = new SectionRef()
+
+objref all_apicals
+all_apicals = new SectionList()
+dendA5_0 all_apicals.subtree()
+
+objref all_basals
+all_basals = new SectionList()
+dendA1_0 all_basals.subtree()
+dendA2_0 all_basals.subtree()
+dendA3_0 all_basals.subtree()
+dendA4_0 all_basals.subtree()
+
+objref primary_apical_list
+primary_apical_list = new SectionList()
+dendA5_0 primary_apical_list.append 
+dendA5_01 primary_apical_list.append 
+dendA5_011 primary_apical_list.append 
+dendA5_0111 primary_apical_list.append 
+dendA5_01111 primary_apical_list.append 
+dendA5_011111 primary_apical_list.append 
+dendA5_0111111 primary_apical_list.append 
+dendA5_01111111 primary_apical_list.append 
+dendA5_011111111 primary_apical_list.append 
+dendA5_0111111111 primary_apical_list.append 
+dendA5_01111111111 primary_apical_list.append 
+dendA5_011111111111 primary_apical_list.append 
+dendA5_0111111111111 primary_apical_list.append 
+dendA5_01111111111111 primary_apical_list.append 
+dendA5_011111111111111 primary_apical_list.append 
+dendA5_0111111111111111 primary_apical_list.append
+dendA5_01111111111111111 primary_apical_list.append 
+
+
+objref d[16]
+for ii = 0, 15 {
+	d[ii] = new SectionList()
+}
+
+/* BRANCH 0 in code, BRANCH 1 in Fig3 */
+dendA5_00 d[0].append
+
+/* BRANCH 1 in code, BRANCH 2 in Fig 3 */
+dendA5_010 d[1].append
+dendA5_0100 d[1].append
+dendA5_0101 d[1].append
+
+/* BRANCH 2 in code, BRANCH 3 in Fig 3 */
+dendA5_0110 d[2].append
+dendA5_01100 d[2].append
+dendA5_01101 d[2].append
+dendA5_011010 d[2].append
+dendA5_011011 d[2].append
+dendA5_0110110 d[2].append
+dendA5_0110111 d[2].append
+
+/* BRANCH 3 in code, skipped in Fig 3 because too short */
+dendA5_01110 d[3].append
+
+/* BRANCH 4 in code, BRANCH 4 in Fig 3 */
+dendA5_011110 d[4].append
+dendA5_0111100 d[4].append
+dendA5_0111101 d[4].append
+
+/* BRANCH 5 in code, BRANCH 5 in Fig 3 */
+dendA5_0111110 d[5].append
+dendA5_01111100 d[5].append
+dendA5_01111101 d[5].append
+dendA5_011111010 d[5].append
+dendA5_011111011 d[5].append
+dendA5_0111110110 d[5].append
+dendA5_0111110111 d[5].append
+
+/* BRANCH 6 in code, skipped in Fig 3 because too short */
+dendA5_01111110 d[6].append
+
+
+/* BRANCH 7 skipped in Fig 3 because too short */
+dendA5_011111110 d[7].append
+
+/* BRANCH 8 in code, BRANCH 6 in Fig 3 */
+dendA5_0111111110 d[8].append
+dendA5_01111111100 d[8].append
+dendA5_01111111101 d[8].append
+
+/* BRANCH 9 in code, BRANCH 7 in Fig 3 */
+dendA5_01111111110 d[9].append
+
+/* BRANCH 10 in code, BRANCH 8 in Fig 3 */
+dendA5_011111111110 d[10].append
+
+/* BRANCH 11 in code, BRANCH 9 in Fig 3 */
+dendA5_0111111111110 d[11].append
+dendA5_01111111111100 d[11].append
+dendA5_01111111111101 d[11].append
+
+/* BRANCH 12 in code, BRANCH 10 in Fig 3 */
+dendA5_01111111111110 d[12].append
+dendA5_011111111111100 d[12].append
+dendA5_011111111111101 d[12].append
+dendA5_0111111111111010 d[12].append
+dendA5_01111111111110100 d[12].append
+dendA5_01111111111110101 d[12].append
+dendA5_0111111111111011 d[12].append
+
+/* BRANCH 13 in code, BRANCH 11 in Fig 3 */
+dendA5_011111111111110 d[13].append
+
+/* BRANCH 14 in code, BRANCH 12 in Fig 3 */
+dendA5_0111111111111110 d[14].append
+
+/* BRANCH 15 in code, skipped in Fig 3 because too short */
+dendA5_01111111111111110 d[15].append
+
+
+

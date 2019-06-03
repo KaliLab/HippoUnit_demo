@@ -1,0 +1,818 @@
+//****************************************************
+//****************************************************
+// SELECT THE CELL THAT YOU WANT TO STUDY
+
+ID_cell=4 //1=n123, 2=n125, 3=n128, 4=n129, 5=n130 //YOUNG CELL 
+	  
+//****************************************************
+//****************************************************
+//the data is save and zip in a file type ".tar"
+
+synch = 0  // synapses are stimulated randomly (NOT synchronously), set to 1 for synchronous stimulation
+
+load_file("nrngui.hoc")
+//load_proc("nrnmainmenu")             // load main NEURON library
+cvode.active(0)
+
+
+//----------------------	xopen_filehoc()	------------------ 
+//Outputs:	Load Files.hoc 
+//Inputs:	$s1 is a string root to "file.hoc" from the actual root
+//		$s2 is a string with the file name (not put .hoc)
+
+proc xopen_filehoc() {
+	strdef tmp_str
+	
+	sprint(tmp_str,"xopen(\"%s/%s.hoc\")",$s1,$s2)	
+	execute1(tmp_str)
+}
+
+//------------------------------------------------------------------------------------------------
+
+xopen_filehoc("../../template","ExperimentControl")
+xopen_filehoc("../../template","EPSPTuning")
+xopen_filehoc("../../template","RangeRef")
+xopen_filehoc("../../template","SynapseBand")
+
+strdef accstr     // not confuse experimental variable bindings with neurophysiological variable bindings
+objref econ      // Create an experiment object
+show_errs=1
+debug_lev=1
+econ=new ExperimentControl(show_errs,debug_lev)
+econ.self_define(econ) 			// points the object at itself
+
+econ.generic_dir = "../../experiment/"   // Setup directory with cell-setup file
+econ.lib_dir="../../lib"
+econ.add_lib_dir("Terrence","../../lib") // Setup directory with library functions 
+
+
+if(ID_cell==1){	//n123
+	econ.morphology_dir = "../../morphology/nXXX/youngcell"   // Setup morphology directory
+	econ.data_dir       = "datan123"                   // Define directory to save produced data 
+	econ.xopen_geometry_dependent("n123")  // load the raw cell morphology
+}
+
+if(ID_cell==2){	//n125
+	econ.morphology_dir = "../../morphology/nXXX/youngcell"
+	econ.data_dir       = "datan125"                   // Define directory to save produced data 
+	econ.xopen_geometry_dependent("n125")
+}
+
+if(ID_cell==3){	//n128
+	econ.morphology_dir = "../../morphology/nXXX/youngcell"
+	econ.data_dir       = "datan128"                   // Define directory to save produced data 
+	econ.xopen_geometry_dependent("n128")
+}
+
+if(ID_cell==4){	//n129
+	econ.morphology_dir = "../../morphology/nXXX/youngcell"
+	econ.data_dir       = "datan129"                   // Define directory to save produced data 
+	econ.xopen_geometry_dependent("n129")
+}
+
+if(ID_cell==5){	//n130
+	econ.morphology_dir = "../../morphology/nXXX/youngcell"
+	econ.data_dir       = "datan130"                   // Define directory to save produced data 
+	econ.xopen_geometry_dependent("n130")  
+}
+
+
+if(ID_cell==6){	//n170
+	econ.morphology_dir = "../../morphology/nXXX/agedcell"
+	econ.data_dir       = "datan170"                   // Define directory to save produced data 
+	econ.xopen_geometry_dependent("n170")  
+}
+
+if(ID_cell==7){	//n172
+	econ.morphology_dir = "../../morphology/nXXX/agedcell"
+	econ.data_dir       = "datan172"                   // Define directory to save produced data 
+	econ.xopen_geometry_dependent("n172")  
+}
+
+
+//if(ID_cell==8){	//n175
+//	econ.morphology_dir = "../../morphology/nXXX/agedcell"
+//	econ.data_dir       = "datan175"                   // Define directory to save produced data 
+//	econ.xopen_geometry_dependent("n175")  
+//}
+
+
+if(ID_cell==8){	//n178
+	econ.morphology_dir = "../../morphology/nXXX/agedcell"
+	econ.data_dir       = "datan178"                   // Define directory to save produced data 
+	econ.xopen_geometry_dependent("n178")  
+}
+
+if(ID_cell==9){	//n180
+	econ.morphology_dir = "../../morphology/nXXX/agedcell"
+	econ.data_dir       = "datan180"                   // Define directory to save produced data 
+	econ.xopen_geometry_dependent("n180")  
+}
+
+if(ID_cell==10){	//n182
+	econ.morphology_dir = "../../morphology/nXXX/agedcell"
+	econ.data_dir       = "datan182"                   // Define directory to save produced data 
+	econ.xopen_geometry_dependent("n182")  
+}
+
+
+
+
+	econ.morphology_dir = "../../morphology/nXXX"
+
+
+sprint(econ.syscmd, "mkdir -p %s", econ.data_dir)  // make the data directory
+system(econ.syscmd)
+//-------setup cell-----------------------------------------------------------
+econ.xopen_geometry_dependent("cell-analysis")     	// load user-defined semantics on morphology 
+cell_analysis(econ)
+
+
+
+econ.xopen_lib_dependent("TP-lib")
+Tip_sections(apical_non_trunk_list,apical_trunk_list,"Apical")		
+objref apical_tip_list
+apical_tip_list=TP_list		// Apical Tip list
+
+objref tmp_pl[num_tips],pl[num_tips],opl[num_tips],degree_apical_tip,distance_apical_tip,peri_trunk_list
+objref bl[num_tips],obl[num_tips],degree_basal_tip
+econ.xopen_lib_dependent("Oblique-lib2")
+
+oblique_sections(apical_tip_list,apical_trunk_list,num_tips)	// apical dendrite path lists and degree of tips
+
+// The next instruction is for save in a file the seccions name non-trunk and their vertical distance
+objref vPOI
+
+//objref fileref
+//strdef temp
+//	fileref=new File()						//to save in file
+//	sprint(temp, "%s/Apical_section_distanceN123.dat", econ.data_dir)	//to save in file
+//	fileref.wopen(temp)						//to save in file
+
+objref Distance
+Distance=new Vector(1)
+i=0
+forsec apical_non_trunk_list{
+	vPOI=new Vector()
+
+	vPOI.append(x3d(0.5))
+	vPOI.append(y3d(0.5))
+	vPOI.append(z3d(0.5))
+	Distance.resize(i+1)
+	Distance.x[i]=vector_distance(vRP,vAPEX,vPOI,adjustment)
+//	print secname(),Distance
+//	fileref.printf( "%s  %g\n", secname(),Distance.x[i])	//to save in file
+	i+=1
+	
+}
+//fileref.close()	
+
+
+//--   make a list of soma/trunk sections where a fixed amount of inhibition will be inserted
+objref inh_list
+inh_list=new SectionList()
+	forsec "soma" {
+ 		inh_list.append()
+	}
+
+	trunk[2]  inh_list.append()
+
+print "saving: soma and ", secname()
+
+
+//-----------------End creating more lists------------------
+
+
+
+//load the cell-setup file (define specific
+econ.xopen_generic("cell-setupNXXX")
+
+
+
+printf("Opened. Setting up cell\n")		//channels, membrane properties etc
+cell_setup(econ)
+
+
+forsec "apical" {
+ //	print secname(),diam
+	diam=diam*1.25
+// print secname(),diam
+}
+
+forsec "trunk" {
+// 	print secname(),diam
+//	diam=diam*1.25
+// print secname(),diam
+}
+
+
+//--- End Setup cell ------------------------------------------------------
+
+//sprint(econ.syscmd, "mkdir -p %s", econ.data_dir)                      
+//system(econ.syscmd)
+
+		
+	
+
+	// ------  Open files with NMDA/AMPA, GABA_A/AMPA and GABA_B/GABA_B ratios
+
+econ.xopen_geometry_dependent("nmda-ampa-ratio")
+econ.xopen_geometry_dependent("gabab-gabaa-uniform-ratio")  // use to estimate GABA_A, GABA_B conductances
+
+	//------    Open file with tuned AMPA conductance values for all sections
+
+objref tune_epsp_list
+tune_epsp_list=new List()
+
+strdef tmp_str
+
+
+if(ID_cell==1){	//n123
+	sprint(tmp_str,"xopen(\"%s/%s\")","tuned-nXXX-trunk","My_tunings_gradient_newN123.dat")
+}
+
+if(ID_cell==2){	//n125
+	sprint(tmp_str,"xopen(\"%s/%s\")","tuned-nXXX-trunk","My_tunings_gradient_newN125.dat")	
+}
+
+if(ID_cell==3){	//n128
+	sprint(tmp_str,"xopen(\"%s/%s\")","tuned-nXXX-trunk","My_tunings_gradient_newN128.dat")	
+}
+
+if(ID_cell==4){	//n129
+	sprint(tmp_str,"xopen(\"%s/%s\")","tuned-nXXX-trunk","My_tunings_gradient_newN129.dat")	
+}
+
+if(ID_cell==5){	//n130
+	sprint(tmp_str,"xopen(\"%s/%s\")","tuned-nXXX-trunk","My_tunings_gradient_newN130.dat")
+
+}
+
+if(ID_cell==6){	//n170
+	sprint(tmp_str,"xopen(\"%s/%s\")","tuned-nXXX-trunk","My_tunings_gradient_newN170.dat")
+
+}
+
+if(ID_cell==7){	//n172
+	sprint(tmp_str,"xopen(\"%s/%s\")","tuned-nXXX-trunk","My_tunings_gradient_newN172.dat")
+
+}
+
+if(ID_cell==8){	//n178
+	sprint(tmp_str,"xopen(\"%s/%s\")","tuned-nXXX-trunk","My_tunings_gradient_newN178.dat")
+
+}
+if(ID_cell==9){	//n180
+	sprint(tmp_str,"xopen(\"%s/%s\")","tuned-nXXX-trunk","My_tunings_gradient_newN180.dat")
+
+}
+
+if(ID_cell==10){ //n182
+	sprint(tmp_str,"xopen(\"%s/%s\")","tuned-nXXX-trunk","My_tunings_gradient_newN182.dat")
+
+}
+
+
+execute1(tmp_str)
+
+
+
+	//-------   Open library functions that will be needed
+
+econ.xopen_library("Terrence","choose-secs")    // used to randomly select sections from a list
+econ.xopen_library("Terrence","salloc")         // used to allocate synapses on sections
+econ.xopen_library("Terrence","deduce-ratio")   // used to extract NMDA/AMPA, GABA_A/AMPA and GABA_B/GABA_B ratios
+econ.xopen_library("Terrence","basic-graphics") // used to plot graphics 
+econ.xopen_library("Terrence","spikecount")     // used to count spikes
+econ.xopen_library("Terrence","verbose-system")
+
+//---  Proc to "Run" button
+proc proc_run(){
+        strdef str_tstop
+	//------  Set simulation parameters for the experiment -----------
+	//Date and time inwhic the experiment started
+	strdef str_date
+	system("date +%d%m%y",str_date)
+	day_date=0
+	sscanf(str_date,"%g",&day_date)
+	system("date +%k%M%S",str_date)
+	time_date=0
+	sscanf(str_date,"%g",&time_date)
+
+
+	xopen_filehoc(".","ProtocolsFile")
+
+	
+	for run_protocol=fist_protocol,last_protocol{
+		strdef comment
+		xopen_filehoc(".","ParameterFile")
+		sprint(str_tstop,"%g",sim_stop)
+		econ.defvar("Simulation Control", "tstop", str_tstop, "Defines when the simulation stops.") //6000
+		econ.defvar("Simulation Control", "dt", "0.1", "Timestep")
+		econ.defvar("Simulation Control", "steps_per_ms", "10", "How many points are plotted per ms")
+		setdt()	
+		
+		
+		strdef tmpstr
+		
+		
+		if(ID_cell==1){	//n123
+			sprint(tmpstr, "datan123/Date%g-NSyn%d/p%d",day_date,n_runs,run_protocol)
+			sprint(econ.data_dir, "datan123/Date%g-NSyn%d/p%d",day_date,n_runs,run_protocol)	
+		}
+
+		if(ID_cell==2){	//n125
+			sprint(tmpstr, "datan125/Date%g-NSyn%d/p%d",day_date,n_runs,run_protocol)
+			sprint(econ.data_dir, "datan125/Date%g-NSyn%d/p%d",day_date,n_runs,run_protocol)	
+		}
+
+		if(ID_cell==3){	//n128
+			sprint(tmpstr, "datan128/Date%g-NSyn%d/p%d",day_date,n_runs,run_protocol)
+			sprint(econ.data_dir, "datan128/Date%g-NSyn%d/p%d",day_date,n_runs,run_protocol)	
+		}
+
+		if(ID_cell==4){	//n129
+			sprint(tmpstr, "datan129/Date%g-NSyn%d/p%d",day_date,n_runs,run_protocol)
+			sprint(econ.data_dir, "datan129/Date%g-NSyn%d/p%d",day_date,n_runs,run_protocol)	
+		}
+
+		if(ID_cell==5){	//n130
+			sprint(tmpstr, "datan130/Date%g-NSyn%d/p%d",day_date,n_runs,run_protocol)
+			sprint(econ.data_dir, "datan130/Date%g-NSyn%d/p%d",day_date,n_runs,run_protocol)	
+		}
+
+
+		if(ID_cell==6){	//n170
+			sprint(tmpstr, "datan170/Date%g-NSyn%d/p%d",day_date,n_runs,run_protocol)
+			sprint(econ.data_dir, "datan170/Date%g-NSyn%d/p%d",day_date,n_runs,run_protocol)	
+		}
+		if(ID_cell==7){	//n172
+			sprint(tmpstr, "datan172/Date%g-NSyn%d/p%d",day_date,n_runs,run_protocol)
+			sprint(econ.data_dir, "datan172/Date%g-NSyn%d/p%d",day_date,n_runs,run_protocol)	
+		}
+		if(ID_cell==8){	//n178
+			sprint(tmpstr, "datan178/Date%g-NSyn%d/p%d",day_date,n_runs,run_protocol)
+			sprint(econ.data_dir, "datan178/Date%g-NSyn%d/p%d",day_date,n_runs,run_protocol)	
+		}
+
+		if(ID_cell==9){	//n180
+			sprint(tmpstr, "datan180/Date%g-NSyn%d/p%d",day_date,n_runs,run_protocol)
+			sprint(econ.data_dir, "datan180/Date%g-NSyn%d/p%d",day_date,n_runs,run_protocol)	
+		}
+
+		if(ID_cell==10){ //n182
+			sprint(tmpstr, "datan182/Date%g-NSyn%d/p%d",day_date,n_runs,run_protocol)
+			sprint(econ.data_dir, "datan182/Date%g-NSyn%d/p%d",day_date,n_runs,run_protocol)	
+		}
+
+
+		sprint(econ.syscmd,  "mkdir -p %s", tmpstr)
+		system(econ.syscmd)                       // make a directory for this experiment
+		sprint(tmpstr,"%s/presynaptic_stimulus",tmpstr)
+
+		
+		xopen_filehoc(".","integrative_ana_all_testAMPA-NMDA2")		//Run the simulation
+	}
+}
+
+// ----------------------------   Variables and Panel -------------------------
+
+begintemplate Stimulus
+
+	public start,number,interval,noise,burst,delay_stim
+  proc ini(){
+	start=$1
+	number=$2
+	interval=$3
+	noise=$4
+	burst=$5
+	delay_stim=$6
+   }
+endtemplate Stimulus
+
+objref var_AMPA,var_NMDA,var_GABAa,var_GABAb
+objref Vbox1,Hbox1, Hbox2
+proc var_panel(){
+
+	START=0
+	cluster_sizeA=1
+	cluster_stepA=0
+	cluster_sizeB=0
+	cluster_stepB=0
+//        dendrite2test=3
+	eiter=0
+	n_runs=20
+	//# of synapses
+	asyn=0		// Asynchronous input patterns (ms intervals)
+	sim_stop=450
+	runs=0
+	cluster_n=0
+	BACK_GROUND = 0 	// set to 1 when using background synapses
+	check_AMPA=1
+	check_NMDA=1
+	check_GABAa=0
+	check_GABAb=0
+	alfa_AMPA=1
+	alfa_NMDA=0
+	alfa_GABAa=0
+	alfa_GABAb=0
+
+	init_cluster_number = 1                         // number of full-sized clusters of synapses
+	init_cluster_size = cluster_sizeA+cluster_sizeB   //=6+2                   // number of synapses per cluster is 6 or 2
+	disp_size =1000                                    // dispersion step size, disperse one cluster at a time 
+
+
+	gmax_default = 0.0005                           // GABA_A explicit conductance value (S/cm^2)
+	gmaxb_default = gmax_default/3                  // GABA_B explicit conductance value (S/cm^2)
+	all_synapses=init_cluster_size*init_cluster_number     // total number of AMPA/NMDA synapses used 
+	gaba_synapses =all_synapses       //100                                    // maximum number of GABA synapses used  
+	
+	//-----  used with background synapses
+
+back_syne = 50
+back_syni = 50
+ 
+	var_AMPA=new Stimulus(30.0,50.0,20.0,0.5,2000.0,50)
+	var_NMDA=new Stimulus(30.0,50.0,20.0,0.5,2000.0,50)
+	var_GABAa=new Stimulus(30.0,50.0,20.0,0.5,2000.0,50)
+	var_GABAb=new Stimulus(30.0,50.0,20.0,0.5,2000.0,50)
+
+	var_AMPA.start=0	//30.0
+	var_AMPA.number=1	//50.0	
+	var_AMPA.interval=10
+	var_AMPA.noise=0	//0.5
+	var_AMPA.burst=2000.0
+	var_AMPA.delay_stim=5.0
+
+	var_NMDA.start=0		//30.0
+	var_NMDA.number=1		//50.0
+	var_NMDA.interval=10
+	var_NMDA.noise=0		//0.5
+	var_NMDA.burst=2000.0
+	var_NMDA.delay_stim=5.0
+
+	var_GABAa.start=30.0
+	var_GABAa.number=50.0
+	var_GABAa.interval=20.0
+	var_GABAa.noise=0.5
+	var_GABAa.burst=2000.0
+	var_GABAa.delay_stim=50.0
+
+	var_GABAb.start=30.0
+	var_GABAb.number=50.0
+	var_GABAb.interval=20.0
+	var_GABAb.noise=0.5
+	var_GABAb.burst=2000.0
+	var_GABAb.delay_stim=50.0
+
+/*	Vbox1=new VBox()
+	Hbox1=new HBox()
+	Hbox2=new HBox()
+
+	Vbox1.intercept(1)
+	Hbox1.intercept(1)
+
+	xpanel("Stimulus for AMPA receptor")
+	xmenu("    AMPA? ")
+        {
+      		  xradiobutton("Yes", "check_AMPA=1",1)
+ 		  xradiobutton("Not", "check_AMPA=0",0)
+   		 }
+   	xmenu()
+	xvalue("start    ", "var_AMPA.start",1)
+	xvalue("number   ", "var_AMPA.number",1)
+	xvalue("interval ", "var_AMPA.interval",1)
+	xvalue("noise    ", "var_AMPA.noise",1)
+	xvalue("burst    ", "var_AMPA.burst",1)
+	xvalue("delay    ", "var_AMPA.delay_stim",1)
+	xlabel ("______________")
+	xvalue("alfa (alfa*weight)", "alfa_AMPA",1)
+	xpanel()
+
+
+	xpanel("Stimulus for NMDA receptor")
+	xmenu("    NMDA? ")
+        {
+      		  xradiobutton("Yes", "check_NMDA=1",1)
+ 		  xradiobutton("Not", "check_NMDA=0",0)
+   		 }
+   	xmenu()
+	xvalue("star     ", "var_NMDA.start",1)
+	xvalue("number   ", "var_NMDA.number",1)
+	xvalue("interval ", "var_NMDA.interval",1)
+	xvalue("noise    ", "var_NMDA.noise",1)
+	xvalue("burst    ", "var_NMDA.burst",1)
+	xvalue("delay    ", "var_NMDA.delay_stim",1)
+	xlabel ("______________")
+	xvalue("alfa (alfa*weight)", "alfa_NMDA",1)
+	xpanel()0
+*/
+/* It is not implemented in this experiment
+	xpanel("Stimulus for GABAa receptor")
+	xmenu("    GABAa? ")
+        {
+      		  xradiobutton("Yes", "check_GABAa=1",0)
+ 		  xradiobutton("Not", "check_GABAa=0",1)
+   		 }
+   	xmenu()
+	xvalue("start    ", "var_GABAa.start",1)
+	xvalue("number   ", "var_GABAa.number",1)
+	xvalue("interval ", "var_GABAa.interval",1)
+	xvalue("noise    ", "var_GABAa.noise",1)
+	xvalue("burst    ", "var_GABAa.burst",1)
+	xvalue("delay    ", "var_GABAa.delay_stim",1)
+	xlabel ("______________")
+	xvalue("alfa (alfa*weight)", "alfa_GABAa",1)
+	xpanel()
+
+	xpanel("Stimulus for GABAb receptor")
+	xmenu("    GABAb? ")
+        {
+      		  xradiobutton("Yes", "check_GABAb=1",0)
+ 		  xradiobutton("Not", "check_GABAb=0",1)
+   		 }
+   	xmenu()
+	xvalue("start    ", "var_GABAb.start",1)
+	xvalue("number   ", "var_GABAb.number",1)
+	xvalue("interval ", "var_GABAb.interval",1)
+	xvalue("noise    ", "var_GABAb.noise",1)
+	xvalue("burst    ", "var_GABAb.burst",1)
+	xvalue("delay    ", "var_GABAb.delay_stim",1)
+	xlabel ("______________")
+	xvalue("alfa (alfxopen_filehoc(".","integrative_ana_all_D34b")a*weight)", "alfa_GABAb",1)
+	xpanel()
+*/
+/*	Hbox1.intercept(0)
+	Hbox1.map()
+	Hbox2.intercept(1)
+
+
+	xpanel("Dendrite ")
+//	xvalue("Apical dendrite #:  ", "dendrite2test",1)
+	xlabel ("             ")
+	xvalue("# of Synapsis","n_runs",1)
+	xvalue("Asynnchronous input(ms): ","asyn",1)
+	xpanel()
+
+	xpanel("Var2")
+	xlabel ("             ")
+	xvalue("Simulation Stop: ","sim_stop",1)
+	xpanel()
+
+	xpanel("Run()")
+	xbutton("Run","	proc_run(sim_stop)")	
+	xvalue("Experiment: ","eiter",0)
+	xvalue("Repetition: ","runs",0)
+	xvalue("# of clusters: ","cluster_n",0)
+	xpanel()
+
+	Hbox2.intercept(0)
+	Hbox2.map()
+	Vbox1.intercept(0)
+	Vbox1.map()
+
+*/
+
+
+
+}
+
+
+ 
+objref input
+input = new Vector()
+strdef tmpstr,dendrite2test
+
+	//-----      define variables
+
+
+
+objref  vf,vf1, vf2, vf3, vrec, spikevec, band, band1, band2, vrec, splot, rpid, i_nmda[40], g
+
+objref ampa[1], nmda[1], gabaa[1], gabab[1]
+objref ampa2[1], nmda2[1],nc1_2[1], nc2_2[1]
+objref ns1,ns2,ns3,ns4, nc1[1], nc2[1], nc3[1], nc4[1]
+objref ns1_2,ns2_2
+objref ampa_bg[1], nmda_bg[1], gabaa_bg[1], gabab_bg[1]
+objref apical_tipl, cluster2_list,  cluster6_list, random_list
+
+
+strdef  tmpstr2, Fc
+Deadtime_GLU=dt
+Deadtime_NMDA=dt
+Deadtime_GABAa=dt
+Deadtime_GABAb=dt
+
+//                                   Cluster allocation proceedure
+//--------------------------------------------------------------------------------------------------------
+
+objref sr
+proc cluster_salloc() { local b, b2
+//  $2                  // number of synapses per cluster
+//  $6	                // number of clusters
+
+delay_synapses=0
+ 
+// *************** For cluster_amount CLUSTERS , pick a different branch and put synapses on it **************
+
+   cluster6_list = new SectionList()
+   sr cluster6_list.append 
+ 
+
+		ns1 = new NetStimm(0.5)	// from netstimmm.mod from mechanism
+		ns1.start =  $o2.start	//10	(mostly likely) start time of first spike
+ 		ns1.number = $o2.number		//25	(average) number of spikes
+		ns1.interval =$o2.interval	//15	(mean) time between spikes
+		ns1.noise =$o2.noise			//	range 0 to 1. Franctional randomness
+        	ns1.burstP =$o2.burst
+		
+
+		ns2 = new NetStimm(0.5)	// from netstimmm.mod from mechanism
+		ns2.start =  $o3.start	//10	(mostly likely) start time of first spike
+ 		ns2.number = $o3.number		//25	(average) number of spikes
+		ns2.interval =$o3.interval		//15	(mean) time between spikes
+		ns2.noise =$o3.noise			//	range 0 to 1. Franctional randomness
+        	ns2.burstP =$o3.burst
+
+
+		ns1_2 = new NetStimm(0.5)	// from netstimmm.mod from mechanism
+		ns1_2.start =  $o2.start	//10	(mostly likely) start time of first spike
+ 		ns1_2.number = $o2.number		//25	(average) number of spikes
+		ns1_2.interval =$o2.interval	//15	(mean) time between spikes
+		ns1_2.noise =$o2.noise			//	range 0 to 1. Franctional randomness
+        	ns1_2.burstP =$o2.burst
+		
+
+		ns2_2 = new NetStimm(0.5)	// from netstimmm.mod from mechanism
+		ns2_2.start =  $o3.start	//10	(mostly likely) start time of first spike
+ 		ns2_2.number = $o3.number		//25	(average) number of spikes
+		ns2_2.interval =$o3.interval		//15	(mean) time between spikes
+		ns2_2.noise =$o3.noise			//	range 0 to 1. Franctional randomness
+        	ns2_2.burstP =$o3.burst
+
+
+
+
+		ns3 = new NetStimm(0.5)	// from netstimmm.mod from mechanism
+		ns3.start =  $o4.start		//10	(mostly likely) start time of first spike
+ 		ns3.number = $o4.number		//25	(average) number of spikes
+		ns3.interval =$o4.interval		//15	(mean) time between spikes
+		ns3.noise =$o4.noise			//	range 0 to 1. Franctional randomness
+        	ns3.burstP =$o4.burst
+
+		ns4 = new NetStimm(0.5)	// from netstimmm.mod from mechanism
+		ns4.start =  $o5.start		//10	(mostly likely) start time of first spike
+ 		ns4.number = $o5.number		//25	(average) number of spikes
+		ns4.interval =$o5.interval		//15	(mean) time between spikes
+		ns4.noise =$o5.noise			//	range 0 to 1. Franctional randomness
+        	ns4.burstP =$o5.burst
+
+			
+   forsec cluster6_list {	// distribute synapses uniformly along each branch in each cluster
+//		nseg=n_runs
+	
+//	nseg=arc3d(n3d()-1)/3	//I suponse 3 microns for each spine, and they are start in middle of the branch
+	nseg=arc3d(n3d()-1)/2	//I suponse 1.5 microns for each spine, and they are start in middle of the branch
+
+//	nseg=arc3d(n3d()-1)/20	// I suponse 20 microns for each spine
+
+
+	for b2=1,abs($1){
+		delay_synapse=0	
+	hola=0
+	        
+		// define location for a new synapse 
+		if ($1<0){
+		   posn=(2*b2-1)/(2*nseg)+int(40/$10*100)/100   //int(40/$10*100)/100	//0.8				//$1<0
+					hola=asyn*(b2-1)
+		       
+		   print "Cluster,number of synapses= ",$1,delay_synapse
+		
+		}else{
+		   posn=(2*$1-1)/(2*nseg)+int(40/$10*100)/100	 //int(40/$10*100)//0.8
+					hola=asyn*($1-1)
+		
+		   print "1 synpases, ",$1,delay_synapse
+		}
+	
+	
+print "*********  posn ", posn, " b2  ", b2, " $1 ", $1, delay_synapse
+
+		//----- Create the synaptic receptors
+
+
+multi=2
+
+//		if (multi==1){
+			ns1_2.number =int($o2.number/2)		//25	(average) number of spikes
+			ns1_2.interval =$o2.interval	//15	(mean) time between spikes
+			ns2_2.number =int($o3.number/2)		//25	(average) number of spikes
+			ns2_2.interval =$o3.interval		//15	(mean) time between spikes
+//		}else{
+ 			ns1.number = $o2.number		//25	(average) number of spikes
+			ns1.interval =$o2.interval	//15	(mean) time between spikes
+			ns2.number = $o3.number		//25	(average) number of spikes
+			ns2.interval =$o3.interval		//15	(mean) time between spikes
+//		}
+
+        	ampa[synapses_alloced]=new GLU(posn)        // insert an AMPA mechanism at the above location
+          	nmda[synapses_alloced]=new NMDA(posn)  delay_synapse=asyn*(b2-1)     // insert an NMDA mechanism at the above location
+         	ampa2[synapses_alloced]=new GLU(posn)        // insert an AMPA mechanism at the above location
+          	nmda2[synapses_alloced]=new NMDA(posn)  delay_synapse=asyn*(b2-1)     // insert an NMDA mechanism at the above location
+		gabaa[synapses_alloced]=new GABAa(posn)      // allocate mechanisms and plot on shape graph
+	  	gabab[synapses_alloced]=new GABAb(posn)
+
+				// ----- Weight for the synaptic receptors as function of the position
+
+        	xdist = find_vector_distance_precise(secname(),posn)
+
+
+       		ampaweight = find_gmax(posn)   				 //0.003  //0.01
+if(xdist_250_flag){
+	nmdaweight = ampaweight*APICAL_NON_TRUNK_NMDA_AMPA_MAX_RATIO*(xdist/250)*check_NMDA*alfa_NMDA
+}else{
+	nmdaweight = ampaweight*APICAL_NON_TRUNK_NMDA_AMPA_MAX_RATIO*check_NMDA*alfa_NMDA
+}
+       		gabaaweight = ampaweight*GABA_AMPA_TRUNK_MAX_RATIO*check_GABAa*alfa_GABAa 				//(0.125)  =0.3
+       		gababweight = gabaaweight*GABAb_GABAa_TRUNK_MAX_RATIO*(xdist/250)*check_GABAb*alfa_GABAb 	//(1.6)    =1.5 (b2==1)||(b2==2)
+
+				// ---- Create the synapase AMPA -----
+
+		nc1[synapses_alloced] = new NetCon(ns1, ampa[synapses_alloced])
+		nc1_2[synapses_alloced] = new NetCon(ns1_2, ampa2[synapses_alloced])
+
+//	     if (multi==1){
+		nc1_2[synapses_alloced].delay=$o2.delay_stim+hola+$o2.interval               //+delay_synapse
+		nc1_2[synapses_alloced].weight=ampaweight*0       		 		//0.003  //0.01
+
+//	    }else{
+		nc1[synapses_alloced].delay=$o2.delay_stim+hola        		 //+delay_synapse
+		nc1[synapses_alloced].weight=ampaweight*check_AMPA*alfa_AMPA              		 //0.003  //0.01
+//	     }
+				// ---- Create the synapase NMDA -----
+
+		nc2[synapses_alloced] = new NetCon(ns2, nmda[synapses_alloced])
+		nc2_2[synapses_alloced] = new NetCon(ns2_2, nmda2[synapses_alloced])
+
+//	     if (multi==1){
+		nc2_2[synapses_alloced].delay=$o3.delay_stim+hola+$o3.interval           //+delay_synapse
+		nc2_2[synapses_alloced].weight=nmdaweight*Kfactor*(100-$o3.interval)/100	 //0.001 //0.008
+//	    }else{
+		nc2[synapses_alloced].delay=$o3.delay_stim+hola           //+delay_synapse
+	   	nc2[synapses_alloced].weight=nmdaweight			 //0.001 //0.008
+//	    }
+
+	//	synpases_alloced+=1
+//} //endMulti
+
+
+				// ---- Create the synapase GABAa -----
+
+		nc3[synapses_alloced] = new NetCon(ns3, gabaa[synapses_alloced])
+		nc3[synapses_alloced].delay=$o4.delay_stim+delay_synapse
+		nc3[synapses_alloced].weight=gabaaweight 			//1.5*0.002
+
+				// ---- Create the synapase GABAb -----
+
+		nc4[synapses_alloced] = new NetCon(ns4, gabab[synapses_alloced])
+		nc4[synapses_alloced].delay=$o5.delay_stim+delay_synapse
+		nc4[synapses_alloced].weight=gababweight			//0.002
+
+   //      if((check_AMPA*alfa_AMPA)!=0){	splot.point_mark(ampa[synapses_alloced],COLOR+1) }
+  //       if((check_NMDA*alfa_GABAa)!=0){splot.point_mark(gabaa[synapses_alloced],COLOR+2) }
+
+
+        if($1<0){synapses_alloced = synapses_alloced + 1
+				  }else{b2=n_runs+1} //to stop the loop
+	       // update the counter of AMPA/NMDA synapses allocated
+
+	}//end for b2
+      }
+
+
+
+}                                              // End of cluster allocation proceedure
+
+
+
+//-------------------------------------------------------------------------------------------------
+
+objref sum_vsoma,sum_vapical,sum_partial_vsoma,sum_partial_vapical
+
+objref g4,g5
+
+//g4=new Graph()
+//g5=new Graph()
+//g4.size(0,tstop,-0.1,0.1)
+//g5.size(0,tstop,-0.5,2)
+
+sum_vsoma=new Vector(501)	//*************** MIRAR ESTO		
+sum_vapical=new Vector(501)
+//sum_vsoma.fill(0)
+
+var_panel()
+
+proc_run(sim_stop)
+
+quit()
+

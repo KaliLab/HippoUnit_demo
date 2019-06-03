@@ -1,0 +1,39 @@
+//--------------------- SAVE DATA OF CLUSTER -------------------------------------
+
+fileref=new File()			// Save the SOMA record
+sprint(temp, "%s/soma_c_%s/soma_c_%s_%g.dat", econ.data_dir,dendrite2test,dendrite2test,runs)
+fileref.wopen(temp)
+vsoma_c.printf(fileref, "%f\n")
+fileref.close()   
+
+fileref=new File()			// Save the DENDRITE record
+sprint(temp, "%s/apical_c_%s/apical_c_%s_%g.dat", econ.data_dir,dendrite2test,dendrite2test,runs)
+fileref.wopen(temp)
+vapical_c.printf(fileref, "%f\n")
+fileref.close()   
+
+//fileref=new File()			// Save the DENDRITE record Calcium calH
+//sprint(temp, "%s/apical_c_%s/apical_c_calH_%s_%g.dat", econ.data_dir,dendrite2test,dendrite2test,runs)
+//fileref.wopen(temp)
+//vapical_calH_c.printf(fileref, "%f\n")
+//fileref.close()
+
+//fileref=new File()			// Save the DENDRITE record Calcium car
+//sprint(temp, "%s/apical_c_%s/apical_c_car_%s_%g.dat", econ.data_dir,dendrite2test,dendrite2test,runs)
+//fileref.wopen(temp)
+//vapical_car_c.printf(fileref, "%f\n")
+//fileref.close()
+
+
+//fileref=new File()			// Save the dif. SOMA 
+//sprint(temp, "%s/soma_c_%s/dif_soma_c_%s_%g.dat", econ.data_dir,dendrite2test,dendrite2test,runs)
+//fileref.wopen(temp)
+//dif_vsoma_c.printf(fileref, "%f\n")
+//fileref.close()   
+
+//fileref=new File()		// Save the dif. DENDRITE
+//sprint(temp, "%s/apical_c_%s/dif_apical_c_%s_%g.dat", econ.data_dir,dendrite2test,dendrite2test,runs)
+//fileref.wopen(temp)
+//dif_vapical_c.printf(fileref, "%f\n")
+//fileref.close()   
+

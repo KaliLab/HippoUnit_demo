@@ -1,0 +1,22 @@
+// For each section, create a template to store the EPSP tuned AMPA conductance values (gbar_ampa)
+// for each location (range_ref) along it (used with ../lib/tune-epsp.hoc)
+// written by Yiota Poirazi, July 2001, poirazi@LNC.usc.edu
+
+begintemplate EPSPTuning
+
+public section_ref, range_ref, gbar_ampa, section_name
+
+objref section_ref
+strdef section_name
+
+proc init () {
+  section_ref  = new SectionRef()
+  section_name = $s1
+  range_ref    = $2
+  gbar_ampa    = $3
+  if ($4) {
+ //   printf ("EPSPTuning created for %s(%f)\n", section_name, range_ref)
+  }
+}
+
+endtemplate EPSPTuning

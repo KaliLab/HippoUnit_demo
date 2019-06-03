@@ -1,0 +1,29 @@
+Dendrites and locations to be tested:
+[['apical_dendrite[76]', 0.5, 'prox'], ['apical_dendrite[76]', 0.9, 'dist'], ['apical_dendrite[77]', 0.5, 'prox'], ['apical_dendrite[77]', 0.9, 'dist'], ['apical_dendrite[78]', 0.5, 'prox'], ['apical_dendrite[78]', 0.9, 'dist'], ['apical_dendrite[79]', 0.5, 'prox'], ['apical_dendrite[79]', 0.9, 'dist'], ['apical_dendrite[83]', 0.5, 'prox'], ['apical_dendrite[83]', 0.9, 'dist'], ['apical_dendrite[84]', 0.16666666666666666, 'prox'], ['apical_dendrite[84]', 0.5, 'dist'], ['apical_dendrite[86]', 0.5, 'prox'], ['apical_dendrite[86]', 0.9, 'dist'], ['apical_dendrite[87]', 0.25, 'prox'], ['apical_dendrite[87]', 0.75, 'dist'], ['apical_dendrite[88]', 0.5, 'prox'], ['apical_dendrite[88]', 0.9, 'dist']]
+---------------------------------------------------------------------------------------------------
+The dendritic spike at dendrite apical_dendrite[76](0.5) generated somatic AP - this location is not used in the test
+---------------------------------------------------------------------------------------------------
+The dendritic spike at dendrite apical_dendrite[76](0.9) generated somatic AP - this location is not used in the test
+---------------------------------------------------------------------------------------------------
+The dendritic spike at dendrite apical_dendrite[77](0.5) generated somatic AP - this location is not used in the test
+---------------------------------------------------------------------------------------------------
+The dendritic spike at dendrite apical_dendrite[77](0.9) generated somatic AP - this location is not used in the test
+---------------------------------------------------------------------------------------------------
+The dendritic spike at dendrite apical_dendrite[78](0.5) generated somatic AP - this location is not used in the test
+---------------------------------------------------------------------------------------------------
+The dendritic spike at dendrite apical_dendrite[78](0.9) generated somatic AP - this location is not used in the test
+---------------------------------------------------------------------------------------------------
+The dendritic spike at dendrite apical_dendrite[79](0.5) generated somatic AP - this location is not used in the test
+---------------------------------------------------------------------------------------------------
+The dendritic spike at dendrite apical_dendrite[79](0.9) generated somatic AP - this location is not used in the test
+---------------------------------------------------------------------------------------------------
+The dendritic spike at dendrite apical_dendrite[83](0.5) generated somatic AP - this location is not used in the test
+---------------------------------------------------------------------------------------------------
+The dendritic spike at dendrite apical_dendrite[83](0.9) generated somatic AP - this location is not used in the test
+---------------------------------------------------------------------------------------------------
+The dendritic spike at dendrite apical_dendrite[88](0.5) generated somatic AP - this location is not used in the test
+---------------------------------------------------------------------------------------------------
+The dendritic spike at dendrite apical_dendrite[88](0.9) generated somatic AP - this location is not used in the test
+---------------------------------------------------------------------------------------------------
+ZScore_avg = 2.23
+---------------------------------------------------------------------------------------------------

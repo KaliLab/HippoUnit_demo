@@ -1,0 +1,15 @@
+Simulation Control
+tstop
+450
+Defines when the simulation stops.
+
+Simulation Control
+dt
+0.1
+Timestep
+
+Simulation Control
+steps_per_ms
+10
+How many points are plotted per ms
+

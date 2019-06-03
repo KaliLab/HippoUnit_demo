@@ -1,0 +1,34 @@
+proc pna() {
+  print "-- Na -- ", $s1
+  for (x) {
+	print x, "\t", gnabar_hh
+  }
+}
+
+
+create soma
+access soma
+
+nseg=4
+insert hh
+
+
+pna("default settings")
+
+gnabar_hh(0.125)=0.111
+
+pna("after only changing at 0.125 to 0.111")
+
+for (x) {
+  gnabar_hh(x)=0.222
+}
+
+pna("after using for(x) syntax to set all to 0.222")
+
+gnabar_hh=0.333
+
+pna("after using default syntax to set section containing 0.5 to 0.333")
+
+gnabar_hh(0:1)=0.444:0.555
+
+pna("after gnabar_hh(0:1)=0.444:0.555... gradient expected.")

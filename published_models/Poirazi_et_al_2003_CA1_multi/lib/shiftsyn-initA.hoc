@@ -1,0 +1,89 @@
+// For each band of AMPA and NMDA synapses, this function makes a file with
+// the stimulation train and shifts the activation time (by temporal_offset) 
+// written by Yiota Poirazi, July 2001, poirazi@LNC.usc.edu
+
+double iaryE[1000]
+objref varyE[1000], s_file, stimtmp, rpid, shiftsynf
+stimtmp=new Vector()
+strdef shiftsyn_filename, syscmd, estr, shiftsyns
+
+proc shiftsyn_init () { local synapses, temporal_offset, hertz, gmax_default, PID, lo, hi
+    total_synapses = $1        // number of synapses in the band
+    tstop = $2		       // stimulation end time
+    dt = $3
+    hertz = $4                 // stimulation train frequency 
+    synch = $5                 // synchronous or a synchronous stimulation of synapses
+    perio = $6		       // periodic or not periodic stimulation
+    PID = $7
+    PID = abs(PID)             // only positive random seeds used for spike train generation 
+    temporal_offset = $8       // shift stimulation time by temporal_offset
+    skip = $9		       // time points to skip before starting the spike train
+    items = int(tstop/dt)      // number of stimuli (firing patterns) for each synapse
+
+// Make the desired activation pattern file and
+// Set AMPA and NMDA pointers to activation pattern
+
+   if (hertz > 3) {           // in most cases 
+        sprint(shiftsyn_filename,"shiftsyn-%d-%.2f-%.2f-%.2f-%.2f-%.2f-%d-%.2f",\
+            total_synapses,tstop,dt,hertz,synch,perio,PID,temporal_offset)   // filename
+              
+        sprint(syscmd,"newshiftsyn shiftsyn %d %g %g %g %g %g %d %g",\
+         total_synapses,tstop,dt,hertz,synch,perio,PID,temporal_offset)  // use newshiftsyn to make
+								         // stimulation train
+
+        system(syscmd)       // Same as typing syscmd in DOS, execute above command
+        print  syscmd
+        s_file = new File()
+        s_file.ropen(shiftsyn_filename) // open the stimulation train file
+        stimtmp.scanf(s_file) //read temporal stimulation pattern in a 1-d vector
+        s_file.close()
+  
+  } else {
+  
+// for single shock experiments, set the single spike at t = 0+offset (synchronous stimulation for all synapses)
+     
+       stimtmp = new Vector(items*total_synapses,0) 
+       offset = temporal_offset/dt
+       for i = 0, total_synapses-1 {
+          stimtmp.x[total_synapses*offset + i] = 1
+       } 
+ }
+ 
+ for i=0,total_synapses-1 {
+//    printf(" -- synapse %d\n", i)
+
+    varyE[i] = new Vector(items)  // for each synapse, save firing pattern in this vector
+
+  // Put the firing patterns from stimtmp (1-d vector) for each syanpse i
+ 
+    for j=0,items-1 {   
+            varyE[i].x[j]=stimtmp.x[i + j*total_synapses] 
+
+    }
+ }
+
+//  print "setpointer to each synapse"
+
+    for s=0, total_synapses-1 {
+        sprint(estr,"varyE[%d].play(&iaryE[%d], dt)", s,s)
+        execute1(estr)
+//        print estr
+
+        sprint(estr,"setpointer ampa[%d].pre, iaryE[%d]", s+skip,s)
+        execute1(estr)
+//        print estr
+
+        sprint(estr,"setpointer nmda[%d].pre, iaryE[%d]", s+skip,s)
+        execute1(estr)
+        print estr
+         
+      
+       }
+    
+if (hertz >3) {
+	sprint(econ.syscmd,  "rm %s", shiftsyn_filename) // remove firing pattern file
+	print  econ.syscmd
+	system(econ.syscmd) 
+}
+}
+

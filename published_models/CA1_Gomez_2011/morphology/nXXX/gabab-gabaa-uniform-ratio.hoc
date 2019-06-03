@@ -1,0 +1,34 @@
+// GABA_A and GABA_B conductances are estimated using
+// a ratio variable. In the experiments presented here, GABA_A conductance
+// is equal to AMPA conductance at every synapse, while GABA_B conductance is
+// equal to 60% of the GABA_A value.
+// written by Yiota Poirazi, July 2001, poirazi@LNC.usc.edu
+
+//GABA_AMPA_RATIO=1 
+  
+GABA_AMPA_RATIO=0.125   //for persistent activity exps., 2005
+GABAb_GABAa_NON_TRUNK_RATIO=0.6
+GABAb_GABAa_RATIO=0.6
+
+
+//old values used in previous experiments
+//GABA_AMPA_RATIO=0.6     // R. Miles_etal, Neuron 1996
+//GABAb_GABAa_RATIO=0.5 
+
+//GABA_AMPA_RATIO=0.8
+//GABAb_GABAa_RATIO=0.3
+
+// Using the Peti_Augustine, 2000 for a linear increase in GABAa 
+//currents along trunk and basal dendrites
+
+
+GABA_AMPA_SOMA_RATIO=0.01
+GABA_AMPA_TRUNK_MAX_RATIO=GABA_AMPA_SOMA_RATIO*40 //about the same peak GABAa current proximally and distally 
+GABA_AMPA_BASAL_MAX_RATIO=GABA_AMPA_SOMA_RATIO*2
+   
+
+// Using the Wu eta al, 205 for increased GABAb distally (about 4 times from soma to SLM). GABAa is about the same
+
+GABAb_GABAa_TRUNK_MAX_RATIO=0.08
+GABAb_GABAa_SOMA_RATIO=0.05     // about 7.5 times smaller
+GABAb_GABAa_BASAL_MAX_RATIO=0.1

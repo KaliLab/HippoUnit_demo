@@ -1,0 +1,50 @@
+// This function calculates the center of the soma averaged all their segments
+// written by Jose Gomez, March 2006, jfcgomez@ull.es
+//Input:	soma[i] sections for all i
+//Output	center_soma section the coordenades of the center are in x3d(1), y3d(1) and z3d(1)
+
+
+xcg=0
+ycg=0
+zcg=0
+ncp=0
+forsec "soma" {
+		//print secname(),area(0.5)
+		
+		n=n3d()
+		nseg=n
+		ncp+=n		
+		for i=0,n-1 {
+			//print i,"\t",diam3d(i),"\t",x3d(i),"\t",y3d(i),"\t",z3d(i)
+			xcg+=x3d(i)
+			ycg+=y3d(i)
+			zcg+=z3d(i)
+		}
+
+}
+
+xcg/=ncp
+ycg/=ncp
+zcg/=ncp
+
+
+//------------------------------------------------------------------
+//print "ncp ", ncp,"Xcg= ", xcg,"\tYcg= ", ycg,"\tZcg= ", zcg
+
+/*
+create center_soma
+center_soma{pt3dclear()
+	pt3dadd(xcg-1, ycg, zcg, 1)		//-1 and + 1 are added to can see center_soma at display (shape)
+	pt3dadd(xcg, ycg, zcg, 1)
+	pt3dadd(xcg+1, ycg, zcg, 1)
+}
+access center_soma
+
+print "Center of soma: ","Xcg= ", x3d(1) ,"\tYcg= ", y3d(1),"\tZcg= ", z3d(1)
+
+
+//center_list is to be able to display the center_soma
+objref center_list
+center_list=new SectionList()
+center_soma center_list.append()
+*/

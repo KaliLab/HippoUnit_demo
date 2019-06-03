@@ -1,0 +1,149 @@
+//--------------------------------------------- PRUNING --------------------------------------------------
+
+
+
+
+if (Apical_pruning){
+		if (ratio_Pruning==1){
+			remove_sections(TP_apical_list,L_Pruning)
+		}else{
+		random_remove_sections(TP_apical_list,ratio_Pruning,L_Pruning_ob,L_Pruning_tu,ob,vector_distance_Apic_TP_b)
+		}
+
+}
+
+
+
+if (Basal_pruning){
+		if (ratio_Pruning==1){
+				remove_sections(TP_basal_list,L_Pruning)
+		}else{
+		random_remove_sections(TP_basal_list,ratio_Pruning,0,L_Pruning_b,0,vector_distance_Basal_TP_b)
+		}
+}
+ 
+
+
+//--------------------------------------------End PRUNING--------------------------------------------------
+print "GGGGGGGGGGGGGGGGGGGGGGGGGGGG   AFTER PRUNING  GGGGGGGGGGGGGGGGGGGGGGGGGGGGGG"
+//------------------AGAIN------------------ To calculate the morphological parameter --------------------------
+
+n_soma=n_section("soma")
+n_dend=n_section("dendrite")
+n_apic=n_section("apical_dendrite")
+
+print "Number of sections in\n   soma: ",n_soma," dendrite: ",n_dend," apical dendrite: ",n_apic
+
+dendrite_n_list= n_list(basal_tree_list)
+apical_dentrite_n_list=n_list(apical_non_trunk_list)
+
+print "Number of real elements(axon and trunk removed) of:" 
+print "   drendrites: ",dendrite_n_list," apical dendrites: ",apical_dentrite_n_list
+
+
+	
+Terminal_Parent(apical_non_trunk_list,apical_trunk_list,"Apical dendrites",display_Apical_Dendrite_TP)
+matrix_apical_dendrite_TP = matrix_coord.c()
+vector_L_Apic_TP=vector_L.c
+TP_apical_list=TP_list 
+
+Terminal_Parent(basal_tree_list,soma_list,"Dedrites",display_Dendrite_TP)
+matrix_dendrite_TP = matrix_coord.c()
+vector_L_Basal_TP=vector_L.c
+TP_basal_list=TP_list
+
+Branch_Child_Parent(apical_non_trunk_list,apical_trunk_list,"Apical dendrites",display_Apical_Dendrite_BP)
+matrix_apical_dendrite_BP = matrix_coord.c()
+BP_apical_list=BP_list
+
+Branch_Child_Parent(basal_tree_list,soma_list,"Dedrites",display_Dendrite_BP)
+matrix_dendrite_BP = matrix_coord.c()
+BP_basal_list=BP_list
+
+//---------------AGAIN---------------------END  To calculate the morphologycal parameter --------------------------
+
+//---------------AGAIN------------------- To calculate the radial disance to de center of the soma -----------
+
+distanceTosoma(matrix_apical_dendrite_TP,xcg,ycg,zcg,"Distance apical dendrite TP",display_Radial_Distance_Apical_Dendrite_TP)
+vector_distance_Apic_TP_b=vector_distance.c
+
+distanceTosoma(matrix_dendrite_TP,xcg,ycg,zcg,"Distance  basal dendrite TP",display_Radial_Distance_Dendrite_TP)
+vector_distance_Basal_TP_b=vector_distance.c
+
+distanceTosoma(matrix_apical_dendrite_BP,xcg,ycg,zcg,"Distance apical dendrite BP",display_Radial_Distance_Apical_Dendrite_BP)
+vector_distance_Apic_BP_b=vector_distance.c
+
+distanceTosoma(matrix_dendrite_BP,xcg,ycg,zcg,"Distance basal dendrite BP",display_Radial_Distance_Dendrite_BP)
+vector_distance_Basal_BP_b=vector_distance.c
+
+//-----------------------Shell-wise Dendrite Path Length for pruned neuron---------------------------
+
+Sholl_Path_Length(apical_non_trunk_list,R,dR,xcg,ycg,zcg)
+PL_Sholl_apical_b=PL_Sholl
+
+Sholl_Path_Length(basal_tree_list,R,dR,xcg,ycg,zcg)
+PL_Sholl_basal_b=PL_Sholl
+
+PL_Sholl_apical_b=PL_Sholl_apical_b.reverse
+
+xy2.erase()
+xy2.beginline()
+
+for(k=-R/dR;k<0;k+=1){
+	xy2.line((k)*dR,PL_Sholl_apical_b.x[k+R/dR])
+}
+xy2.line(0,0)			//I put this point 
+for(k=1;k<(R/dR);k+=1){
+	xy2.line((k)*dR,PL_Sholl_basal_b.x[k-1])
+}
+
+xy2.flush()
+
+
+//---------------AGAIN-----------------------------To calculate the Dendritic path lenght    ---------------------
+
+
+lenghtTosoma(TP_apical_list)
+L_TP_apical_b=L_dend.c
+lenghtTosoma(BP_apical_list)
+L_BP_apical_b=L_dend.c
+lenghtTosoma(TP_basal_list)
+L_TP_basal_b=L_dend.c
+lenghtTosoma(BP_basal_list)
+L_BP_basal_b=L_dend.c
+
+
+xopen_filehoc(root_lib,"histographBP_TP02b_button")		///ESTO HAY QUE CAMBIARLO, CREAR OTRO FICHERO PARA ESTE CASO
+
+
+//----------AGAIN-----------To calculate the combined Dendritic length for pruned neuron----------------------
+
+
+
+DL1_b=(combined_DL(TP_apical_list)+combined_DL(BP_apical_list))  // Total apical dendritic length 
+DL2_b=(combined_DL(TP_basal_list)+combined_DL(BP_basal_list))	// Total basal dendritic length 
+								// Total apical trunk length is the same
+DL_b=DL1_b+DL2_b+DL3
+reduced_DL1=(DL1_a-DL1_b)*100/DL1_a
+reduced_DL2=(DL2_a-DL2_b)*100/DL2_a
+reduced_DL=(DL_a-DL_b)*100/DL_a
+print "Combined dendritic lengths"
+print "\nApical dendritic length  ", DL1_a, "in pruned neuron: ",DL1_b , " % : ", reduced_DL1
+print "Basal dendritic length    ",DL2_a, "in pruned neuron: ",DL2_b , " % : ", reduced_DL2
+print "Apical trunk length       ",DL3
+print "\nTotal dendritic length   ",DL_a, "in pruned neruon: ",DL_b, " %  :",reduced_DL
+
+
+
+//------------------------------------------ Display NEURON-------------------------------------------------
+
+
+	display.color_list(apical_trunk_list,6)
+	display.color_list(axon_sec_list,3)
+	display.color_list(soma_list,2)
+	display.color_list(basal_tree_list,4)
+	display.color_list(apical_non_trunk_list,5)
+	display.flush()
+
+//------------------------------------------End Display NEURON----------------------------------------------
+

@@ -1,0 +1,393 @@
+/* This is the code for the model presented in the paper "Synapse Distribution Suggests
+a Two-Stage Model of Dendritic Integration" published in Neuron by Katz et al., 2009 */
+
+
+br1 = 9			// We loop over apical oblique branches from br1 to br2. For a single branch, set br1=br2	 
+br2 = 9			// The branches are specified in seclists_bday.hoc; note that the numbering system in NEURON and in Fig. 3 are not the same.
+numberofsyns = 10	// This is the number of synapses activated on the given branch
+backwards = 0		// For the synapse distribution of the 2-stage integration model, backwards=0; for the global integration model, backwards=1
+ntrials = 1		// How many trials do you want to run per branch (starts from zero)
+
+tstop = 15		// the time each simulation should stop
+tstop1 = tstop		// needed for graphics
+
+segL = 5		// the length (in microns) of each dendritic segment
+setgk = .036		// A-type potassium starting density, used in init_bday.hoc
+setokslope = 0		// slope of A-type potassium conductance along individual oblique branches. set to 0 in all simulations
+
+gpart = 0.025/1000	// assumed conductance per immunogold particle labelling AMPA receptors. units are microS
+
+// Output file stuff
+objref f
+f = new File()
+strdef scommand
+strdef fname
+fname = "10syns"	// this is the prefix for output files -- files will be named fname_branch#.dat
+
+
+/*************************************************
+* gui                                            *
+*************************************************/
+load_file("nrngui.hoc")
+objref contrl
+contrl = new VBox()
+contrl.intercept(1)
+nrncontrolmenu()
+contrl.intercept(0)
+contrl.map("Control",0,75,-1,-1)	// left, top, width, height
+
+/*************************************************
+* morphology                                     *
+*************************************************/
+xopen("morphology_ri06.nrn")	// pyramidal neuron geometry
+xopen("naceaxon.nrn")		// axon geometry (fake)
+
+/* reset nseg so none smaller than segL microns */
+
+forall { ns=int(L/segL+0.5)
+        if (ns==0) {
+             ns=1
+        }
+        if ((ns-int(ns/2)*2)==0) {
+             ns=ns+1
+        }
+        nseg = ns
+}
+
+access somaA
+distance()
+area(0.5)
+
+/*************************************************
+* ion channels and parameters                    *
+*************************************************/
+xopen("seclists.hoc")
+xopen("init.hoc")
+
+/*************************************************
+* initialization routine                        *
+*************************************************/
+proc init() {
+	finitialize(v_init)
+	fcurrent()
+	
+	dtsave = dt
+	dt = 10
+	t = 1e06
+	for i = 0, 40 { fadvance() }
+	dt = dtsave
+	finitialize()
+	t = 0
+}
+
+/*************************************************
+* run procedure                                  *
+*************************************************/
+proc run() {
+	stdinit()
+	continuerun(tstop)
+}
+
+/*************************************************
+* functions                                      *
+*************************************************/
+
+// This procedure gets the length of the dendritic branch.
+// len is the distance from the branch origin to the end of the longest daughter branch and totlen is the total dendritic length of the branch.
+
+proc getlen() {
+	len = 0
+	totlen = 0
+	forsec d[br] {
+		if (id3_id(1) > len) {	// id3 stores odist, distance of section from intersection with primary apical dendrite
+			len = id3_id(1)
+		}
+		totlen += L
+	}
+	print "len ", len, "totlen ", totlen
+}
+
+// ----------------------------------------------
+
+// This calculates the synapse density distribution for the 2-stage or global integration model (whichever is being simulated -- use the 'backwards' flag)
+// experimental data says mean density for prox branches is 5/um and mean density for middle and distal branches is 3.3/um
+// for the 2-stage model, we assume a steplike decrease in density after the proximal third of the branch (the code is flexible to accommodate other functions)
+// for the global model, we assume a uniform synapse density with the total number of synapses the same as in the 2-stage model
+
+
+objref synloc, synid	// we will have a vector of synapse locations and a vector of synapse IDs which will be used to ensure that each synapse is chosen only once
+objref dend[5000]	// this keeps track of the dendritic section that each synapse is on (needed since there can be multiple sections per branch)
+
+proc syndensity() {
+
+	synloc = new Vector(totlen*5,0)
+	synid = new Vector(totlen*5,0)
+	
+	xsyns = 0		// counts number of syns in segment
+	totsyns = 0		// counts total number of syns on branch
+	
+	forsec d[br] {
+		for (x) {
+			if (x == 0 || x == 1) { continue }
+			dx = L/nseg
+			if (id3_id(x)/len <= .33) { dens = 5 }
+			if (id3_id(x)/len > 0.33) { dens = 3.3 }
+			xsyns = dens * dx
+			totsyns += xsyns					
+			for ii = totsyns-xsyns, totsyns {
+				synloc.x[ii] = x
+				dend[ii] = new SectionRef()
+			}
+			 // print secname(), "x ", x, "dx ", dx, "dens ", dens, "xsyns ", xsyns, "totsyns ", totsyns 
+		}
+	}
+	totsynsbackwards = 0
+	if (backwards == 1) {
+		forsec d[br] {
+			for (x) {
+				if (x == 0 || x == 1) { continue }
+				dx = L/nseg
+				dens = totsyns/totlen
+				xsyns = dens * dx
+				totsynsbackwards += xsyns					
+				for ii = totsynsbackwards-xsyns, totsynsbackwards {
+					synloc.x[ii] = x
+					dend[ii] = new SectionRef()
+				}
+				// print secname(), "x ", x, "dx ", dx, "dens ", dens, "xsyns ", xsyns, "totsyns ", totsyns, "totsynsbackwards ", totsynsbackwards
+			}
+		}
+	}
+	// print "totsyns ", totsyns, "totsynsbackwards ", totsynsbackwards
+}
+
+// ----------------------------------------------
+
+// This sets all the synapse IDs to 0; used to ensure that you don't choose the same synapse twice
+
+proc noreplacement() {
+	for ii = 0, totsyns-1 { 
+		synid.x[ii] = 0
+	}
+}
+
+// ----------------------------------------------
+
+// This procedure creates the synapses. We choose a random number from 0 to totsyns which determines the synapse location (synloc).
+// We only allow each synapse to be chosen once; we keep repicking until we find a synapse whose ID = 0
+
+objref syn[5000], con[5000]
+objref stim 
+stim = new NetStim(.5)
+stim.number = 1
+stim.start = 0
+stim.noise = 0
+
+objref randdist
+randdist = new Random()
+lowindex = mcell_ran4_init(lowindex)
+highindex = randdist.MCellRan4(highindex)
+
+proc choosesyn() {
+	
+	num1 = int(randdist.uniform(0,totsyns-1))
+	variable_domain(&highindex, 0, 2^32-1)
+	
+	access dend[num1].sec
+	
+	while (synid.x[num1] == 1) {
+		print "repick"
+		num1 = int(randdist.uniform(0,totsyns-1))
+		variable_domain(&highindex, 0, 2^32-1)	
+	}
+	synid.x[num1] = 1
+	
+	x = synloc.x[num1]
+	
+	syn[nsyns] = new Exp2Syn(x)
+	syn[nsyns].tau1 = 0.2
+	syn[nsyns].tau2 = 5.0
+	syn[nsyns].e = 0.0
+
+	// print "num1 ", num1, "synloc.x[num1] ", synloc.x[num1], "syn[nsyns].loc(x) ", syn[nsyns].loc(x)
+
+}
+
+// ----------------------------------------------
+
+// Here we determine the synaptic weights of the synapses we have created.
+
+objref ar		// The vector ar contains the cummulative frequency distribution PSD areas for the prox [1-8], mid [9-16], and dist [17-24] parts of branch
+ar = new Vector(25,0)	// The values come from our experimental data shown in figure 2B 
+
+objref part		// part contains the avg particle number for the different psd areas, from figure 2F 
+part = new Vector(9,0)
+
+/* proximal */		// frequency
+ar.x[1] = 4.1		// 4.1
+ar.x[2] = 39.0		// 34.9
+ar.x[3] = 66.2		// 27.2
+ar.x[4] = 80.0		// 13.8
+ar.x[5] = 89.2		// 9.2
+ar.x[6] = 94.8		// 5.6
+ar.x[7] = 96.3		// 1.5
+ar.x[8] = 100.0		// 3.6
+
+/* middle */
+ar.x[9] = 35.0		// 35.0
+ar.x[10] = 80.0		// 45.0
+ar.x[11] = 95.0		// 15.0
+ar.x[12] = 97.0		// 2.0
+ar.x[13] = 100.0	// 3.0
+ar.x[14] = 100.0	// 0
+ar.x[15] = 100.0	// 0
+ar.x[16] = 100.0 	// 0
+
+/* distal */
+ar.x[17] = 26.9		// 26.9
+ar.x[18] = 79.5		// 52.6
+ar.x[19] = 96.2		// 16.7
+ar.x[20] = 98.8		// 2.6
+ar.x[21] = 98.8		// 0		
+ar.x[22] = 98.8		// 0
+ar.x[23] = 98.8		// 0
+ar.x[24] = 100.0	// 1.3
+
+part.x[1] = 2.64
+part.x[2] = 7.93
+part.x[3] = 13.22
+part.x[4] = 18.50
+part.x[5] = 23.79
+part.x[6] = 29.08
+part.x[7] = 34.37
+part.x[8] = 39.65
+
+// For the 2-stage integration model (backwards == 0):		
+// We determine if the synapse is on the proximal (loc=0), middle (loc=8), or distal (loc=16) portion of the branch.
+// We chose a second random number (num2) from 0 to 100, which determines which area bin the synapse falls under
+// We set the synaptic weight (stren) to the particle number corresponding to that area bin times assumed the conductance per particle (gpart)
+
+// For the global integration model (backwards == 1):
+// We choose synaptic conductance values (stren) that lead to a similar amount of somatic depolarization for inputs at all locations on the branch
+// This distribution increases approximately linearly from branch origin to branch end
+// We require that total synaptic conductance for all apical oblique branches together be the same in the two models (it will only be approximately the same for each branch).
+
+proc chooseweight() {
+
+	num2 = randdist.uniform(0,100)
+	variable_domain(&highindex, 0, 2^32-1)	
+
+	if (backwards == 0) {
+		if (id3_id(x)/len <= .33) { loc = 0 }
+		if (id3_id(x)/len > .33 && id3_id(x)/len < .67) { loc = 8 }
+		if (id3_id(x)/len >= .67) { loc = 16 }
+
+		if (num2 <= ar.x[1+loc]) { stren = gpart*part.x[1] }
+		if (num2 > ar.x[1+loc] && num2 <= ar.x[2+loc]) { stren = gpart*part.x[2] }
+		if (num2 > ar.x[2+loc] && num2 <= ar.x[3+loc]) { stren = gpart*part.x[3] }
+		if (num2 > ar.x[3+loc] && num2 <= ar.x[4+loc]) { stren = gpart*part.x[4] }
+		if (num2 > ar.x[4+loc] && num2 <= ar.x[5+loc]) { stren = gpart*part.x[5] }
+		if (num2 > ar.x[5+loc] && num2 <= ar.x[6+loc]) { stren = gpart*part.x[6] }
+		if (num2 > ar.x[6+loc] && num2 <= ar.x[7+loc]) { stren = gpart*part.x[7] }
+		if (num2 > ar.x[7+loc] && num2 <= ar.x[8+loc]) { stren = gpart*part.x[8] }
+	}
+	
+	if (backwards == 1) {	
+		if (x <= 0.1) 		 { stren = 0.212121212 }
+		if (x > 0.1 && x <= 0.2) { stren = 0.227272727 }
+		if (x > 0.2 && x <= 0.3) { stren = 0.234848485 }
+		if (x > 0.3 && x <= 0.4) { stren = 0.242424242 }
+		if (x > 0.4 && x <= 0.5) { stren = 0.25 }
+		if (x > 0.5 && x <= 0.6) { stren = 0.265151515 }
+		if (x > 0.6 && x <= 0.7) { stren = 0.28030303 }
+		if (x > 0.7 && x <= 0.8) { stren = 0.303030303 }
+		if (x > 0.8 && x <= 0.9) { stren = 0.318181818 }
+		if (x > 0.9) 		 { stren = 0.333333333 }
+
+		stren = stren/1000
+	}
+	
+	con[nsyns] = new NetCon(stim, syn[nsyns])
+	con[nsyns].weight = stren
+
+	// print "num2 ", num2, "loc ", loc, "stren ", stren
+
+}
+
+/*************************************************
+* output graphs                                  *
+*************************************************/
+
+tstop = tstop1
+
+objref volts
+objref g1
+
+proc mygraph() {
+	volts = new VBox()
+	volts.intercept(1)
+	g1 = new Graph() 
+	g1.addvar("dend[num1].sec.v(1.0)",1,0)
+	g1.addvar("dend[num1].sec.v(0.5)",2,0)
+	g1.addvar("soma.sec.v(0.5)",3,0)
+	g1.addvar("dend[num1].sec.v(0.0)",4,0)
+	g1.size(0,tstop,-75,0)
+	g1.yaxis(-75, 0, 0, 15, 5, 0, 1)
+	graphList[0].append(g1)
+	g1.save_name("graphList[0].")
+	g1.exec_menu("Keep Lines")
+	g1.exec_menu("View = Plot")
+	volts.intercept(0)
+	volts.map("voltages",300,75,600,600)
+}
+
+
+/*************************************************
+* main                                           *
+*************************************************/
+
+for br = br1, br2 {	// loop over branches
+	
+	if (br == 3 || br == 6 || br == 7) { continue }	 // skip branches that are < 50 microns long
+	
+	getlen()	// get the max end to end length for the branch
+	syndensity()	// calculate the synapse locations and fill the vector synloc
+	noreplacement()	// set all synapse IDs to zero so you choose the same synapse multiple times
+	mygraph()	// set up the plot of voltage (at several key branch locations) vs time
+	
+	for trials = 0, ntrials {	// loop over trials
+			
+		sp = 0			// initialize the flag sp to zero, it will be 1 when the branch spikes
+			
+		for nsyns = 1, numberofsyns {	// create numberofsyns synapses and choose their weights according to the model being simulated
+			choosesyn()
+			chooseweight()
+		}
+		nsyns = nsyns-1			// this is the number of synapses created
+		
+		run()	// run until tstop
+		
+		forsec d[br] {		// determine whether a dendritic spike was initiated (sp = 0 or 1)
+			for (x) {
+				if (vmax_dv(x) >= -35) {
+					sp = 1
+				}
+			}
+		}
+		
+		// print output to the screen and to a file
+		print "sp ", sp, "nsyns ", nsyns, "soma.sec.dvmax_dv ", soma.sec.dvmax_dv
+		sprint(scommand,"f.aopen(\"%s_%d.dat\")",fname, br)
+		execute(scommand)
+		f.printf("%d\t %d\t %f\n", sp, nsyns, soma.sec.dvmax_dv)
+		f.close()
+		
+		for ii = 1, nsyns {		// reset all synaptic weights to zero
+			con[ii].weight = 0
+		}
+		noreplacement()			// reset all synapse IDs to zero
+	
+	}	// end loop over trials
+}	// end loop over branches
+
+//quit()

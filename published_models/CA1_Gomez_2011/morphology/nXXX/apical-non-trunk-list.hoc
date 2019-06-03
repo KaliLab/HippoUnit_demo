@@ -1,0 +1,12 @@
+// This function makes a list with all sections on the apical dendrite
+// written by Jose Gomez, April 2006, jfcgomez@ull.es
+
+
+	objref apical_non_trunk_list
+	apical_non_trunk_list= new SectionList()
+	
+	forsec "apical_dendrite" {
+  		apical_non_trunk_list.append()
+	}
+	
+	

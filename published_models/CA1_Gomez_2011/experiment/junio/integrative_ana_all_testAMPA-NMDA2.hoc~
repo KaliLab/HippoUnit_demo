@@ -1,0 +1,690 @@
+
+objref g1,g2,g3,g4,Vbox3,Hbox3,Hbox4,g_ana1,g_ana2,g_ana3,g_ana4
+objref sr
+	//LOOK ALL THE CASES WHERE THERE IS PLOT I COMMENTED THEM
+proc plots(){
+
+
+	Vbox3=new VBox()
+	Vbox3.intercept(1)
+	    Hbox3=new HBox()
+	    Hbox3.intercept(1)
+		  addgraph("soma.v(0.5)",-70,-55)
+
+		  g1=new Graph()
+		  g1.size(0,tstop,-0.1,0.5*n_runs)
+		  g1.label(0.1,0.95, "Sum at soma")
+
+		  g3=new Graph()
+		  g3.label(0.1,0.95, "Diff soma")
+		  g3.size(0,tstop,-0.1,0.1)
+
+	    Hbox3.intercept(0)
+	    Hbox3.map()
+
+	    Hbox4=new HBox()
+	    Hbox4.intercept(1)
+		addgraph("sr.sec.v(0.5)",-70,-55)
+
+		g2=new Graph()
+		g2.size(0,tstop,-0.1,5*n_runs)
+		g2.label(0.1,0.95, "Sum at dendrite")
+
+
+		g4=new Graph()
+		g4.size(0,tstop,-0.5,2)
+		g4.label(0.1,0.95, "Diff dendrite")
+
+	    Hbox4.intercept(0)
+	    Hbox4.map()
+	Vbox3.intercept(0)
+	Vbox3.map()
+
+
+addgraph("sr.sec.ica_car(0.5)",-0.09,0)
+addgraph("sr.sec.ica_calH(0.5)",-0.09,0)
+		//addgraph("sr.sec.ica_cat(0.5)",-0.09,0)
+
+
+}
+
+
+
+
+
+
+//-----------------------------------------EXPERIMENT------------------------------------------
+
+experiments = 1                 // number of experiments to run
+
+all_synapses=n_runs    // total number of AMPA/NMDA synapses used
+tmp_dim=all_synapses
+
+objref ampa[tmp_dim], nmda[tmp_dim], gabaa[tmp_dim], gabab[tmp_dim]
+objref ampa2[tmp_dim], nmda2[tmp_dim]
+objref  nc1[tmp_dim], nc2[tmp_dim], nc3[tmp_dim], nc4[tmp_dim]
+objref  nc1_2[tmp_dim], nc2_2[tmp_dim]
+objref ampa_bg[back_syne], nmda_bg[back_syne], gabaa_bg[back_syni], gabab_bg[back_syni]
+
+
+objref vsoma, vapical,dif_vsoma, dif_vapical, dif_sum_vsoma, dif_sum_vapical
+objref somaref, apicalref, dif_somaref,dif_apicalref,sum_somaref,sum_apicalref, dif_sum_somaref,dif_sum_apicalref
+objref max_sum_vsoma, max_sum_vapical, mean_sum_vsoma,mean_sum_vapical
+objref max_dif_vsoma, max_dif_vapical,max_dif_sum_vsoma, max_dif_sum_vapical
+objref analysisref,fileref
+objref vsoma_c, vapical_c, dif_vsoma_c, dif_vapical_c
+objref max_vsoma_c, max_vapical_c, mean_vsoma_c,mean_vapical_c
+objref max_dif_vsoma_c, max_dif_vapical_c
+
+
+objref vapical_car,vapical_calH,vapical_car_c,vapical_calH_c
+
+objref max_vsoma_c_matrix,max_vapical_c_matrix,max_dif_vsoma_c_matrix,max_dif_vapical_c_matrix,mean_vsoma_c_matrix,mean_vapical_c_matrix
+
+objref max_vsoma_matrix,max_vapical_matrix,max_dif_vsoma_matrix,max_dif_vapical_matrix,mean_vsoma_matrix,mean_vapical_matrix
+
+
+sum_vsoma=new Vector(tstop/dt+1)
+sum_vapical=new Vector(tstop/dt+1)
+sum_vsoma.fill(0)
+sum_vapical.fill(0)
+max_sum_vsoma=new Vector(n_runs)
+max_sum_vapical=new Vector(n_runs)
+max_dif_vsoma=new Vector(n_runs)
+max_dif_vapical=new Vector(n_runs)
+max_dif_sum_vsoma=new Vector(n_runs)
+max_dif_sum_vapical=new Vector(n_runs)
+mean_sum_vsoma=new Vector(n_runs)
+mean_sum_vapical=new Vector(n_runs)
+
+max_vsoma_c=new Vector(n_runs)
+max_vapical_c=new Vector(n_runs)
+max_dif_vsoma_c=new Vector(n_runs)
+max_dif_vapical_c=new Vector(n_runs)
+mean_vsoma_c=new Vector(n_runs)
+mean_vapical_c=new Vector(n_runs)
+
+max_vsoma_c_matrix=new Matrix(n_runs,1 )
+max_vapical_c_matrix=new Matrix(n_runs,1)
+max_dif_vsoma_c_matrix=new Matrix(n_runs,1)
+max_dif_vapical_c_matrix=new Matrix(n_runs,1)
+mean_vsoma_c_matrix=new Matrix(n_runs,1)
+mean_vapical_c_matrix=new Matrix(n_runs,1)
+
+max_vsoma_matrix=new Matrix(n_runs,1 )
+max_vapical_matrix=new Matrix(n_runs,1)
+max_dif_vsoma_matrix=new Matrix(n_runs,1)
+max_dif_vapical_matrix=new Matrix(n_runs,1)
+mean_vsoma_matrix=new Matrix(n_runs,1)
+mean_vapical_matrix=new Matrix(n_runs,1)
+
+
+apical_tipl=new SectionList()                     // make a list of all apical oblique dendrites
+forsec apical_tip_list {
+       apical_tipl.append()
+}
+
+
+hertz=var_AMPA.number
+objref somaref, apicalref          // frequency of stimulation for AMPA/NMDA synapses
+gaba_hertz=var_GABAa.number                   // frequency of stimulation for GABA synapses
+
+
+
+
+cluster_n=init_cluster_number
+//-------------- SAVE the informtation of Parameter  file---------------
+objref  vf
+vf=new File()
+        vf.aopen(tmpstr)
+     vf.printf("../Date%g: Time %g\nBACK_GROUND=%d\n",day_date,time_date,BACK_GROUND)
+     vf.printf("Simulation time (ms)= %g\nNumber of synapsis= %g\nAsynchronous input pattern \(ms\)=%g\n",sim_stop,n_runs,asyn)
+vf.printf("---- %s ----\n",comment)
+     vf.printf("check_AMPA= %g, alfa (alfa*weight)=%g\n", check_AMPA, alfa_AMPA)
+     vf.printf("%s : %g\n","var_AMPA.start",var_AMPA.start)
+     vf.printf("%s : %g\n","var_AMPA.number", 	var_AMPA.number)
+     vf.printf("%s : %g\n","var_AMPA.interval", var_AMPA.interval)
+     vf.printf("%s : %g\n","var_AMPA.noise", 	var_AMPA.noise)
+     vf.printf("%s : %g\n","var_AMPA.burst", 	var_AMPA.burst)
+     vf.printf("%s : %g\n\n","var_AMPA.delay_stim", 	var_AMPA.delay_stim)
+     vf.printf("check_NMDA= %g, alfa (alfa*weight)=%g\n", check_NMDA, alfa_NMDA)
+     vf.printf("%s : %g\n","var_NMDA.start", 	var_NMDA.start)
+     vf.printf("%s : %g\n","var_NMDA.number", 	var_NMDA.number)
+     vf.printf("%s : %g\n","var_NMDA.interval", var_NMDA.interval)
+     vf.printf("%s : %g\n","var_NMDA.noise", 	var_NMDA.noise)
+     vf.printf("%s : %g\n","var_NMDA.burst", 	var_NMDA.burst)
+     vf.printf("%s : %g\n\n","var_NMDA.delay_stim", 	var_NMDA.delay_stim)
+     vf.printf("check_GABAa= %g, alfa (alfa*weight)=%g\n", check_GABAa, alfa_GABAa)
+     vf.printf("%s : %g\n","var_GABAa.start", 	var_GABAa.start)
+     vf.printf("%s : %g\n","var_GABAa.number", 	var_GABAa.number)
+     vf.printf("%s : %g\n","var_GABAa.interval", var_GABAa.interval)
+     vf.printf("%s : %g\n","var_GABAa.noise", 	var_GABAa.noise)
+     vf.printf("%s : %g\n","var_GABAa.burst", 	var_GABAa.burst)
+     vf.printf("%s : %g\n\n","var_GABAa.delay_stim", 	var_GABAa.delay_stim)
+     vf.printf("check_GABAb= %g, alfa (alfa*weight)=%g\n", check_GABAb, alfa_GABAb)
+     vf.printf("%s : %g\n","var_GABAb.start", 	var_GABAb.start)
+     vf.printf("%s : %g\n","var_GABAb.number", 	var_GABAb.number)
+     vf.printf("%s : %g\n","var_GABAb.interval", var_GABAb.interval)
+     vf.printf("%s : %g\n","var_GABAb.noise", 	var_GABAb.noise)
+     vf.printf("%s : %g\n","var_GABAb.burst", 	var_GABAb.burst)
+    vf.printf("%s : %g\n\n","var_GABAb.delay_stim", 	var_GABAb.delay_stim)
+
+vf.close()
+// ---------------- end Parameter file ------
+
+
+
+
+
+
+eiter=0
+ii=-1
+col=0
+
+
+
+
+//forsec apical_non_trunk_list{
+
+//       for(x){
+
+//gbar_kdBG=0.00036
+//gkabar_kad=0
+//gkabar_kap=0.0075
+//g_pas=5.27246e-6
+//e_pas=-70  //-71.6633
+
+
+//       }
+
+
+//}
+
+
+
+forsec apical_non_trunk_list{
+ 	sr=new SectionRef()
+	ii=ii+1
+
+
+//-----------------------------------------------------
+
+//Young Neuron
+
+if(ID_cell==1){	//n123
+//	if ((ii!=1)&&(ii!=2)&&(ii!=29)){continue}
+	if ((ii!=1)){continue}
+}
+
+if(ID_cell==2){	//n125
+//	if ((ii!=65)&&(ii!=66)&&(ii!=69)&&(ii!=70)&&(ii!=71)){continue}
+//	if ((ii!=65)&&(ii!=66)){continue}
+	if ((ii!=65)){continue}
+}
+
+if(ID_cell==3){	//n128
+//	if ((ii!=81)&&(ii!=108)&&(ii!=87)&&(ii!=80)){continue}
+//	if ((ii!=87)&&(ii!=80)){continue}
+	if ((ii!=87)){continue}
+}
+
+if(ID_cell==4){	//n129
+//	if ((ii!=7)&&(ii!=3)&&(ii!=73)&&(ii!=84)){continue}
+//	if ((ii!=3)&&(ii!=73)&&(ii!=84)){continue}
+	if ((ii!=3)){continue}
+}
+
+if(ID_cell==5){	//n130
+//	if ((ii!=179)&&(ii!=189)&&(ii!=236)&&(ii!=237)){continue}
+	if ((ii!=179)){continue}
+}
+
+//Aged Neuron
+
+if(ID_cell==6){	//n170
+	
+if ((ii!=6)&&(ii!=7)&&(ii!=9)&&(ii!=10)&&(ii!=13)&&(ii!=14)&&(ii!=20)&&(ii!=21)&&(ii!=24)&&(ii!=27)&&(ii!=32)&&(ii!=33)&&(ii!=40)&&(ii!=41)&&(ii!=42)&&(ii!=43)&&(ii!=95)&&(ii!=96)&&(ii!=101)){continue}
+	}
+
+	if(ID_cell==7){	//n172
+		if ((ii!=1)&&(ii!=2)&&(ii!=6)&&(ii!=8)&&(ii!=10)&&(ii!=11)&&(ii!=13)&&(ii!=14)&&(ii!=18)&&(ii!=19)&&(ii!=20)&&(ii!=26)&&(ii!=27)&&(ii!=30)&&(ii!=31)&&(ii!=32)&&(ii!=34)&&(ii!=84)&&(ii!=142)){continue}
+	}
+
+//	if(ID_cell==8){	//n175
+//		if ((ii!=9)&&(ii!=10)&&(ii!=11)&&(ii!=20)&&(ii!=21)&&(ii!=23)&&(ii!=24)&&(ii!=25)&&(ii!=27)&&(ii!=60)&&(ii!=61)&&(ii!=109)){continue}
+//	}
+
+	if(ID_cell==8){	//n178
+		if ((ii!=11)&&(ii!=12)&&(ii!=14)&&(ii!=17)&&(ii!=18)&&(ii!=21)&&(ii!=22)&&(ii!=24)&&(ii!=25)&&(ii!=27)&&(ii!=32)&&(ii!=33)&&(ii!=117)){continue}
+	}
+
+	if(ID_cell==9){ //n180
+		if ((ii!=1)&&(ii!=3)&&(ii!=5)&&(ii!=8)&&(ii!=10)&&(ii!=11)&&(ii!=13)&&(ii!=14)&&(ii!=15)&&(ii!=16)&&(ii!=17)){continue}
+	}
+	if(ID_cell==10){ //n182
+		if ((ii!=2)&&(ii!=3)&&(ii!=4)&&(ii!=11)&&(ii!=12)){continue}
+	}
+
+
+
+
+
+//-----------------------------------------------------
+
+
+//plots()
+
+col+=1
+
+max_vsoma_matrix.resize(n_runs,col)
+max_vapical_matrix.resize(n_runs,col)
+max_dif_vsoma_matrix.resize(n_runs,col)
+max_dif_vapical_matrix.resize(n_runs,col)
+mean_vsoma_matrix.resize(n_runs,col )
+mean_vapical_matrix.resize(n_runs,col)
+
+
+max_vsoma_c_matrix.resize(n_runs,col)
+max_vapical_c_matrix.resize(n_runs,col)
+max_dif_vsoma_c_matrix.resize(n_runs,col)
+max_dif_vapical_c_matrix.resize(n_runs,col)
+mean_vsoma_c_matrix.resize(n_runs,col )
+mean_vapical_c_matrix.resize(n_runs,col)
+
+
+
+
+ dendrite2test=secname()
+
+   print " --------- Experiment ", eiter,dendrite2test,"distance ",Distance.x[ii],"L= ",sr.sec.L
+
+
+   sprint(econ.syscmd,  "mkdir -p %s", econ.data_dir) 
+   system(econ.syscmd)                       // make a directory for this experiment
+
+
+  for runs=0,n_runs-1 {
+//for runs=0,0 {
+ 
+     if (runs==0){splot=new Shape()}else{splot.point_mark_remove()}  
+      COLOR=1+runs
+      rpid=new Random(runs+eiter)
+      PID=int(rpid.uniform(1,10000))  // random seed for AMPA/NMDA synapses
+      PID=-PID // choose branchwise  
+      rpid=new Random(runs+eiter+1)
+      PIDh=int(rpid.uniform(1,10000)) // random seed for GABA synapses
+ 
+      lo=70                           // smallest distance of selected obliques from soma
+      hi=10000                        // maximum  distance of selected obliques from soma
+//************** MIRAR ESTA band	
+      band=new SynapseBand(apical_tipl,lo,hi,actual_resolution,desired_resolution,PID)
+ 
+      synapses_alloced=0              // initialize AMPA/NMDA synapse counter
+      gaba_synapses=0                 // initialize GABA synapse counter 
+ 
+    
+  
+    // run cluster allocation proceedure
+print "-------------- runs  ", runs
+cluster_salloc(runs+1,var_AMPA,var_NMDA,var_GABAa,var_GABAb,cluster_n,init_cluster_size,cluster_sizeA,cluster_sizeB,sr.sec.L)  
+
+
+cluster_smean_sum_vsomaizeA+=cluster_stepA
+cluster_sizeB+=cluster_stepB
+
+
+
+vsoma=new Vector(tstop/dt)                    // record voltage at soma and store in vector vsoma  
+vsoma.record(&soma.v(0.5))
+
+vapical=new Vector(tstop/dt)         // record voltage at apical dendrite and store in vector vapical  
+vapical.record(&sr.sec.v(0.5))
+
+//vapical_car=new Vector(tstop/dt)
+//vapical_car.record(&sr.sec.ica_car(0.5))
+//vapical_calH=new Vector(tstop/dt)
+//vapical_calH.record(&sr.sec.ica_calH(0.5))
+//vapical_cat=new Vector(tstop/dt)
+//vapical_cat.record(&sr.sec.ica_cat(0.5))       
+       
+       run()
+
+
+//-------------------------------------- Analysis -------------------------------
+
+
+vsoma.add(-v_init)		// with this I put the vsoma base line in 0, v_init is the Membrane Potential
+vapical.add(-v_init)		// with this I put the vapical base line in 0, v_init is the Membrane Potential
+	
+sum_vsoma.add(vsoma)		// suma_vsoma has the arithmetric summ of the wave for different individual events at the SOMA 
+sum_vapical.add(vapical)	// suma_vapical has the arithmetric summ of the wave for different individual events at the DENDRITE 
+
+
+max_sum_vsoma.x[runs]=sum_vsoma.max()		//Expected EPSP(mV) peak at Soma
+max_sum_vapical.x[runs]=sum_vapical.max()	//Expected EPSP(mV) peak at Dendrite
+
+mean_sum_vsoma.x[runs]=sum_vsoma.mean(int(var_AMPA.delay_stim/dt+1),int(tstop/dt)) 	//Expected mean EPSP (mv) at Soma 
+mean_sum_vapical.x[runs]=sum_vapical.mean(int(var_AMPA.delay_stim/dt+1),int(tstop/dt))	//Expected mean EPSP (mv) at Dendrite
+
+
+//     --------  Analysis of the dV/dt ---------
+
+//dif_vsoma=new Vector(tstop/dt)
+//dif_vapical=new Vector(tstop/dt) 
+//dif_vsoma.deriv(vsoma,dt,2)		// It calculates the derivative at Soma
+//dif_vapical.deriv(vapical,dt,2)		// It calculates the derivative at Dendrite
+
+//dif_sum_vsoma=new Vector(tstop/dt)
+//dif_sum_vapical=new Vector(tstop/dt)
+//dif_sum_vsoma.deriv(sum_vsoma,dt,2)		//It calculates the derivate at the Arithmetic summ at Soma
+//dif_sum_vapical.deriv(sum_vapical,dt,2)		//It calculates the derivate at the Arithmetic summ at Dendrite
+
+
+//max_dif_vsoma.x[runs]=dif_vsoma.max()		//Expected dV/dt (V/s) peak at Soma
+//max_dif_vapical.x[runs]=dif_vapical.max()	//Expected dV/dt (V/s) peak at Dendrite
+
+
+//max_dif_sum_vsoma.x[runs]=dif_sum_vsoma.max()		//Expected peak of derivate of the Arithmetic summ at Soma
+//max_dif_sum_vapical.x[runs]=dif_sum_vapical.max()	//Expected peak of derivate of the Arithmetic summ at Dendrite
+
+
+//max_vsoma_matrix.x[runs][col-1]=sum_vsoma.max()		//Expected EPSP(mV) peak at Soma
+//max_vapical_matrix.x[runs][col-1]=sum_vapical.max()	//Expected EPSP(mV) peak at Dendrite
+//max_dif_vsoma_matrix.x[runs][col-1]=dif_sum_vsoma.max()		//Expected dV/dt (V/s) peak at Soma
+//max_dif_vapical_matrix.x[runs][col-1]=dif_sum_vapical.max()	//Expected dV/dt (V/s) peak at Dendrite
+//mean_vsoma_matrix.x[runs][col-1]=sum_vsoma.mean(int(var_AMPA.delay_stim/dt+1),int(tstop/dt)) 	//Expected mean EPSP (mv) at Soma 
+//mean_vapical_matrix.x[runs][col-1]=sum_vapical.mean(int(var_AMPA.delay_stim/dt+1),int(tstop/dt))//Expected mean EPSP (mv) at Dendrite
+
+
+
+
+
+
+//---------------------------------------  To Save waves ---------------------------
+sprint(tmpstr,"%s/soma_%s", econ.data_dir,dendrite2test)
+   sprint(econ.syscmd,  "mkdir -p %s", tmpstr)
+   system(econ.syscmd)                       // make a directory for this experiment
+
+sprint(tmpstr,"%s/apical_%s", econ.data_dir,dendrite2test)
+   sprint(econ.syscmd,  "mkdir -p %s", tmpstr) 
+   system(econ.syscmd)                       // make a directory for this experiment
+
+
+
+strdef temp
+somaref=new File()			// Save the SOMA record
+sprint(temp, "%s/soma_%s/soma_%s_%g.dat", econ.data_dir,dendrite2test,dendrite2test,runs)
+somaref.wopen(temp)
+vsoma.printf(somaref, "%f\n")
+somaref.close()   
+
+apicalref=new File()			// Save the DENDRITE record
+sprint(temp, "%s/apical_%s/apical_%s_%g.dat", econ.data_dir,dendrite2test,dendrite2test,runs)
+apicalref.wopen(temp)
+vapical.printf(apicalref, "%f\n")
+apicalref.close()   
+
+
+//apicalref=new File()			// Save the DENDRITE record Calcium calH
+//sprint(temp, "%s/apical_%s/apical_calH_%s_%g.dat", econ.data_dir,dendrite2test,dendrite2test,runs)
+//apicalref.wopen(temp)
+//vapical_calH.printf(apicalref, "%f\n")
+//apicalref.close()
+
+//apicalref=new File()			// Save the DENDRITE record Calcium car
+//sprint(temp, "%s/apical_%s/apical_car_%s_%g.dat", econ.data_dir,dendrite2test,dendrite2test,runs)
+//apicalref.wopen(temp)
+//vapical_car.printf(apicalref, "%f\n")
+//apicalref.close()
+
+
+//dif_somaref=new File()			// Save the dif. SOMA 
+//sprint(temp, "%s/soma_%s/dif_soma_%s_%g.dat", econ.data_dir,dendrite2test,dendrite2test,runs)
+//dif_somaref.wopen(temp)
+//dif_vsoma.printf(dif_somaref, "%f\n")
+//dif_somaref.close()   
+
+//dif_apicalref=new File()		// Save the dif. DENDRITE
+//sprint(temp, "%s/apical_%s/dif_apical_%s_%g.dat", econ.data_dir,dendrite2test,dendrite2test,runs)
+//dif_apicalref.wopen(temp)
+//dif_vapical.printf(dif_apicalref, "%f\n")
+//dif_apicalref.close()
+
+
+//sum_somaref=new File()			// Save the partial Arithmetic summ at SOMA
+//sprint(temp, "%s/soma_%s/sum_soma_%s_%g.dat", econ.data_dir,dendrite2test,dendrite2test,runs)
+//sum_somaref.wopen(temp)
+//sum_vsoma.printf(sum_somaref, "%f\n")
+//sum_somaref.close()   
+
+//sum_apicalref=new File()		// Save the partial Arithmetic summ at DENDRITE
+//sprint(temp, "%s/apical_%s/sum_apical_%s_%g.dat", econ.data_dir,dendrite2test,dendrite2test,runs)
+//sum_apicalref.wopen(temp)
+//sum_vapical.printf(sum_apicalref, "%f\n")
+//sum_apicalref.close()   
+
+
+//dif_sum_somaref=new File()			// Save the dif. SOMA 
+//sprint(temp, "%s/soma_%s/dif_sum_soma_%s_%g.dat", econ.data_dir,dendrite2test,dendrite2test,runs)
+//dif_sum_somaref.wopen(temp)
+//dif_vsoma.printf(dif_sum_somaref, "%f\n")
+//dif_sum_somaref.close()   
+
+//dif_sum_apicalref=new File()		// Save the dif. DENDRITE
+//sprint(temp, "%s/apical_%s/dif_sum_apical_%s_%g.dat", econ.data_dir,dendrite2test,dendrite2test,runs)
+//dif_sum_apicalref.wopen(temp)
+//dif_sum_vapical.printf(dif_sum_apicalref, "%f\n")
+//dif_sum_apicalref.close()   
+
+
+
+
+//------------------------------------- Graph ----------------------------------------
+
+//sum_vsoma.plot(g1,dt)
+//sum_vapical.plot(g2,dt)
+//dif_vsoma.plot(g3,dt)
+//dif_vapical.plot(g4,dt)
+
+
+  }  // end of runs
+
+//	xopen_filehoc(".","attachExpect")    //------------------------ SAVE MATRIX
+
+//------------------------------ SAVE ANALYSIS -------------------
+
+ //sprint(tmpstr,"%s/Expected/max_dif_apical", econ.data_dir)
+ //  sprint(econ.syscmd,  "mkdir -p %s", tmpstr)
+ //  system(econ.syscmd)                       // make a directory for this experiment
+
+
+//sprint(tmpstr,"%s/Expected/max_dif_soma", econ.data_dir)
+//   sprint(econ.syscmd,  "mkdir -p %s", tmpstr) 
+//   system(econ.syscmd)                       // make a directory for this experiment
+
+
+//sprint(tmpstr,"%s/Expected/max_dif_sum_apical", econ.data_dir)
+//   sprint(econ.syscmd,  "mkdir -p %s", tmpstr) 
+//   system(econ.syscmd)                       // make a directory for this experiment
+
+//sprint(tmpstr,"%s/Expected/max_dif_sum_soma", econ.data_dir)
+//   sprint(econ.syscmd,  "mkdir -p %s", tmpstr) 
+//   system(econ.syscmd)                       // make a directory for this experiment
+
+//sprint(tmpstr,"%s/Expected/max_sum_apical", econ.data_dir)
+//   sprint(econ.syscmd,  "mkdir -p %s", tmpstr) 
+//   system(econ.syscmd)                       // make a directory for this experiment
+
+//sprint(tmpstr,"%s/Expected/max_sum_soma", econ.data_dir)
+//   sprint(econ.syscmd,  "mkdir -p %s", tmpstr) 
+//   system(econ.syscmd)                       // make a directory for this experiment
+
+//sprint(tmpstr,"%s/Expected/mean_sum_apical", econ.data_dir)
+//   sprint(econ.syscmd,  "mkdir -p %s", tmpstr) 
+//   system(econ.syscmd)                       // make a directory for this experiment
+
+//sprint(tmpstr,"%s/Expected/mean_sum_soma", econ.data_dir)
+//   sprint(econ.syscmd,  "mkdir -p %s", tmpstr) 
+//   system(econ.syscmd)                       // make a directory for this experiment
+
+
+
+//analysisref=new File()			// Save the MAX of summed SOMA
+//sprint(temp, "%s/Expected/max_sum_soma/max_sum_soma_%s_%g.dat", econ.data_dir,dendrite2test,runs)
+//analysisref.wopen(temp)
+//max_sum_vsoma.printf(analysisref, "%f\n")
+//analysisref.close()  
+
+//analysisref=new File()			// Save the MAX of summed DENDRITE
+//sprint(temp, "%s/Expected/max_sum_apical/max_sum_apical_%s_%g.dat", econ.data_dir,dendrite2test,runs)
+//analysisref.wopen(temp)
+//max_sum_vapical.printf(analysisref, "%f\n")
+//analysisref.close()  
+
+
+//analysisref=new File()			// Save the MEAN of summed SOMA
+//sprint(temp, "%s/Expected/mean_sum_soma/mean_sum_soma_%s_%g.dat", econ.data_dir,dendrite2test,runs)
+//analysisref.wopen(temp)
+//mean_sum_vsoma.printf(analysisref, "%f\n")
+//analysisref.close()  
+
+
+//analysisref=new File()			// Save the MEAN of summed DENDRITE
+//sprint(temp, "%s/Expected/mean_sum_apical/mean_sum_apical_%s_%g.dat", econ.data_dir,dendrite2test,runs)
+//analysisref.wopen(temp)
+//mean_sum_vapical.printf(analysisref, "%f\n")
+//analysisref.close()  
+
+
+//analysisref=new File()			// Save the MAX of summed SOMA
+//sprint(temp, "%s/Expected/max_dif_soma/max_dif_soma_%s_%g.dat", econ.data_dir,dendrite2test,runs)
+//analysisref.wopen(temp)
+//max_dif_vsoma.printf(analysisref, "%f\n")
+//analysisref.close()  
+
+
+//analysisref=new File()			// Save the MAX of summed DENDRITE
+//sprint(temp, "%s/Expected/max_dif_apical/max_dif_apical_%s_%g.dat", econ.data_dir,dendrite2test,runs)
+//analysisref.wopen(temp)
+//max_dif_vapical.printf(analysisref, "%f\n")
+//analysisref.close()  
+
+
+
+//analysisref=new File()			// Save the MAX of summed SOMA
+//sprint(temp, "%s/Expected/max_dif_sum_soma/max_dif_sum_soma_%s_%g.dat", econ.data_dir,dendrite2test,runs)
+//analysisref.wopen(temp)
+//max_dif_sum_vsoma.printf(analysisref, "%f\n")
+//analysisref.close()  
+
+
+//analysisref=new File()			// Save the MAX of summed DENDRITE
+//sprint(temp, "%s/Expected/max_dif_sum_apical/max_dif_sum_apical_%s_%g.dat", econ.data_dir,dendrite2test,runs)
+//analysisref.wopen(temp)
+//max_dif_sum_vapical.printf(analysisref, "%f\n")
+//analysisref.close() 
+
+
+
+// --------------------- EXPERIMENT WITH CLUSTER (measured EPSP)---------------
+
+	xopen_filehoc(".","dir_to_CLUSTER")		// make a directory for this experiment
+
+ for runs=0,n_runs-1{
+
+// if((runs!=5)) {continue}
+//	if((runs!=0)&&(runs!=1)&&(runs!=2)&&(runs!=3)&&(runs!=5)&&(runs!=18)&&(runs!=19)&&(runs!=20)&&(runs!=21)&&(runs!=22)) {continue} 
+ //if((runs!=0)&&(runs!=1)&&(runs!=2)&&(runs!=15)&&(runs!=16)&&(runs!=17)) {continue} 
+	splot.point_mark_remove()
+	COLOR=1+runs
+	synapses_alloced =0
+	cluster_salloc(-runs-1,var_AMPA,var_NMDA,var_GABAa,var_GABAb,cluster_n,init_cluster_size,cluster_sizeA,cluster_sizeB,sr.sec.L)
+	vsoma.record(&soma.v(0.5))
+	vapical.record(&sr.sec.v(0.5))  
+
+
+	vsoma_c=new Vector(tstop/dt)                    // record voltage at soma and store in vector vsoma_c
+	vsoma_c.record(&soma.v(0.5))
+
+	vapical_c=new Vector(tstop/dt)         // record voltage at apical dendrite and store in vector vapical_c  
+	vapical_c.record(&sr.sec.v(0.5))
+
+	vapical_car_c=new Vector(tstop/dt)
+	vapical_car_c.record(&sr.sec.ica_car(0.5))
+	vapical_calH_c=new Vector(tstop/dt)
+	vapical_calH_c.record(&sr.sec.ica_calH(0.5))
+
+	run()
+
+	vsoma_c.add(-v_init)
+	vapical_c.add(-v_init)
+
+	max_vsoma_c.x[runs]=vsoma_c.max()		//Expected EPSP(mV) peak at Soma
+	max_vapical_c.x[runs]=vapical_c.max()	//Expected EPSP(mV) peak at Dendrite
+
+	mean_vsoma_c.x[runs]=vsoma_c.mean(int(var_AMPA.delay_stim/dt+1),int(tstop/dt)) 	//Expected mean EPSP (mv) at Soma
+	mean_vapical_c.x[runs]=vapical_c.mean(int(var_AMPA.delay_stim/dt+1),int(tstop/dt))//Expected mean EPSP (mv) at Dendrite
+
+
+//	dif_vsoma_c=new Vector(tstop/dt)
+//	dif_vapical_c=new Vector(tstop/dt) 
+//	dif_vsoma_c.deriv(vsoma_c,dt,2)		// It calculates the derivative at Soma
+//	dif_vapical_c.deriv(vapical_c,dt,2)	// It calculates the derivative at Dendrite
+
+//	max_dif_vsoma_c.x[runs]=dif_vsoma_c.max()		//Expected dV/dt (V/s) peak at Soma
+//	max_dif_vapical_c.x[runs]=dif_vapical_c.max()	//Expected dV/dt (V/s) peak at Dendrite
+
+
+
+//max_vsoma_c_matrix.x[runs][col-1]=vsoma_c.max()		//Expected EPSP(mV) peak at Soma
+//max_vapical_c_matrix.x[runs][col-1]=vapical_c.max()	//Expected EPSP(mV) peak at Dendrite
+//max_dif_vsoma_c_matrix.x[runs][col-1]=dif_vsoma_c.max()		//Expected dV/dt (V/s) peak at Soma
+//max_dif_vapical_c_matrix.x[runs][col-1]=dif_vapical_c.max()	//Expected dV/dt (V/s) peak at Dendrite
+//mean_vsoma_c_matrix.x[runs][col-1]=vsoma_c.mean(int(var_AMPA.delay_stim/dt+1),int(tstop/dt)) 	//Expected mean EPSP (mv) at Soma 
+//mean_vapical_c_matrix.x[runs][col-1]=vapical_c.mean(int(var_AMPA.delay_stim/dt+1),int(tstop/dt))//Expected mean EPSP (mv) at Dendrite
+
+
+//--------------------- SAVE DATA OF CLUSTER -------------------------------------
+   
+	xopen_filehoc(".","attach0")	// save the raw data
+
+}
+
+//	xopen_filehoc(".","attach")    //------------------------ SAVE ANALYSIS OF CLUSTER
+
+
+
+sum_vsoma.fill(0)
+sum_vapical.fill(0)
+
+}    // end of experiments to run
+
+/*
+strdef str_comand
+	if(ID_cell==1){	//n123
+		sprint(str_comand, "tar -cf datan123_%g_%g.tar datan123/",day_date,time_date) 
+	}
+
+	if(ID_cell==2){	//n125
+		sprint(str_comand, "tar -cf datan125_%g_%g.tar datan125/",day_date,time_date) 
+}
+
+	if(ID_cell==3){	//n128
+		sprint(str_comand, "tar -cf datan128_%g_%g.tar datan128/",day_date,time_date) 
+	}
+
+	if(ID_cell==4){	//n129
+		sprint(str_comand, "tar -cf datan129_%g_%g.tar datan129/",day_date,time_date) 
+	}
+
+	if(ID_cell==5){	//n130
+		sprint(str_comand, "tar -cf datan130_%g_%g.tar datan130/",day_date,time_date)  
+	}
+
+system(str_comand)
+
+*/
+
+ 
+
+

@@ -1,0 +1,55 @@
+// mosinit.hoc for mswin and unix version of Poirazi et al model. 6/22/04 TMM
+
+objref box
+
+// debug statements below remind me that new auto-launch starts up with
+// current directory (working directory) set to wherever mosinit.hoc is.
+// system("pwd")
+// print "press return"
+// system("read a")
+
+if (unix_mac_pc() ==1 ) { // note if your sys has stdlib.h and string.h this will work however
+			  // NEURON's mswin shell comes without these.  If cygwin is added to
+			  // your mswin system though you will receive these extra items.
+	system("cd ../lib; gcc -o newshiftsyn newshiftsyn.c -Ilib -lm")
+}
+
+if (unix_mac_pc() ==1 || unix_mac_pc() ==3 ) {
+	// system("cd lib; gcc -o newshiftsyn newshiftsyn.c -Ilib -lm")
+	load_file("nrngui.hoc")
+	objref box
+	box=new VBox()
+	box.intercept(1)
+		xpanel("")
+		xlabel("Sample Runs")
+		xbutton("hyperpolarization-current", "unix_hyper_cur()")
+		xlabel("Spike-Train-Attenutation")
+		xbutton("Hofman traces", "unix_spike_atten_hof()")
+		xbutton("Back Propagating APs", "unix_spike_atten_bpap()")
+		xpanel()
+	box.intercept(0)
+	box.map("Numerical Experiments")
+} else  {
+	print "not configured for mac yet"
+	print "press return"
+	read(a)
+	quit()
+}
+
+proc unix_hyper_cur() {
+	chdir("../experiment/hyperpolarization-current")
+	load_file("H_current.hoc")
+	chdir("..")	// back to one directory below root for other buttons to work
+}
+
+proc unix_spike_atten_hof() {
+	chdir("../experiment/spike-train-attenuation")
+	load_file("Hofman_traces.hoc")
+	chdir("..")	// back to one directory below root for other buttons to work
+}
+
+proc unix_spike_atten_bpap() {
+	chdir("../experiment/spike-train-attenuation")
+	load_file("bpap.hoc")
+	chdir("..")	// back to one directory below root for other buttons to work
+}

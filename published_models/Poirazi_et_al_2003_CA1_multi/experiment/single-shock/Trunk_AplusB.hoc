@@ -1,0 +1,416 @@
+// Single shock synaptic stimulation of two trunk sections simultaneously with 
+// groups of synapses A and B placed on each section.
+// This experiment is used to show how A+B type stimualtion can be sublinear, 
+// linear or supralinear depending on the strength and location of stimuli A,B. 
+
+// The variable "times" is used to select among a set of blockade cases to test
+// times: 0 = control , 1 = block_A, 2 =  block_NMDA, 3 = block_A_NMDA, 4 = block_Na, 5 =  block_Ca
+
+times = 0
+
+system("mkdir data")                // make directory for data produced
+//load_proc("nrnmainmenu")          
+load_file("nrngui.hoc")
+load_file("../../template/load_templates.hoc")
+//load_template("ExperimentControl")  // load needed templates
+//load_template("EPSPTuning")  
+//load_template("RangeRef")         
+
+objref econ                         // initialize template parameters
+show_errs=1
+debug_lev=1
+econ=new ExperimentControl(show_errs,debug_lev)
+econ.self_define(econ)
+econ.morphology_dir = "../../morphology/n123"                                // set location for morphology files
+econ.add_lib_dir("Terrence","../../lib")                                     // set location for library files
+econ.generic_dir    = "../../experiment/"                                    // set location for cell-setup file
+
+econ.data_dir  = "data"                                                      // create directory to store data
+sprint(econ.syscmd, "mkdir -p %s", econ.data_dir)
+system(econ.syscmd)
+
+econ.xopen_geometry_dependent("cell")                                        // load raw cell morphology	
+econ.xopen_geometry_dependent("cell-analysis")                               // load user-defined semantics on morphology
+cell_analysis(econ)
+
+printf("Opening cell setup\n")                                               // load cell-setup to	
+econ.xopen_generic("cell-setup")                                             // specify all mechanisms,	
+printf("Opened. Setting up cell\n")                                          // membrane properties etc
+cell_setup(econ)
+
+// Set simulation parameters for the experiment 
+
+econ.defvar("Simulation Control", "tstop", "250", "Defines when the simulation stops.")
+econ.defvar("Simulation Control", "dt", "0.1", "Timestep")
+econ.defvar("Simulation Control", "steps_per_ms", "10", "How many points are plotted per ms")
+setdt()
+
+// open files with NMDA/AMPA  ratios
+econ.xopen_geometry_dependent("nmda-ampa-ratio")
+
+// Open file with tuned AMPA conductance values for all sections
+strdef tunings_file, select, temp, accstr
+objref tune_epsp_list
+tune_epsp_list=new List()
+sprint(tunings_file, "%s", "tunings")
+xopen("../tune-synapses/tunings.dat")
+
+// Open library functions that will be needed
+
+econ.xopen_library("Terrence","choose-secs")    // used to randomly select sections from a list
+econ.xopen_library("Terrence","salloc")         // used to allocate synapses on sections
+econ.xopen_library("Terrence","deduce-ratio")   // used to extract NMDA/AMPA, GABA_A/AMPA and GABA_B/GABA_B ratios
+econ.xopen_library("Terrence","basic-graphics") // used to plot graphics 
+econ.xopen_library("Terrence","spikecount")     // used to count spikes
+
+all_synapses = 100                              // Maximum number of AMPA/NMDA synapses
+objref ampa[all_synapses], nmda[all_synapses], splot
+objref somavrec, vf, trunkrec, somarecf, dendrecf
+objref trunkl, vsoma, vtrunk[2], rpid, sl, Branch_ref[all_synapses]
+
+double synapses[2]
+synapses[0] = 0
+synapses[1] = 0
+max_cases = 24
+double all_syn[2*max_cases]
+
+//create all synapse pairs for stimuli A, B
+
+all_syn[0] = 2
+all_syn[1] = 2
+all_syn[2] = 2
+all_syn[3] = 4
+all_syn[4] = 4
+all_syn[5] = 2
+all_syn[6] = 4
+all_syn[7] = 4
+all_syn[8] = 2
+all_syn[9] = 6
+all_syn[10] = 6
+all_syn[11] = 2
+all_syn[12] = 4
+all_syn[13] = 6
+all_syn[14] = 6
+all_syn[15] = 4
+all_syn[16] = 2
+all_syn[17] = 8
+all_syn[18] = 8
+all_syn[19] = 2
+all_syn[20] = 6
+all_syn[21] = 6
+all_syn[22] = 4
+all_syn[23] = 8
+all_syn[24] = 8
+all_syn[25] = 4
+all_syn[26] = 6
+all_syn[27] = 8
+all_syn[28] = 8
+all_syn[29] = 6
+all_syn[30] = 2
+all_syn[31] = 10
+all_syn[32] = 10
+all_syn[33] = 2
+all_syn[34] = 4
+all_syn[35] = 10
+all_syn[36] = 10
+all_syn[37] = 4
+all_syn[38] = 8
+all_syn[39] = 8
+all_syn[40] = 6
+all_syn[41] = 10
+all_syn[42] = 10
+all_syn[43] = 6
+all_syn[44] = 8
+all_syn[45] = 10
+all_syn[46] = 10
+all_syn[47] = 8
+
+
+// Make a list of all trunk sections to choose sections from
+trunkl=new SectionList()
+forsec apical_trunk_list {
+    trunkl.append()
+}
+
+// keep only sections > 135 mu in the trunk list, as per Cash and Yuste, 1999
+
+apical_dendrite[0] trunkl.remove() // 14.30 microns 
+apical_dendrite[4] trunkl.remove() // 46.93
+apical_dendrite[6] trunkl.remove() // 46.65
+apical_dendrite[14]trunkl.remove() // 53.43
+apical_dendrite[15]trunkl.remove() // 59.87
+apical_dendrite[16]trunkl.remove() // 71.79
+apical_dendrite[22]trunkl.remove() // 73.83
+apical_dendrite[23]trunkl.remove() // 75.38
+apical_dendrite[25]trunkl.remove() // 94.46
+apical_dendrite[26]trunkl.remove() // 99.45
+apical_dendrite[27]trunkl.remove() // 122.79
+apical_dendrite[58]trunkl.remove() // too short
+
+// make a reference list for all sections used
+m=0
+forsec trunkl {
+   Branch_ref[m] = new SectionRef() 
+   m = m + 1
+}
+
+Deadtime_GLU=dt
+Deadtime_NMDA=dt
+hertz=2				              // frequency of stimulation for all synapses (single pulse)
+synch=0					      // synapses are stimulated randomly (NOT synchronously)
+perio=0					      // spike trains for each synapse are NOT periodic
+dendritic_spike_threshold=-25
+somatic_spike_threshold=0 
+
+//Create directory for data storage
+strdef dir_str,  recordsec
+sprint(dir_str, "data/%s/Trunk/",tunings_file) 
+sprint(econ.syscmd,  "mkdir -p %s", dir_str)                    // make the output directory
+system(econ.syscmd) 
+    
+
+//Proceedures for the different cases to be tested
+
+proc Ca_block(){   // Block all Ca++ channels
+  forall if(ismembrane("cat")) { 
+     for (x) { gcatbar_cat(x) = 0 }
+  }
+  forall if(ismembrane("calH")) { 
+     for (x) { gcalbar_calH(x) = 0 }
+  }
+  forall if(ismembrane("cal")) { 
+     for (x) { gcalbar_cal(x) = 0 }
+  }
+  forall if(ismembrane("car")) { 
+     for (x) { gcabar_car(x) = 0 }
+  }
+  forall if(ismembrane("somacar")) { 
+     for (x) { gcabar_somacar(x) = 0 }
+  }
+}
+
+proc Na_block(){  // Block all Na+ channels
+  forall if(ismembrane("hha2")) { 
+     for (x) { gnabar_hha2(x) = 0 }
+  }
+  forall if(ismembrane("hha_old")) { 
+     for (x) { gnabar_hha_old(x) = 0 }
+  }
+}
+
+proc NMDA_block(){  // Block NMDA current 
+ for i=0, synapses[0] + synapses[1] -1 {
+   nmda[i].gmax = 0  
+ }
+}
+
+proc A_block() {  // Block all A-type K+ channels 
+f = 0.2
+forall if(ismembrane("kad")) { // distal conductances
+     for(x) { gkabar_kad(x)= gkabar_kad(x)*f }
+  } else if(ismembrane("kap")) { // proximal conductances
+     for(x) { gkabar_kap(x)= gkabar_kap(x)*f }
+  }
+}
+
+proc A_NMDA_block(){ // block both A-current and NMDA current
+ NMDA_block()
+ A_block()
+}
+
+if (times == 0 || times == 2) {
+  temporal_offset = 10
+}else {
+  temporal_offset = 120
+}
+tstop = tstop + temporal_offset 
+
+addgraph_2("soma.v(0.5)",0,tstop, -72,-45)
+//addgraph_2("apical_dendrite[65].v(0.5)",0,tstop, -72,-45)
+//addgraph_2("apical_dendrite[62].v(0.5)",0,tstop, -72,-45)
+
+//Prepapre to record at soma
+vsoma=new Vector(tstop/dt)
+sprint(accstr, "vsoma.record(&soma.v(0.5))")
+execute1(accstr)
+
+
+r = 0
+for try = 1, 30  {   // try selecting a pair of trunk sections for 30 times
+    r = r + 1 
+    sl = new SectionList()
+    rpid = new Random(r-1)
+    PID = rpid.discunif(0,m) 
+    access Branch_ref[PID].sec  
+    secname() sl.append 
+    sprint(recordsec, "%s.v(0.5)",secname()) 
+    addgraph(recordsec,-72,0)  // plot voltage at currently accessed section
+    //apical_dendrite[65] sl.append()
+
+    rpid = new Random(r+1) 
+    PID = rpid.discunif(0,m)
+    access Branch_ref[PID].sec
+    secname() sl.append 
+    sprint(recordsec, "%s.v(0.5)",secname()) 
+    addgraph(recordsec,-72,0)  // plot voltage at currently accessed section
+    //apical_dendrite[62] sl.append()
+    forsec sl {
+      sprint(dir_str, "%s%s",  dir_str, secname()) // set directory name to section name 
+    }
+    for c = 0, max_cases-1 {   // for the sections selected, create all possible    
+       k=-1                     // A, B stimulation cases
+       splot=new Shape()        // make a shape graph 
+       all_synapses = 0         // initialize  
+       forsec sl {              // for both selected sections
+ 
+       // Define path step such that synapses are inserted
+       // in multiples of 2 microns around the center of the branch
+       
+       distance()           // set origin to 0
+       length = distance(1) // estimate branch length 
+       if ((length/2 - int(length/2)) >= 0.5) {
+         nseg = int(length/2) + 1
+       } else {
+         nseg = int(length/2)
+       }
+       xstep = 1/nseg      //step position corresponding to 2 um path steps 
+
+       if ((nseg/2 - int(nseg/2)) >= 0.5) {
+          xcenter = int(nseg/2) + 1  // center position corresponding to the middle of branch
+       } else {
+          xcenter = int(nseg/2)
+       }
+       k = k+1
+       synapses[k]= all_syn[2*c+k]  // get number of synapses to put in section     
+       //synapses[0]= 10  // manually set number of synapses in section one     
+       //synapses[1]= 2  // manually set number of synapses in section two  
+       
+       print secname(), "is where we assess potency."
+       COLOR=k+1
+       t = 0
+       if ( k > 0) { t = k*synapses[k-1] }
+       if (nseg < synapses[k]) {
+             nseg = synapses[k]
+             xstep = 1/nseg
+             if ((nseg/2 - int(nseg/2)) >= 0.5) {
+                xcenter = int(nseg/2) + 1  // center position corresponding to the middle of branch
+             } else {
+                xcenter = int(nseg/2)
+             }
+        }  
+      for si=1,int(synapses[k]/2) {  // if synapses is even, distribute around center
+             posn = (xcenter - si)*xstep        
+             ampa[t+2*si-2] = new GLU(posn)  
+             nmda[t+2*si-2] = new NMDA(posn) 
+             salloc2(ampa[t+2*si-2],nmda[t+2*si-2],posn,1,splot,COLOR)        
+             posn = (xcenter + si)*xstep 
+             ampa[t+2*si-1] = new GLU(posn)  
+             nmda[t+2*si-1] = new NMDA(posn)
+             salloc2(ampa[t+2*si-1],nmda[t+2*si-1],posn,1,splot,COLOR)         
+          } 
+          if (synapses[k]/2 - int(synapses[k]/2) > 0 ) { // if synapses is odd, place a synapse in the middle
+             posn = xcenter*xstep           
+             ampa[t+synapses[k]-1] = new GLU(posn)  
+             nmda[t+synapses[k]-1] = new NMDA(posn)
+             salloc2(ampa[t+synapses[k]-1],nmda[t+synapses[k]-1],posn,1,splot,COLOR)  
+          }
+
+       splot.flush()
+       splot.show(1)
+       all_synapses = all_synapses + synapses[k]    // update number of synapses allocated  
+    }    
+     GABA_flag = 0    // Don't make both AMPA/NMDA and GABA trains in shiftsyn_initA       
+     // create the stimulation trains for AMPA & NMDA synapses   
+     econ.xopen_library("Terrence","shiftsyn-initA")
+     shiftsyn_init(all_synapses,tstop,dt,hertz,synch,perio,PID,temporal_offset,GABA_flag)
+         
+     // Execute current-blockade proceedure specified 
+     
+     if (times == 0) {
+             sprint(select, "%s", "control")}  
+        if (times == 1) {
+             A_block()
+             sprint(select, "%s", "block_A_80")}
+        if (times == 2) {
+             NMDA_block() 
+             sprint(select, "%s", "block_NMDA")}
+        if (times == 3) {
+             A_NMDA_block() 
+             sprint(select, "%s", "block_A_NMDA")}
+        if (times == 4) {
+             Na_block()
+             sprint(select, "%s", "block_Na")}
+        if (times == 5) {
+             Ca_block()
+             sprint(select, "%s", "block_Ca")}
+
+     print "secname = ", secname(), " synapses[1] = ", synapses[0], " synapses[2] = ", synapses[1], "case = ", select
+  
+     somavrec=new Vector(tstop/dt)
+     somavrec.record(&soma.v(0.5)) // prepare to record at soma
+   
+     ind = 0
+     forsec sl {   //prepare to record at trunk sections
+        vtrunk[ind]=new Vector(tstop/dt)
+        sprint(accstr, "vtrunk[%d].record(&%s.v(0.5))", ind, secname())
+        execute1(accstr)
+        ind=ind+1
+     }
+     
+     finitialize(v_init)           // Initialize and run experiment
+     fcurrent()
+     run()
+  
+     meanvrec = somavrec.mean(temporal_offset/dt,tstop/dt -1)        // mean somatic depolarization
+     maxvrec = somavrec.max(temporal_offset/dt,tstop/dt -1)          // max somatic depolarization
+     soma_spikes =  spikecount(somavrec,somatic_spike_threshold)     // count current number of somatic spikes
+
+     sprint(econ.syscmd,  "mkdir -p %s", dir_str)                    // make the output directory
+     system(econ.syscmd) 
+    
+     vf=new File()
+     sprint(econ.tmp_str2, "%s/%s_AplusB", dir_str, select)             // create the output file
+     
+     // Print number of synapses in each section, mean and max somatic voltage and number of spikes
+     vf.aopen(econ.tmp_str2)
+     vf.printf("%d %g %g %g %g\n", synapses[0], synapses[1], meanvrec, maxvrec, soma_spikes)
+     vf.close()
+
+
+//Print somatic trace for stimulus condition A plus B
+
+objref somarecf
+somarecf=new File()
+sprint(temp, "%s/Vsoma_%d_%d", dir_str, synapses[0], synapses[1])
+somarecf.wopen(temp)
+vsoma.printf(somarecf, "%g\n")
+somarecf.close()
+
+//Print local dendritic traces for stimulus conditions A, B
+
+objref dendrecf
+ind=0
+forsec sl {
+   dendrecf=new File() 
+   sprint(temp, "%s/Vlocal_%d", dir_str, synapses[ind])
+   dendrecf.wopen(temp)
+   vtrunk[ind].printf(dendrecf, "%g\n")
+   dendrecf.close()
+   ind = ind + 1
+}
+
+//Print graphics to eps files
+  // econ.xopen_library("Terrence","verbose-system")
+   for i=0,windex {
+      sprint(econ.tmp_str, "%s", dir_str)
+      sprint(econ.tmp_str2, "%s/graph-syns=%d-%d-%d.eps",econ.tmp_str, synapses[0], synapses[1],i)      
+      win[i].printfile(econ.tmp_str2)
+  }
+
+  }
+}
+
+
+
+
+

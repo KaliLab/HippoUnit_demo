@@ -1,0 +1,168 @@
+// This experiment is used to study the effect of h-current on (1) input resistances and 
+// (2) propagation of hyperpolarizing voltage traces at the somatic and dendritic regions 
+// and show that model responses comply with physiological findings in Magee, J. C. (1998).
+// Dendritic hyperpolarization-activated currents modify the integrative
+// properties of hippocampal CA1 pyramidal neurons. J. Neurosci, 18 (19), 7613:7624. 
+
+load_file("nrngui.hoc")
+load_file("../../template/load_templates.hoc")
+// load_proc("nrnmainmenu")
+// load_template("ExperimentControl")  // load needed templates
+objref econ                         // initialize template parameters
+show_errs=1
+debug_lev=1
+econ=new ExperimentControl(show_errs,debug_lev)
+econ.self_define(econ)
+
+econ.morphology_dir = "../../morphology/n123"                                 // set location for morphology files
+econ.add_lib_dir("Terrence","../../lib")                                      // set location for library files
+econ.generic_dir    = "../../experiment/"                                     // set location for cell-setup file
+econ.data_dir       = "data"                                                  // set directory to store data
+
+if (unix_mac_pc()==1) {	// only the original unix platform currently is setup to write data files
+	sprint(econ.syscmd, "mkdir -p %s", econ.data_dir)
+	system(econ.syscmd)
+}
+
+econ.xopen_geometry_dependent("cell")                                        // load raw cell morphology 
+econ.xopen_geometry_dependent("cell-analysis")                               // load user-defined semantics on morphology
+cell_analysis(econ)
+
+printf("Opening cell setup\n")                                               // load cell-setup to
+econ.xopen_generic("cell-setup")                                             // specify all mechanisms,
+printf("Opened. Setting up cell\n")                                          // membrane properties etc
+cell_setup(econ)
+ 
+// Blockade procedure used
+
+proc h_block() {  // Block all h-channels by 80%
+f = 0.20
+forall if(ismembrane("h")) { 
+   for(x) {  gbar_h(x)= gbar_h(x)*f }
+   } 
+}
+
+
+access soma                                                                  // current injection at the soma
+//access apical_dendrite[71]                                                 // or a trunk section at  324.53 um
+
+//h_block()
+
+strdef data_dir
+data_dir = "data/tunings/Control/Soma_Inj"                         // define directory to save results for somatic injection
+//data_dir = "data/tunings/Control/Dend71_Inj"                    // define directory to save results for dendritic injection
+
+//data_dir = "data/tunings/Block_Ih/Soma_Inj"                     // define directory to save results for I_h blocked and somatic injection
+//data_dir = "data/tunings/Block_Ih/Dend71_Inj"                   // define directory to save results for I_h blocked and dendritic injection
+
+sprint(econ.syscmd,  "mkdir -p %s", data_dir)                               // make directory
+system(econ.syscmd) 
+
+// Set simulation parameters for the experiment 
+
+objref ic,ic2
+ic=new IClamp(0.5)
+
+econ.defvar("Simulation Control", "tstop", "300", "Defines when the simulation stops.")
+econ.defvar("Simulation Control", "dt", "0.1", "Timestep")
+econ.defvar("Simulation Control", "steps_per_ms", "10", "How many points are plotted per ms")
+setdt()
+
+// Define current injection parameters as per J. Magee, J. of Neuroscience, 18(19) 7613-7624, 1998
+
+econ.defvar("Current Clamp Control", "ic.dur", "300", "Determines the duration of the current clamp.")
+
+// use in Control case
+econ.defvar("Current Clamp Control", "ic.amp", "-0.2", "Determines the amplitude of the current clamp for the control case.") 
+econ.defvar("Current Clamp Control", "ic.del", "10", "Determines the delay before onset of the current clamp.") 
+
+
+//use in I_h blockade case
+//econ.defvar("Current Clamp Control", "ic.amp", "-0.1", "Determines the amplitude of the current clamp for the I_h blocked case.") 
+//econ.defvar("Current Clamp Control", "ic.del", "300", "Determines the delay before onset of the current clamp for the I_h blockade case so that the cell reaches steady stae.") 
+
+tstop = tstop + ic.del
+
+econ.xopen_library("Terrence","basic-graphics")                            // open graphics library file                
+addgraph_2("soma.v(0.5)",      0,tstop,-95,-70)                            // plot voltage trace at soma 
+
+objref vtrunk[50], voblique[50], vtrunkf, vsoma, vobliquef, ooi,tmpo, somarecf, dendrecf
+strdef accstr, temp
+
+ooi=new SectionList()                                                      // define a list of trunk sections to record from
+apical_dendrite[71] ooi.append()                                           // add a section to the list 
+//apical_dendrite[27] ooi.append()
+//apical_dendrite[58] ooi.append()
+//apical_dendrite[65] ooi.append()
+//apical_dendrite[70] ooi.append()
+//apical_dendrite[72] ooi.append()
+//apical_dendrite[73] ooi.append()
+//apical_dendrite[74] ooi.append()
+//apical_dendrite[82] ooi.append()
+
+ind=0
+forsec ooi {                                                           // record voltage at all trunk sections in the list
+        vtrunk[ind]=new Vector(tstop/dt)                               // and store in vectors vtrunk[ind]
+        sprint(accstr, "vtrunk[%d].record(&%s.v(0.5))", ind, secname())
+        execute1(accstr)
+        ind=ind+1
+        strdef recordsec
+        sprint(recordsec, "%s.v(0.5)",secname())                       
+        addgraph_2(recordsec, 0,tstop,-70,-95)                         // make a voltage graph for each section in the list
+}
+
+        vsoma=new Vector(tstop/dt)                                     // record voltage at soma and store in vector vsoma  
+        vsoma.record(&soma.v(0.5))
+
+finitialize(v_init)                                                    // initialize and run experiment
+fcurrent()
+run()
+
+// **********************************************************************************************
+// *
+if (unix_mac_pc()==1) {	// only the original unix platform currently is setup to write data files
+// *
+// **********************************************************************************************
+
+// Print the graphical output to .eps files
+
+for i=0,windex {
+  sprint(econ.tmp_str, "%s/graph-%d.eps",data_dir, i)      
+  win[i].printfile(econ.tmp_str)
+}
+
+
+// Print input/transfer resistances for the sections tested in "Rins.dat"
+
+vtrunkf=new File()
+vtrunkf.aopen("Rins.dat")                         // open file to store input/transfer resistances
+v_startS = vsoma.x[ic.del/dt]                     
+v_startD = vtrunk[0].x[ic.del/dt]
+v_endS=vsoma.x[vsoma.size()-1]
+v_endD=vtrunk[0].x[vtrunk[0].size()-1]
+C=ic.amp
+vtrunkf.printf("Soma input/tranfer resistance = %g/%g == %g\n", v_endS-v_startS,C,(v_endS-v_startS)/C)  // Print somatic input/tranfer resistance in Rins.dat
+vtrunkf.printf("Dend Input/tranfer resistance = %g/%g == %g\n", v_endD-v_startD,C,(v_endD-v_startD)/C)  // Print dendritic input/tranfer resistance in Rins.dat
+vtrunkf.close()
+
+
+// Print the voltage trace for the soma in the corresponding file 
+
+somarecf=new File()
+sprint(temp, "%s/soma.dat", data_dir)
+somarecf.wopen(temp)
+vsoma.printf(somarecf, "%g\n")
+somarecf.close()
+
+// Print the voltage traces for the trunk sections in the corresponding files 
+
+ind=0
+forsec ooi {
+   dendrecf=new File() 
+   sprint(temp, "%s/%s", data_dir, secname())
+   dendrecf.wopen(temp)
+   vtrunk[ind].printf(dendrecf, "%g\n")
+   dendrecf.close()
+   ind = ind + 1
+}
+} // end of if that allows file writing if platform is unix

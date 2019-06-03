@@ -1,0 +1,551 @@
+//****************************************************
+//****************************************************
+// SELECT THE CELL THAT YOU WANT TO STUDY
+
+ID_cell=1 //1=n123, 2=n125, 3=n128, 4=n129, 5=n130 //YOUNG CELL 
+ 	  
+xdist_250_flag=0 
+//****************************************************
+//****************************************************
+// When the tuning is done the result is copied in the 
+// experiment folder. You don't need to do nothing
+// every thing is ready to run the simulation
+//****************************************************
+
+strdef str_comand
+//sprint(str_comand, "rm My*") 
+//system(str_comand)
+
+// This experiment is used to tune the AMPA conductance values at most locations along each
+// section such that a single pulse stimulation at ANY synapse with both an AMPA and an NMDA mechanism
+// will give rise to 5mV local depolarization.
+
+load_proc("nrnmainmenu")
+
+//----------------------	xopen_filehoc()	------------------ 
+//Outputs:	Load Files.hoc https://correoweb.ccti.ull.es/horde/imp/mailbox.php?mailbox=INBOX&actionID=149
+//Inputs:	$s1 is a string root to "file.hoc" from the actual root
+//		$s2 is a string with the file name (not put .hoc)
+
+proc xopen_filehoc() {
+	strdef tmp_str
+	
+	sprint(tmp_str,"xopen(\"%s/%s.hoc\")",$s1,$s2)	
+	execute1(tmp_str)
+}
+
+//------------------------------------------------------------------------------------------------
+
+
+
+//load_template("ExperimentControl")                                           // load needed templates
+xopen_filehoc("../../template","ExperimentControl")
+objref econ                                                                  // initialize template parameters
+show_errs=1
+debug_lev=1
+econ=new ExperimentControl(show_errs,debug_lev)
+econ.self_define(econ)
+
+
+
+if(ID_cell==1){	//n123
+	econ.morphology_dir = "../../morphology/nXXX/youngcell"   // Setup morphology directory
+//	econ.data_dir       = "datan123"                   // Define directory to save produced data 
+	econ.xopen_geometry_dependent("n123")  // load the raw cell morphology
+}
+
+if(ID_cell==2){	//n125
+	econ.morphology_dir = "../../morphology/nXXX/youngcell"
+//	econ.data_dir       = "datan125"                   // Define directory to save produced data 
+	econ.xopen_geometry_dependent("n125")
+}
+
+if(ID_cell==3){	//n128
+	econ.morphology_dir = "../../morphology/nXXX/youngcell"
+//	econ.data_dir       = "datan128"                   // Define directory to save produced data 
+	econ.xopen_geometry_dependent("n128")
+}
+
+if(ID_cell==4){	//n129
+	econ.morphology_dir = "../../morphology/nXXX/youngcell"
+//	econ.data_dir       = "datan129"                   // Define directory to save produced data 
+	econ.xopen_geometry_dependent("n129")
+}
+
+if(ID_cell==5){	//n130
+	econ.morphology_dir = "../../morphology/nXXX/youngcell"
+//	econ.data_dir       = "datan130"                   // Define directory to save produced data 
+	econ.xopen_geometry_dependent("n130")  
+}
+
+
+if(ID_cell==6){	//n170
+	econ.morphology_dir = "../../morphology/nXXX/agedcell"
+//	econ.data_dir       = "datan170"                   // Define directory to save produced data 
+	econ.xopen_geometry_dependent("n170")  
+}
+
+if(ID_cell==7){	//n172
+	econ.morphology_dir = "../../morphology/nXXX/agedcell"
+	econ.data_dir       = "datan172"                   // Define directory to save produced data 
+	econ.xopen_geometry_dependent("n172")  
+}
+
+
+//if(ID_cell==8){	//n175
+//	econ.morphology_dir = "../../morphology/nXXX/agedcell"
+//	econ.data_dir       = "datan175"                   // Define directory to save produced data 
+//	econ.xopen_geometry_dependent("n175")  
+//}
+
+
+if(ID_cell==8){	//n178
+	econ.morphology_dir = "../../morphology/nXXX/agedcell"
+//	econ.data_dir       = "datan178"                   // Define directory to save produced data 
+	econ.xopen_geometry_dependent("n178")  
+}
+
+if(ID_cell==9){	//n180
+	econ.morphology_dir = "../../morphology/nXXX/agedcell"
+//	econ.data_dir       = "datan180"                   // Define directory to save produced data 
+	econ.xopen_geometry_dependent("n180")  
+}
+
+if(ID_cell==10){	//n182
+	econ.morphology_dir = "../../morphology/nXXX/agedcell"
+//	econ.data_dir       = "datan182"                   // Define directory to save produced data 
+	econ.xopen_geometry_dependent("n182")  
+}
+
+
+
+econ.morphology_dir = "../../morphology/nXXX"
+
+
+econ.add_lib_dir("Terrence","../../lib")                                     // set location for library files
+econ.generic_dir    = "../../experiment"                                    // set location for cell-setup file 
+econ.lib_dir="../../lib"
+econ.data_dir       = "data"                                                 // set directory to store data
+sprint(econ.syscmd, "mkdir -p %s", econ.data_dir)
+system(econ.syscmd)
+
+ 
+maximum_segment_length=20
+econ.xopen_geometry_dependent("cell-analysis")                               // load user-defined semantics on morphology
+cell_analysis(econ)
+
+
+			// --------------- Creating lists-----------------
+
+econ.xopen_lib_dependent("TP-lib")
+Tip_sections(apical_non_trunk_list,apical_trunk_list,"Apical")		
+objref apical_tip_list
+apical_tip_list=TP_list							// Apical Tip list
+
+print "apical_tip_list"
+apical_tip_list.printnames()
+print  "END apical_tip_list"
+
+objref tmp_pl[num_tips],pl[num_tips],opl[num_tips],degree_apical_tip,peri_trunk_list
+objref bl[num_tips],obl[num_tips],degree_basal_tip
+econ.xopen_lib_dependent("Oblique-lib")
+
+oblique_sections(apical_tip_list,apical_trunk_list,num_tips)		// apical dendrite path lists and degree of tips
+
+
+//-----------------------------------------------------------------------------------------------------
+
+
+printf("Opening cell setup\n")                                               // load cell-setup to
+econ.xopen_generic("cell-setupNXXX")
+
+
+
+printf("Opened. Setting up cell\n")                                          // membrane properties etc
+cell_setup(econ)
+
+
+forsec "apical" {
+ 	print secname(),diam
+	diam=diam*1.25
+ print secname(),diam
+}
+
+
+
+
+
+// Set simulation parameters for the experiment
+
+econ.defvar("Simulation Control", "tstop", "60", "Defines when the simulation stops.")
+econ.defvar("Simulation Control", "dt", "0.5", "Timestep") //0.2 jose
+econ.defvar("Simulation Control", "steps_per_ms", "10", "How many points are plotted per ms") 
+setdt() 
+
+econ.defvar("Experiment Control", "BASELINE", "-66", "")                  // Set resting membrane potential
+econ.defvar("Experiment Control", "desired_voltage", "BASELINE+5", "")    // Set desired local depolarization to 5 mV0
+econ.defvar("Experiment Control","Epsilon", "0.5", "")                    // Set voltage fault tolerance = 0.5 mV
+
+create fakecell                                                           // Create a single pulse stimulus
+access fakecell 
+objref ic 
+ic=new IClamp(0.5)
+
+objref tunings    							 // list to save tuned values             
+strdef recordsec               
+objref tune_epsp_list, tip_list
+tune_epsp_list=new List()
+
+proc tune_sections() {                                                  // tuning proceedure print "jose"
+    econ.xopen_library("Terrence","basic-graphics")                  
+    addgraph_2("v(0.5)",               0,tstop,-72,-60)                 // plot the voltage at the section beeing tuned
+       
+    create fakecell
+    tunings=new File()
+    econ.xopen_library("Terrence","tune-epsps")                         // library function to tune epsps
+    econ.xopen_library("Terrence","salloc")                             // library function to insert a synapse at the tested location
+    econ.xopen_library("Terrence","deduce-ratio")                       // library function to get NMDA/AMPA conductance ratio
+    econ.xopen_geometry_dependent("nmda-ampa-ratio")                    // file containing values for NMDA/AMPA ratio
+
+
+    GMAX = 1.3e-3                                                       // initialize AMPA conductance value
+  
+//  Start tuning the valious section lists
+
+
+//  Tune basal dendrites, not needed in the experiments to follow
+/*
+    tunings.aopen("My_tunings_gradient_new.dat")
+    forsec basal_tree_list {
+    
+ if(issection("dendrite[43]")||issection("dendrite[42]")||issection("dendrite[36]")||issection("dendrite[28]")){
+
+
+
+        nseg = 6
+       // NMDA_AMPA_RATIO=BASAL_NMDA_AMPA_RATIO
+        for (x) {
+	if (x>0 && x<1){
+           xdist = find_vector_distance_precise(secname(),x)
+           NMDA_AMPA_RATIO=BASAL_NMDA_AMPA_MAX_RATIO			//	*(xdist/100)
+           sprint(recordsec, "%s.v(%f)",secname(),x) 
+           graph_label(recordsec,0,tstop,-72,-60)
+           tune_epsp_fast(econ,x,Epsilon,tunings)
+	   }
+        }
+   }
+}
+   tunings.close()
+*/
+
+// Tune somatic sections
+/*
+
+   tunings.aopen("My_tunings_gradient_new.dat")
+   forsec soma_list {
+     	 nseg = 6
+      NMDA_AMPA_RATIO=SOMA_NMDA_AMPA_RATIO
+      for (x) {
+	if (x>0 && x<1){
+          sprint(recordsec, "%s.v(%f)",secname(),x) 
+          graph_label(recordsec,0,tstop,-72,-60)
+          tune_epsp_fast(econ,x,Epsilon,tunings)
+      	}
+	}
+
+     
+
+
+   }
+   tunings.close()
+
+*/
+  
+// Tune apical-tip sections
+//tip_list=new SectionList()
+//apical_dendrite[73] tip_list.append()
+  // tunings.aopen("My_tunings_gradient_newN123.dat")
+
+
+if(ID_cell==1){	//n123
+	tunings.aopen("My_tunings_gradient_newN123.dat")
+}
+
+if(ID_cell==2){	//n125
+	tunings.aopen("My_tunings_gradient_newN125.dat")
+}
+
+if(ID_cell==3){	//n128
+	tunings.aopen("My_tunings_gradient_newN128.dat")
+}
+
+if(ID_cell==4){	//n129
+	tunings.aopen("My_tunings_gradient_newN129.dat")
+}
+
+if(ID_cell==5){	//n130
+	tunings.aopen("My_tunings_gradient_newN130.dat")
+}
+
+if(ID_cell==6){	//n170
+	tunings.aopen("My_tunings_gradient_newN170.dat")
+}
+
+if(ID_cell==7){	//n172
+	tunings.aopen("My_tunings_gradient_newN172.dat")
+}
+
+if(ID_cell==8){	//n175
+	tunings.aopen("My_tunings_gradient_newN175.dat")
+}
+
+if(ID_cell==9){	//n178
+	tunings.aopen("My_tunings_gradient_newN178.dat")
+}
+
+if(ID_cell==10){ //n180
+	tunings.aopen("My_tunings_gradient_newN180.dat")
+}
+
+if(ID_cell==11){ //n182
+	tunings.aopen("My_tunings_gradient_newN182.dat")
+}
+
+
+
+
+ ii=-1
+  forsec apical_non_trunk_list {
+	ii=ii+1
+
+//--------- young neurons
+	if(ID_cell==1){	//n123
+		if ((ii!=1)&&(ii!=2)&&(ii!=29)){continue}
+	}
+
+	if(ID_cell==2){	//n125
+		if ((ii!=69)&&(ii!=70)&&(ii!=71)&&(ii!=65)&&(ii!=66)){continue}
+	}
+
+	if(ID_cell==3){	//n128
+		if ((ii!=81)&&(ii!=108)&&(ii!=87)&&(ii!=80)){continue}
+	}
+
+	if(ID_cell==4){	//n129
+		if ((ii!=7)&&(ii!=3)&&(ii!=73)&&(ii!=84)){continue}
+	}
+
+	if(ID_cell==5){	//n130
+		if ((ii!=179)&&(ii!=189)&&(ii!=236)&&(ii!=237)){continue}
+	}
+
+//----------  neurons
+	if(ID_cell==6){	//n170
+	
+if ((ii!=6)&&(ii!=7)&&(ii!=9)&&(ii!=10)&&(ii!=13)&&(ii!=14)&&(ii!=20)&&(ii!=21)&&(ii!=24)&&(ii!=27)&&(ii!=32)&&(ii!=33)&&(ii!=40)&&(ii!=41)&&(ii!=42)&&(ii!=43)&&(ii!=95)&&(ii!=96)&&(ii!=101)){continue}
+	}
+
+	if(ID_cell==7){	//n172
+		if ((ii!=1)&&(ii!=2)&&(ii!=6)&&(ii!=8)&&(ii!=10)&&(ii!=11)&&(ii!=13)&&(ii!=14)&&(ii!=18)&&(ii!=19)&&(ii!=20)&&(ii!=26)&&(ii!=27)&&(ii!=30)&&(ii!=31)&&(ii!=32)&&(ii!=34)&&(ii!=84)&&(ii!=142)){continue}
+	}
+
+//	if(ID_cell==8){	//n175
+//		if ((ii!=9)&&(ii!=10)&&(ii!=11)&&(ii!=20)&&(ii!=21)&&(ii!=23)&&(ii!=24)&&(ii!=25)&&(ii!=27)&&(ii!=60)&&(ii!=61)&&(ii!=109)){continue}
+//	}
+
+	if(ID_cell==8){	//n178
+		if ((ii!=11)&&(ii!=12)&&(ii!=14)&&(ii!=17)&&(ii!=18)&&(ii!=21)&&(ii!=22)&&(ii!=24)&&(ii!=25)&&(ii!=27)&&(ii!=32)&&(ii!=33)&&(ii!=117)){continue}
+	}
+
+	if(ID_cell==9){ //n180
+		if ((ii!=1)&&(ii!=3)&&(ii!=5)&&(ii!=8)&&(ii!=10)&&(ii!=11)&&(ii!=13)&&(ii!=14)&&(ii!=15)&&(ii!=16)&&(ii!=17)){continue}
+	}
+	if(ID_cell==10){ //n182
+		if ((ii!=2)&&(ii!=3)&&(ii!=4)&&(ii!=11)&&(ii!=12)){continue}
+	}
+
+
+
+	print secname()
+     nseg = 6
+       for (x) {
+	if (x>0 && x<1){
+          xdist = find_vector_distance_precise(secname(),x)
+		if(xdist_250_flag){
+			NMDA_AMPA_RATIO = APICAL_NON_TRUNK_NMDA_AMPA_MAX_RATIO*(xdist/250)      
+         	}else{
+			NMDA_AMPA_RATIO = APICAL_NON_TRUNK_NMDA_AMPA_MAX_RATIO
+		//print 	NMDA_AMPA_RATIO
+		}
+
+			//sprint(recordsec, "%s.v(%f)","soma[0]",0.5) 
+	    sprint(recordsec, "%s.v(%f)",secname(),x) 
+          graph_label(recordsec,0,tstop,-66,-61)
+   
+	  tune_epsp_fast(econ,x,Epsilon,tunings)
+         
+          }
+	}
+      }
+
+  tunings.close()
+
+
+
+
+
+
+
+
+/*  tunings.aopen("My_tunings_gradient_new.dat")
+   forsec apical_tip_list_addendum {
+       nseg = 6
+//       NMDA_AMPA_RATIO=APICAL_NON_TRUNK_NMDA_AMPA_MAX_RATIO
+       for (x) {
+	if (x>0 && x<1){
+          xdist = find_vector_distance_precise(secname(),x)
+          NMDA_AMPA_RATIO=APICAL_NON_TRUNK_NMDA_AMPA_MAX_RATIO*(xdist/250)
+          sprint(recordsec, "%s.v(%f)",secname(),x) 
+          graph_label(recordsec,0,tstop,-72,-60)
+          tune_epsp_fast(econ,x,Epsilon,tunings)
+	}
+	}
+   }
+ tunings.close()
+*/
+
+/*
+
+// Tune apical-trunk sections
+ 
+   tunings.close()
+   skip = 0
+   tunings.aopen("My_tunings_gradient_new.dat")
+   forsec apical_trunk_list {
+        if(issection("trunk[0]")|| issection("trunk[1]")){
+
+	 nseg = 6
+      ifsec apical_tip_list {skip = 1} 
+ //     ifsec apical_tip_list_addendum {skip = 1} 
+      if (!skip) {
+       for (x) {
+	if (x>0 && x<1){
+         xdist = find_vector_distance_precise(secname(),x)
+         NMDA_AMPA_RATIO=APICAL_TRUNK_NMDA_AMPA_MAX_RATIO*(xdist/250)
+         sprint(recordsec, "%s.v(%f)",secname(),x) 
+         graph_label(recordsec,0,tstop,-72,-60)
+         tune_epsp_fast(econ,x,Epsilon,tunings)
+        }
+	} 
+      }   
+      skip = 0
+    }
+   }
+   tunings.close()
+*/
+
+
+// Tune apical-non-trunk sections
+/*
+   tunings.aopen("My_tunings_gradient_new.dat")
+   forsec apical_non_trunk_list {
+     
+	   if(issection("apical_dendrite[0]")|| issection("apical_dendrite[1]")||issection("apical_dendrite[2]")){
+
+	 nseg = 6
+      ifsec apical_tip_list {skip = 1} 
+//      ifsec apical_tip_list_addendum {skip = 1} 
+      if (!skip) {
+           NMDA_AMPA_RATIO=APICAL_NON_TRUNK_NMDA_AMPA_MAX_RATIO
+          for (x) {
+	   if (x>0 && x<1){
+            xdist = find_vector_distance_precise(secname(),x)
+            NMDA_AMPA_RATIO=APICAL_NON_TRUNK_NMDA_AMPA_MAX_RATIO*(xdist/250)
+            sprint(recordsec, "%s.v(%f)",secname(),x) 
+            graph_label(recordsec,0,tstop,-72,-60)
+            tune_epsp_fast(econ,x,Epsilon,tunings)
+       	    } 
+	    
+	}
+      }
+      skip = 0
+     }
+   }
+   tunings.close()
+
+*/
+
+// Tune axon sections, not needed in the following experiments
+/*
+   tunings.aopen("My_tunings.dat")
+   forsec axon_sec_list {
+      nseg = 6
+      NMDA_AMPA_RATIO=AXON_NMDA_AMPA_RATIO
+      for (x) {
+	if (x>0 && x<1){
+         sprint(recordsec, "%s.v(%f)",secname(),x) 
+         graph_label(recordsec,0,tstop,-72,-60)
+         tune_epsp_fast(econ,x,Epsilon,tunings)
+     	}
+	}
+   }
+   tunings.close()
+*/
+
+} 
+ 								// end of tuning proceedure
+Deadtime_GLU=0.1
+run()
+tune_sections()     // Execute the tuning proceedure
+
+
+
+        if(ID_cell==1){	//n123
+		sprint(str_comand, "cp My_tunings_gradient_newN123.dat ../junio/tuned-nXXX-trunk") 
+	}
+
+	if(ID_cell==2){	//n125
+		sprint(str_comand, "cp My_tunings_gradient_newN125.dat ../junio/tuned-nXXX-trunk") 
+	}
+
+	if(ID_cell==3){	//n128
+		sprint(str_comand, "cp My_tunings_gradient_newN128.dat ../junio/tuned-nXXX-trunk") 
+	}
+
+	if(ID_cell==4){	//n129
+		sprint(str_comand, "cp My_tunings_gradient_newN129.dat ../junio/tuned-nXXX-trunk") 
+	}
+
+	if(ID_cell==5){	//n130
+		sprint(str_comand, "cp My_tunings_gradient_newN130.dat ../junio/tuned-nXXX-trunk") 
+	}
+
+
+	if(ID_cell==6){	//n170
+	sprint(str_comand, "cp My_tunings_gradient_newN170.dat ../junio/tuned-nXXX-trunk") 
+	}
+
+	if(ID_cell==7){	//n172
+	sprint(str_comand, "cp My_tunings_gradient_newN172.dat ../junio/tuned-nXXX-trunk") 
+	}
+
+	if(ID_cell==8){	//n175
+	sprint(str_comand, "cp My_tunings_gradient_newN175.dat ../junio/tuned-nXXX-trunk") 
+	}
+
+	if(ID_cell==9){	//n178
+	sprint(str_comand, "cp My_tunings_gradient_newN178.dat ../junio/tuned-nXXX-trunk") 
+	}
+
+	if(ID_cell==10){ //n180
+	sprint(str_comand, "cp My_tunings_gradient_newN180.dat ../junio/tuned-nXXX-trunk") 
+	}
+
+	if(ID_cell==11){ //n182
+	sprint(str_comand, "cp My_tunings_gradient_newN182.dat ../junio/tuned-nXXX-trunk") 
+	}
+
+
+
+system(str_comand)
+quit()

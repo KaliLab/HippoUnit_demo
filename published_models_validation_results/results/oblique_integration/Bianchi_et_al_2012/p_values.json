@@ -1,0 +1,11 @@
+{
+    "suprath_degree_of_nonlinearity": 0.3948166398361607, 
+    "asynch_degree_of_nonlin_at_th": 0.00618675245407855, 
+    "degree_of_nonlinearity_at_th": 0.36236716385705514, 
+    "amplitude_at_th": 9.37424543648654e-09, 
+    "threshold": 0.9124142974599494, 
+    "distal_threshold": NaN, 
+    "proximal_threshold": NaN, 
+    "time_to_peak_at_th": 8.515432513206224e-05, 
+    "peak_dV/dt_at_th": 0.0036811477607594295
+}

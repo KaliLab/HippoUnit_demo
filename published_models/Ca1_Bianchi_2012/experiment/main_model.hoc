@@ -1,0 +1,53 @@
+//Original file 'Simulation.hoc' modified by Sára Sáray in order to run validation tests on the base model
+
+//////// load needed templates////////////
+//load_file("nrngui.hoc")
+load_file("stdrun.hoc")
+load_file("../template/load_templates.hoc")
+
+objref econ
+show_errs=1
+debug_lev=1
+econ=new ExperimentControl(show_errs,debug_lev)
+econ.self_define(econ)
+
+econ.morphology_dir = "../morphology/n123"       // set location for morphology files
+econ.add_lib_dir("Terrence","../lib")                     // set location for library files
+econ.generic_dir    = "../experiment"             // set location for cell-setup file
+
+v_init=-70
+
+econ.xopen_geometry_dependent("cell")                                        // load raw cell morphology
+econ.xopen_geometry_dependent("cell-analysis")                               // load user-defined semantics on morphology
+cell_analysis(econ)
+printf("Opening cell setup\n")                                               // load cell-setup to
+econ.xopen_generic("cell-setup")                                             // specify all mechanisms,
+printf("Opened. Setting up cell\n")                                          // membrane properties etc
+cell_setup(econ)
+
+
+
+finitialize(v_init)
+fcurrent()
+
+// Creating section lists for validation
+
+objref oblique_tip_dendrites, oblique_dendrites
+oblique_tip_dendrites = new SectionList()
+
+forsec apical_tip_list {oblique_tip_dendrites.append()}
+forsec apical_tip_list_addendum {oblique_tip_dendrites.append()}
+
+//oblique_tip_dendrites.printnames()
+
+
+oblique_dendrites = new SectionList()
+
+for i = 0, 59 {
+	forsec pl[i] { oblique_dendrites.append() }
+}
+oblique_dendrites.unique()
+oblique_dendrites.remove(apical_trunk_list)
+//oblique_dendrites.printnames()
+
+

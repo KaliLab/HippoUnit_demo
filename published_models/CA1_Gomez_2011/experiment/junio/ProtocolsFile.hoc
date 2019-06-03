@@ -1,0 +1,611 @@
+objref ISD, ISI,alfa_AMPA_v,alfa_NMDA_v,pulse_v,delay_stim_v
+objref Kfactor_v,Ca_flag_v,Na_flag_v,sim_stop_v
+
+ISD = new Vector(200)
+ISI = new Vector(200)
+alfa_AMPA_v=new Vector(200)
+alfa_NMDA_v=new Vector(200)
+pulse_v=new Vector(200)
+delay_stim_v=new Vector(200)
+Kfactor_v=new Vector(200)
+Ca_flag_v=new Vector(200)
+Na_flag_v=new Vector(200)
+sim_stop_v=new Vector(200)
+
+// --------------- DEFAULT VALUES  ----------------------------
+// **********IN ADDITION TO CHECK IN EACH PROTOCOL BELOW ******
+// p1 to p5     Magee's protocol
+// p6 to p7     Ariav's protocol
+//
+// Figure 4E - Control vs no-additional NMDA
+// p8 to p15 (control)
+// p16 to p23 (no additional NMDA)
+//
+// Figure 4F 
+// p24 to p32 (control)
+// p33 to p41 (Ca++ blocked)
+// p42 to p50 (Na+ blocked)
+// p51 to p59 (NMDA blocked)
+
+// Figure 4D -  3D figure ISD vs ISI
+// p60  to p99 
+//*********************** NEW PROTOCOLS ******************
+// TO INTRODUCE NEW PROTOCOLS,  DO THE SAME LIKE PROTOCOL 100- p100 SEE BELOW
+// THE NEW PROTOCOLOS WILL GO FROM 101 TO 199
+//****************************************************************
+
+fist_protocol=1	// Start in the protocol first_protocol
+last_protocol=5	// Finish in the protocol last_protocol
+			// if fist_protocol=last_protocol=k, the protocol pk will be run
+
+	n_runs = 15		//# of synapses to be used
+	xdist_250_flag=0 	//0=NOT  1=YES, Does the condutance change with the distance?
+
+	for ipro=1,199{		
+		Kfactor_v.x[ipro]=1.6 //1.5	//increase of NMDA conductance for 2nd pulse
+		pulse_v.x[ipro]=2	//# of pulses
+		alfa_AMPA_v.x[ipro]=1	// =0.1 is 90% blocked AMPAr
+		alfa_NMDA_v.x[ipro]=1	// =0.1 is 90% blocked NMDAr
+		Ca_flag_v.x[ipro]=0	//=1 Ca++ blocker 90%
+		Na_flag_v.x[ipro]=0	//=1 Na+ blocker 90%
+		delay_stim_v.x[ipro]=50	//delay to start the stimulus
+		sim_stop_v.x[ipro]=350//350  Duration of the simulation
+	}
+
+// --------END --- default values
+//---------------------------------------------------------------------------
+
+
+
+
+//---PROTOCOL 100 - p100 -----  Protocolo for tests and demo
+
+	Kfactor_v.x[100]= 1.6//1.5	//increase of NMDA conductance for 2nd pulse
+	ISD.x[100] = 0.1	
+	pulse_v.x[100]=2	//# of pulses
+	ISI.x[100] = 20	
+	alfa_AMPA_v.x[100]=1	// =0.1 is 90% blocked AMPAr
+	alfa_NMDA_v.x[100]=1	// =0.1 is 90% blocked NMDAr
+	Ca_flag_v.x[100]=0	//=1 Ca++ blocker 90%
+	Na_flag_v.x[100]=0	//=1 Na+ blocker 90%
+	delay_stim_v.x[100]=5	//delay to start the stimulus
+	sim_stop_v.x[100]=40//150	// Duration of the simulation
+
+//------- END------- Protocolo for tests - protocolo 100 - p100
+
+
+
+//------------------------INTRODUCE HERE YOUR NEW PROTOCOLS---------------
+
+//--- PROTOCOL 101 - p101
+	Kfactor_v.x[101]= 1.6//1.5	//increase of NMDA conductance for 2nd pulse
+	ISD.x[101] = 13	
+	pulse_v.x[101]=2	//# of pulses
+	ISI.x[101] = 10	
+	alfa_AMPA_v.x[101]=1	// =0.1 is 90% blocked AMPAr
+	alfa_NMDA_v.x[101]=1	// =0.1 is 90% blocked NMDAr
+	Ca_flag_v.x[101]=0	//=1 Ca++ blocker 90%
+	Na_flag_v.x[101]=0	//=1 Na+ blocker 90%
+	delay_stim_v.x[101]=50	//delay to start the stimulus
+	sim_stop_v.x[101]=350	// Duration of the simulation
+
+//--- PROTOCOL 102 - p102
+	Kfactor_v.x[102]= 0//1.5	//increase of NMDA conductance for 2nd pulse
+	ISD.x[102] = 13	
+	pulse_v.x[102]=2	//# of pulses
+	ISI.x[102] = 10	
+	alfa_AMPA_v.x[102]=1	// =0.1 is 90% blocked AMPAr
+	alfa_NMDA_v.x[102]=1	// =0.1 is 90% blocked NMDAr
+	Ca_flag_v.x[102]=0	//=1 Ca++ blocker 90%
+	Na_flag_v.x[102]=0	//=1 Na+ blocker 90%
+	delay_stim_v.x[102]=50	//delay to start the stimulus
+	sim_stop_v.x[102]=350	// Duration of the simulation
+
+//--------------------------------------------------------------------------
+
+	
+	pp=124 // base line
+
+	Kfactor_v.x[pp]=0 //1.6valororiginal//1.5	//increase of NMDA conductance for 2nd pulse
+	ISD.x[pp] = 0.1	
+	pulse_v.x[pp]=0	//# of pulses
+	ISI.x[pp] = 10	
+	alfa_AMPA_v.x[pp]=1	// =0.1 is 90% blocked AMPAr
+	alfa_NMDA_v.x[pp]=1	// =0.1 is 90% blocked NMDAr
+	Ca_flag_v.x[pp]=0	//=1 Ca++ blocker 90%
+	Na_flag_v.x[pp]=0	//=1 Na+ blocker 90%
+	//K_flag_v.x[pp]=0	//=1 K+ blocker 90%
+	delay_stim_v.x[pp]=200	//delay to start the stimulus
+	sim_stop_v.x[pp]=450	// Duration of the simulation
+
+	pp=125
+
+	Kfactor_v.x[pp]=1.328 //1.6valororiginal//1.5	//increase of NMDA conductance for 2nd pulse
+	ISD.x[pp] = 0.1	
+	pulse_v.x[pp]=2	//# of pulses
+	ISI.x[pp] = 10	
+	alfa_AMPA_v.x[pp]=1	// =0.1 is 90% blocked AMPAr
+	alfa_NMDA_v.x[pp]=1	// =0.1 is 90% blocked NMDAr
+	Ca_flag_v.x[pp]=0	//=1 Ca++ blocker 90%
+	Na_flag_v.x[pp]=0	//=1 Na+ blocker 90%
+	//K_flag_v.x[pp]=0	//=1 K+ blocker 90%
+	delay_stim_v.x[pp]=200	//delay to start the stimulus
+	sim_stop_v.x[pp]=450	// Duration of the simulation
+
+	pp=126
+
+	Kfactor_v.x[pp]=1.328 //1.6valororiginal//1.5	//increase of NMDA conductance for 2nd pulse
+	ISD.x[pp] = 5	
+	pulse_v.x[pp]=2	//# of pulses
+	ISI.x[pp] = 10	
+	alfa_AMPA_v.x[pp]=1	// =0.1 is 90% blocked AMPAr
+	alfa_NMDA_v.x[pp]=1	// =0.1 is 90% blocked NMDAr
+	Ca_flag_v.x[pp]=0	//=1 Ca++ blocker 90%
+	Na_flag_v.x[pp]=0	//=1 Na+ blocker 90%
+	//K_flag_v.x[pp]=0	//=1 K+ blocker 90%
+	delay_stim_v.x[pp]=200	//delay to start the stimulus
+	sim_stop_v.x[pp]=450	// Duration of the simulation
+
+	pp=127
+
+	Kfactor_v.x[pp]=1.328 //1.6valororiginal//1.5	//increase of NMDA conductance for 2nd pulse
+	ISD.x[pp] = 15	
+	pulse_v.x[pp]=2	//# of pulses
+	ISI.x[pp] = 10	
+	alfa_AMPA_v.x[pp]=1	// =0.1 is 90% blocked AMPAr
+	alfa_NMDA_v.x[pp]=1	// =0.1 is 90% blocked NMDAr
+	Ca_flag_v.x[pp]=0	//=1 Ca++ blocker 90%
+	Na_flag_v.x[pp]=0	//=1 Na+ blocker 90%
+	//K_flag_v.x[pp]=0	//=1 K+ blocker 90%
+	delay_stim_v.x[pp]=200	//delay to start the stimulus
+	sim_stop_v.x[pp]=450	// Duration of the simulation
+	
+	pp=128
+
+	Kfactor_v.x[pp]=1.328 //1.6valororiginal//1.5	//increase of NMDA conductance for 2nd pulse
+	ISD.x[pp] = 30	
+	pulse_v.x[pp]=2	//# of pulses
+	ISI.x[pp] = 10	
+	alfa_AMPA_v.x[pp]=1	// =0.1 is 90% blocked AMPAr
+	alfa_NMDA_v.x[pp]=1	// =0.1 is 90% blocked NMDAr
+	Ca_flag_v.x[pp]=0	//=1 Ca++ blocker 90%
+	Na_flag_v.x[pp]=0	//=1 Na+ blocker 90%
+	//K_flag_v.x[pp]=0	//=1 K+ blocker 90%
+	delay_stim_v.x[pp]=200	//delay to start the stimulus
+	sim_stop_v.x[pp]=450	// Duration of the simulation
+
+
+	pp=129
+
+	Kfactor_v.x[pp]=0.95 //1.6valororiginal//1.5	//increase of NMDA conductance for 2nd pulse
+	ISD.x[pp] = 0.1	
+	pulse_v.x[pp]=2	//# of pulses
+	ISI.x[pp] = 10	
+	alfa_AMPA_v.x[pp]=1	// =0.1 is 90% blocked AMPAr
+	alfa_NMDA_v.x[pp]=1	// =0.1 is 90% blocked NMDAr
+	Ca_flag_v.x[pp]=0	//=1 Ca++ blocker 90%
+	Na_flag_v.x[pp]=0	//=1 Na+ blocker 90%
+	//K_flag_v.x[pp]=0	//=1 K+ blocker 90%
+	delay_stim_v.x[pp]=200	//delay to start the stimulus
+	sim_stop_v.x[pp]=450	// Duration of the simulation
+
+	pp=130
+
+	Kfactor_v.x[pp]=0.95 //1.6valororiginal//1.5	//increase of NMDA conductance for 2nd pulse
+	ISD.x[pp] = 5	
+	pulse_v.x[pp]=2	//# of pulses
+	ISI.x[pp] = 10	
+	alfa_AMPA_v.x[pp]=1	// =0.1 is 90% blocked AMPAr
+	alfa_NMDA_v.x[pp]=1	// =0.1 is 90% blocked NMDAr
+	Ca_flag_v.x[pp]=0	//=1 Ca++ blocker 90%
+	Na_flag_v.x[pp]=0	//=1 Na+ blocker 90%
+	//K_flag_v.x[pp]=0	//=1 K+ blocker 90%
+	delay_stim_v.x[pp]=200	//delay to start the stimulus
+	sim_stop_v.x[pp]=450	// Duration of the simulation
+
+	pp=131
+
+	Kfactor_v.x[pp]=0.95 //1.6valororiginal//1.5	//increase of NMDA conductance for 2nd pulse
+	ISD.x[pp] = 15	
+	pulse_v.x[pp]=2	//# of pulses
+	ISI.x[pp] = 10	
+	alfa_AMPA_v.x[pp]=1	// =0.1 is 90% blocked AMPAr
+	alfa_NMDA_v.x[pp]=1	// =0.1 is 90% blocked NMDAr
+	Ca_flag_v.x[pp]=0	//=1 Ca++ blocker 90%
+	Na_flag_v.x[pp]=0	//=1 Na+ blocker 90%
+	//K_flag_v.x[pp]=0	//=1 K+ blocker 90%
+	delay_stim_v.x[pp]=200	//delay to start the stimulus
+	sim_stop_v.x[pp]=450	// Duration of the simulation
+	
+	pp=132
+
+	Kfactor_v.x[pp]=0.95 //1.6valororiginal//1.5	//increase of NMDA conductance for 2nd pulse
+	ISD.x[pp] = 30	
+	pulse_v.x[pp]=2	//# of pulses
+	ISI.x[pp] = 10	
+	alfa_AMPA_v.x[pp]=1	// =0.1 is 90% blocked AMPAr
+	alfa_NMDA_v.x[pp]=1	// =0.1 is 90% blocked NMDAr
+	Ca_flag_v.x[pp]=0	//=1 Ca++ blocker 90%
+	Na_flag_v.x[pp]=0	//=1 Na+ blocker 90%
+	//K_flag_v.x[pp]=0	//=1 K+ blocker 90%
+	delay_stim_v.x[pp]=200	//delay to start the stimulus
+	sim_stop_v.x[pp]=450	// Duration of the simulation
+
+	pp=133
+
+	Kfactor_v.x[pp]=0.786 //1.6valororiginal//1.5	//increase of NMDA conductance for 2nd pulse
+	ISD.x[pp] = 0.1	
+	pulse_v.x[pp]=2	//# of pulses
+	ISI.x[pp] = 10	
+	alfa_AMPA_v.x[pp]=1	// =0.1 is 90% blocked AMPAr
+	alfa_NMDA_v.x[pp]=1	// =0.1 is 90% blocked NMDAr
+	Ca_flag_v.x[pp]=0	//=1 Ca++ blocker 90%
+	Na_flag_v.x[pp]=0	//=1 Na+ blocker 90%
+	//K_flag_v.x[pp]=0	//=1 K+ blocker 90%
+	delay_stim_v.x[pp]=200	//delay to start the stimulus
+	sim_stop_v.x[pp]=450	// Duration of the simulation
+
+	pp=134
+
+	Kfactor_v.x[pp]=0.786 //1.6valororiginal//1.5	//increase of NMDA conductance for 2nd pulse
+	ISD.x[pp] = 5	
+	pulse_v.x[pp]=2	//# of pulses
+	ISI.x[pp] = 10	
+	alfa_AMPA_v.x[pp]=1	// =0.1 is 90% blocked AMPAr
+	alfa_NMDA_v.x[pp]=1	// =0.1 is 90% blocked NMDAr
+	Ca_flag_v.x[pp]=0	//=1 Ca++ blocker 90%
+	Na_flag_v.x[pp]=0	//=1 Na+ blocker 90%
+	//K_flag_v.x[pp]=0	//=1 K+ blocker 90%
+	delay_stim_v.x[pp]=200	//delay to start the stimulus
+	sim_stop_v.x[pp]=450	// Duration of the simulation
+
+	pp=135
+
+	Kfactor_v.x[pp]=0.786 //1.6valororiginal//1.5	//increase of NMDA conductance for 2nd pulse
+	ISD.x[pp] = 15	
+	pulse_v.x[pp]=2	//# of pulses
+	ISI.x[pp] = 10	
+	alfa_AMPA_v.x[pp]=1	// =0.1 is 90% blocked AMPAr
+	alfa_NMDA_v.x[pp]=1	// =0.1 is 90% blocked NMDAr
+	Ca_flag_v.x[pp]=0	//=1 Ca++ blocker 90%
+	Na_flag_v.x[pp]=0	//=1 Na+ blocker 90%
+	//K_flag_v.x[pp]=0	//=1 K+ blocker 90%
+	delay_stim_v.x[pp]=200	//delay to start the stimulus
+	sim_stop_v.x[pp]=450	// Duration of the simulation
+	
+	pp=136
+
+	Kfactor_v.x[pp]=0.786 //1.6valororiginal//1.5	//increase of NMDA conductance for 2nd pulse
+	ISD.x[pp] = 30	
+	pulse_v.x[pp]=2	//# of pulses
+	ISI.x[pp] = 10	
+	alfa_AMPA_v.x[pp]=1	// =0.1 is 90% blocked AMPAr
+	alfa_NMDA_v.x[pp]=1	// =0.1 is 90% blocked NMDAr
+	Ca_flag_v.x[pp]=0	//=1 Ca++ blocker 90%
+	Na_flag_v.x[pp]=0	//=1 Na+ blocker 90%
+	//K_flag_v.x[pp]=0	//=1 K+ blocker 90%
+	delay_stim_v.x[pp]=200	//delay to start the stimulus
+	sim_stop_v.x[pp]=450	// Duration of the simulation
+
+
+	pp=137
+
+	Kfactor_v.x[pp]=1.788 //1.6valororiginal//1.5	//increase of NMDA conductance for 2nd pulse
+	ISD.x[pp] = 0.1	
+	pulse_v.x[pp]=2	//# of pulses
+	ISI.x[pp] = 10	
+	alfa_AMPA_v.x[pp]=1	// =0.1 is 90% blocked AMPAr
+	alfa_NMDA_v.x[pp]=1	// =0.1 is 90% blocked NMDAr
+	Ca_flag_v.x[pp]=0	//=1 Ca++ blocker 90%
+	Na_flag_v.x[pp]=0	//=1 Na+ blocker 90%
+	//K_flag_v.x[pp]=0	//=1 K+ blocker 90%
+	delay_stim_v.x[pp]=200	//delay to start the stimulus
+	sim_stop_v.x[pp]=450	// Duration of the simulation
+
+pp=138
+
+	Kfactor_v.x[pp]=1.788 //1.6valororiginal//1.5	//increase of NMDA conductance for 2nd pulse
+	ISD.x[pp] = 5	
+	pulse_v.x[pp]=2	//# of pulses
+	ISI.x[pp] = 10	
+	alfa_AMPA_v.x[pp]=1	// =0.1 is 90% blocked AMPAr
+	alfa_NMDA_v.x[pp]=1	// =0.1 is 90% blocked NMDAr
+	Ca_flag_v.x[pp]=0	//=1 Ca++ blocker 90%
+	Na_flag_v.x[pp]=0	//=1 Na+ blocker 90%
+	//K_flag_v.x[pp]=0	//=1 K+ blocker 90%
+	delay_stim_v.x[pp]=200	//delay to start the stimulus
+	sim_stop_v.x[pp]=450	// Duration of the simulation
+
+pp=139
+
+	Kfactor_v.x[pp]=1.788 //1.6valororiginal//1.5	//increase of NMDA conductance for 2nd pulse
+	ISD.x[pp] = 15	
+	pulse_v.x[pp]=2	//# of pulses
+	ISI.x[pp] = 10	
+	alfa_AMPA_v.x[pp]=1	// =0.1 is 90% blocked AMPAr
+	alfa_NMDA_v.x[pp]=1	// =0.1 is 90% blocked NMDAr
+	Ca_flag_v.x[pp]=0	//=1 Ca++ blocker 90%
+	Na_flag_v.x[pp]=0	//=1 Na+ blocker 90%
+	//K_flag_v.x[pp]=0	//=1 K+ blocker 90%
+	delay_stim_v.x[pp]=200	//delay to start the stimulus
+	sim_stop_v.x[pp]=450	// Duration of the simulation
+pp=140
+
+	Kfactor_v.x[pp]=1.788 //1.6valororiginal//1.5	//increase of NMDA conductance for 2nd pulse
+	ISD.x[pp] = 30	
+	pulse_v.x[pp]=2	//# of pulses
+	ISI.x[pp] = 10	
+	alfa_AMPA_v.x[pp]=1	// =0.1 is 90% blocked AMPAr
+	alfa_NMDA_v.x[pp]=1	// =0.1 is 90% blocked NMDAr
+	Ca_flag_v.x[pp]=0	//=1 Ca++ blocker 90%
+	Na_flag_v.x[pp]=0	//=1 Na+ blocker 90%
+	//K_flag_v.x[pp]=0	//=1 K+ blocker 90%
+	delay_stim_v.x[pp]=200	//delay to start the stimulus
+	sim_stop_v.x[pp]=450	// Duration of the simulation
+
+//------------------------END OF NEW PROTOCOLS----------------------------
+
+
+
+// ------------------     Magee's protocol
+// ----- p1 to p5 ---
+ISD.x[1] = 0.1	//p1
+ISD.x[2] = 2	//p2
+ISD.x[3] = 3	//p3
+ISD.x[4] = 4	//p3
+ISD.x[5] = 5	//p5
+
+for ipro=1,5{ //p1 .. p5
+	ISI.x[ipro] = 0		//pi
+	pulse_v.x[ipro]=1	//pi
+	delay_stim_v.x[ipro]=50	//p1
+}
+//------------- END    Magee's protocol
+
+// -------------------    Ariav's protocol
+// ----- p6 to p7 -----
+ISD.x[6] = 0.1	//p6
+ISD.x[7] = 0.1	//p7
+
+ISI.x[6] = 20	//p6
+ISI.x[7] = 20	//p6
+
+pulse_v.x[6]=2	//p6
+pulse_v.x[7]=2	//p7
+
+delay_stim_v.x[6]=50	//p6
+delay_stim_v.x[7]=50	//p7
+
+Kfactor_v.x[6]= 1.6 //1.5
+Kfactor_v.x[7]= 1.6 // 1.5
+
+alfa_NMDA_v.x[6]=1	// =0.1 is 90% blocked NMDAr
+alfa_NMDA_v.x[7]=0.1	// =0.1 is 90% blocked NMDAr
+
+//-------------- END Ariav's protocol
+
+
+// -----p8 to p15 (control) p16 to p23 (no additional NMDA)
+// --------- Figure 4E - Control vs no-additional NMDA
+
+ISD.x[8] = 0.1	//p8
+ISD.x[9] = 3	//p9
+ISD.x[10] = 5	//p10
+ISD.x[11] = 7	//p11
+ISD.x[12] = 10	//p12
+ISD.x[13] = 15	//p13
+ISD.x[14] = 20	//p14
+ISD.x[15] = 30	//p15
+
+ISD.x[16] = 0.1	//p16
+ISD.x[17] = 3	//p17
+ISD.x[18] = 5	//p18
+ISD.x[19] = 7	//p19
+ISD.x[20] = 10	//p20
+ISD.x[21] = 15	//p21
+ISD.x[22] = 20	//p22
+ISD.x[23] = 30	//p23
+
+
+
+for ipro=8,23{ //p8 .. p23
+	ISI.x[ipro] = 10	//pi
+	delay_stim_v.x[ipro]=50	//pi
+}
+
+for ipro=16,23{  //p16 .. p23
+	Kfactor_v.x[ipro]=0
+}
+
+// ----- END --------- Figure 4E - Control vs no-additional NMDA
+
+
+// --------- Figure 4F ----------------------------------------------
+// -----p24 to p32 (control)
+// -----p33 to p41 (Ca++ blocked)
+// -----p42 to p50 (Na+ blocked)
+// -----p51 to p59 (NMDA blocked)
+
+//p24 .. p32    control
+ISI.x[24] = 1	//p24
+ISI.x[25] = 5	//p25
+ISI.x[26] = 10	//p26
+ISI.x[27] = 20	//p27
+ISI.x[28] = 30	//p28
+ISI.x[29] = 40	//p29
+ISI.x[30] = 50	//p30
+ISI.x[31] = 60	//p31
+ISI.x[32] = 70	//p32
+//p33 .. p41    Ca++ blocked
+ISI.x[33] = 1	//p24
+ISI.x[34] = 5	//p25
+ISI.x[35] = 10	//p26
+ISI.x[36] = 20	//p27
+ISI.x[37] = 30	//p28
+ISI.x[38] = 40	//p29
+ISI.x[39] = 50	//p30
+ISI.x[40] = 60	//p31
+ISI.x[41] = 70	//p32
+//p42 .. p50    Na+ blocked
+ISI.x[42] = 1	//p24
+ISI.x[43] = 5	//p25
+ISI.x[44] = 10	//p26
+ISI.x[45] = 20	//p27
+ISI.x[46] = 30	//p28
+ISI.x[47] = 40	//p29
+ISI.x[48] = 50	//p30
+ISI.x[49] = 60	//p31
+ISI.x[50] = 70	//p32
+//p51 .. p59    NMDA blocked
+ISI.x[51] = 1	//p24
+ISI.x[52] = 5	//p25
+ISI.x[53] = 10	//p26
+ISI.x[54] = 20	//p27
+ISI.x[55] = 30	//p28
+ISI.x[56] = 40	//p29
+ISI.x[57] = 50	//p30
+ISI.x[58] = 60	//p31
+ISI.x[59] = 70	//p32
+
+
+for ipro=29,32{
+	sim_stop_v.x[ipro]=sim_stop_v.x[ipro-1]+50
+	sim_stop_v.x[ipro+9]=sim_stop_v.x[ipro-1]+50
+	sim_stop_v.x[ipro+18]=sim_stop_v.x[ipro-1]+50
+	sim_stop_v.x[ipro+27]=sim_stop_v.x[ipro-1]+50
+}
+
+for ipro=24,59 { //p24 .. p61
+	ISD.x[ipro] = 0.1	//pi
+	delay_stim_v.x[ipro]=200//pi
+}
+
+for ipro=33,41 { //p42 .. p50    Na+ blocked
+	Ca_flag_v.x[ipro]=1	//pi
+}
+
+for ipro=42,50 { //p42 .. p50    Na+ blocked
+	Na_flag_v.x[ipro]=1	//pi
+}
+
+for ipro=51,59 { //p51 .. p59    NMDA blocked
+	alfa_NMDA_v.x[ipro]=0.1	//pi
+}
+
+// ----- END ---- Figure 4F ---------------------------
+
+
+
+//---------------- Figure 4D ----  3D figure ISD vs ISI
+//---p60  to p99 -----
+
+ISD.x[60] = 0.1	//p60
+ISD.x[61] = 5	//p61
+ISD.x[62] = 10	
+ISD.x[63] = 20	
+ISD.x[64] = 30	
+ISD.x[65] = 40	
+ISD.x[66] = 50	
+ISD.x[67] = 60	//p67
+
+ISD.x[68] = 0.1	//p68
+ISD.x[69] = 5	//p69
+ISD.x[70] = 10	
+ISD.x[71] = 20	
+ISD.x[72] = 30	
+ISD.x[73] = 40	
+ISD.x[74] = 50	
+ISD.x[75] = 60	//p75
+
+ISD.x[76] = 0.1	//p76
+ISD.x[77] = 5	//p77
+ISD.x[78] = 10	
+ISD.x[79] = 20	
+ISD.x[80] = 30	
+ISD.x[81] = 40	
+ISD.x[82] = 50	
+ISD.x[83] = 60	//p83
+
+ISD.x[84] = 0.1	//p84
+ISD.x[85] = 5	//p85
+ISD.x[86] = 10	
+ISD.x[87] = 20	
+ISD.x[88] = 30	
+ISD.x[89] = 40	
+ISD.x[90] = 50	
+ISD.x[91] = 60	//p91
+
+ISD.x[92] = 0.1	//p92
+ISD.x[93] = 5	//p93
+ISD.x[94] = 10	
+ISD.x[95] = 20	
+ISD.x[96] = 30	
+ISD.x[97] = 40	
+ISD.x[98] = 50	
+ISD.x[99] = 60	//p99
+
+//------------------
+
+for ipro=60,67 { //p60 .. p67
+	ISI.x[ipro] = 1
+}
+for ipro=68,75 { //p68 .. p75
+	ISI.x[ipro] = 5
+}
+for ipro=76,83 { //p76 .. p83
+	ISI.x[ipro] = 10
+}
+
+for ipro=84,91 { //p84 .. p91
+	ISI.x[ipro] = 20
+}
+
+for ipro=92,99 { //p92 .. p99
+	ISI.x[ipro] = 30
+}
+
+
+
+ISD.x[103] = 3	//p103
+ISD.x[104] = 7		//p104
+ISD.x[105] = 15	
+
+ISD.x[106] = 3	//p103
+ISD.x[107] = 7		//p104
+ISD.x[108] = 15	
+
+ISD.x[109] = 3	//p103
+ISD.x[110] = 7		//p104
+ISD.x[111] = 15	
+
+ISD.x[112] = 3	//p103
+ISD.x[113] = 7		//p104
+ISD.x[114] = 15	
+
+ISD.x[115] = 3		//p103
+ISD.x[116] = 7		//p104
+ISD.x[117] = 15	
+
+
+for ipro=103,105 { //p103 .. p105
+	ISI.x[ipro] = 1
+}
+for ipro=106,108 { 
+	ISI.x[ipro] = 5
+}
+for ipro=109,111 { 
+	ISI.x[ipro] = 10
+}
+
+for ipro=112,114 { 
+	ISI.x[ipro] = 20
+}
+
+for ipro=115,117 { 
+	ISI.x[ipro] = 30
+}
+
+
+
+//------------ END Figure 4D ----- 3D figure ISD vs ISI
+

@@ -1,0 +1,37 @@
+// The NMDA conductance at each synapse in the cell is estimated as
+// a percent of the AMPA conductance. The ratio of NMDA/AMPA conductances
+// for different cell regions are given by the following values.
+// modified by Yiota Poirazi, July 2001, poirazi@LNC.usc.edu
+// modified by Jose Gomez April 2006, jfcgomez@ull.es
+
+
+
+SOMA_NMDA_AMPA_RATIO=0.6
+AXON_NMDA_AMPA_RATIO=0.6
+BASAL_NMDA_AMPA_RATIO=0.6
+APICAL_TRUNK_NMDA_AMPA_RATIO=0.6
+//APICAL_NON_TRUNK_NMDA_AMPA_RATIO=2.5
+APICAL_NON_TRUNK_NMDA_AMPA_RATIO=2.7
+
+// Using the Peti_Augustine, 2000 and Andrasfaltvy_Magee, 2001 and Otmakhova & Lisman, 2000 
+//and Takumi et al, 1999 and Catrel at al 2000 paper for a linear increase in GLU and GABA 
+//currents along trunk and basal dendrites
+
+/*
+SOMA_NMDA_AMPA_RATIO=0.6
+AXON_NMDA_AMPA_RATIO=0.6
+BASAL_NMDA_AMPA_MAX_RATIO=1.5
+APICAL_TRUNK_NMDA_AMPA_MAX_RATIO=3.5
+APICAL_NON_TRUNK_NMDA_AMPA_MAX_RATIO=3.5
+*/
+
+SOMA_NMDA_AMPA_RATIO=3               //~0.6 peak current
+AXON_NMDA_AMPA_RATIO=3
+BASAL_NMDA_AMPA_MAX_RATIO=5          // about the same peak current
+APICAL_TRUNK_NMDA_AMPA_MAX_RATIO=5   //at 250 is equivalent to the same peak current -> ~2 peak current! at SLM
+APICAL_NON_TRUNK_NMDA_AMPA_MAX_RATIO= 1.2*0.33 //0.8 // April 8, 2008 0.25 // ~2 peak current in side branches of SLM and ~1 of SC
+
+
+//Attila Losonczy, and Jeffrey C. Magee, Neuron 50,291-307 (April 2006). They say that AMPA/NMDA ratio is 4.7+/-1 (n=4)
+
+//APICAL_NON_TRUNK_NMDA_AMPA_MAX_RATIO=1/4.7

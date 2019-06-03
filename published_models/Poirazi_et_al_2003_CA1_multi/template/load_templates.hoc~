@@ -1,0 +1,6 @@
+load_file("../../template/ExperimentControl.hoc")   // load needed templates
+load_file("../../template/EPSPTuning.hoc")
+load_file("../../template/RangeRef.hoc")
+load_file("../../template/ObliquePath.hoc")
+load_file("../../template/BasalPath.hoc")
+load_file("../../template/SynapseBand.hoc")

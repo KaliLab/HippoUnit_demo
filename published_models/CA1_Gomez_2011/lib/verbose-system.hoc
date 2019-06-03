@@ -1,0 +1,6 @@
+// written by Terrence Brannon, last modified by Yiota Poirazi, July 2001, poirazi@LNC.usc.edu
+
+proc verbose_system() {
+  printf(" [ system ]:  %s\n", $s1)
+  system($s1)
+}

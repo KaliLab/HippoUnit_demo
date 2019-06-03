@@ -1,0 +1,71 @@
+
+
+proc Ca_block(){
+
+	f1=$1
+	f2=$2
+	f3=$3
+	f4=$4
+	f5=$5	
+
+
+	forall {
+		if (ismembrane("cal")){gcalbar_cal(x)=f1*gcalbar_cal(x)}
+		if (ismembrane("calH")){gcalbar_calH(x)=f2*gcalbar_calH(x)}
+		if (ismembrane("cat")){gcatbar_cat(x)=f3*gcatbar_cat(x)}
+		if (ismembrane("car")){gcabar_car(x)=f4*gcabar_car(x)}
+		if (ismembrane("can")){gcalbar_can(x)=f5*gcalbar_can(x)}
+	}
+
+
+
+}
+
+
+proc Na_block(){
+
+	f1=$1
+	f2=$2
+	f3=$3
+		
+
+
+	forall {
+		if (ismembrane("nap")){gnabar_nap(x)=f1*gnabar_nap(x)}
+		if (ismembrane("hha2")){gnabar_hha2(x)=f2*gnabar_hha2(x)}
+		if (ismembrane("hha_old")){gnabar_hha_old(x)=f3*gnabar_hha_old(x)}
+		
+	}
+
+
+
+}
+
+proc K_block(){
+
+	f1=$1
+	f2=$2
+	f3=$3
+	f4=$4
+	f5=$5	
+	f6=$6
+	f7=$7	
+	f8=$8
+
+
+	forall {
+		if (ismembrane("hha2")){gkbar_hha2(x)=f1*gkbar_hha2(x)}
+		if (ismembrane("hha_old")){gkbar_hha_old(x)=f2*gkbar_hha_old(x)}
+		if (ismembrane("kadist")){gkabar_kad(x)=f3*gkabar_kad(x)}
+		if (ismembrane("kaprox")){gkabar_kap(x)=f4*gkabar_kap(x)}
+		if (ismembrane("kca")){gbar_kca(x)=f5*gbar_kca(x)}
+		if (ismembrane("kct")){gkbar_mykca(x)=f6*gkbar_mykca(x)}
+		if (ismembrane("kdBG")){gbar_kdBG(x)=f7*gbar_kdBG(x)}
+		if (ismembrane("km")){gbar_km(x)=f8*gbar_km(x)}
+		
+		
+	}
+
+
+
+}

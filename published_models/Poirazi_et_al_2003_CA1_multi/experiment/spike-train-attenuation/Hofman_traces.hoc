@@ -1,0 +1,128 @@
+// The goal of this experiment is to insure that our cell responses
+// have a similar dependance on A current and Ca++ currents to data
+// by Hofman, D. A., Magee, J. C., Colbert, C. M., & Johnston, D. (1997). 
+// K+ channel regulation of signal propagation in dendrites of hippocampal 
+// pyramidal neurons. Nature, 387, 869:875.
+
+
+//load_proc("nrnmainmenu")             // load main NEURON library
+//load_template("ExperimentControl")   // load a custom made library function that centralizes parameters so as to 
+load_file("nrngui.hoc")
+load_file("../../template/load_templates.hoc")
+
+strdef accstr                                                // not confuse experimental variable bindings with neurophysiological variable bindings
+objref econ                         			     // Create an experiment object
+show_errs=1
+debug_lev=1
+econ=new ExperimentControl(show_errs,debug_lev)
+econ.self_define(econ) // points the object at itself
+econ.morphology_dir = "../../morphology/n123"                             // Setup morphology directory
+econ.generic_dir = "../../experiment/"                                    // Setup directory with cell-setup file
+econ.add_lib_dir("Terrence","../../lib")                                  // Setup directory with library functions 
+
+//Define data directory
+econ.data_dir       = "data"                       // Define directory to save produced data
+
+if (unix_mac_pc() ==1 ) {
+	sprint(econ.syscmd, "mkdir -p %s", econ.data_dir)  // make the data directory
+	system(econ.syscmd)
+}
+
+// Setup cell
+
+econ.xopen_geometry_dependent("cell")              // load the raw cell morphology
+econ.xopen_geometry_dependent("cell-analysis")     // load user-defined semantics on morphology 
+cell_analysis(econ)
+
+printf("Opening cell setup\n")
+econ.xopen_generic("cell-setup")                   // load the cell-setup file (define specific 
+printf("Opened. Setting up cell\n")                // channels, membrane properties etc)
+cell_setup(econ)
+
+// Set simulation parameters for the experiment 
+
+econ.defvar("Simulation Control", "tstop", "175", "Defines when the simulation stops.")
+econ.defvar("Simulation Control", "dt", "0.1", "Timestep")
+econ.defvar("Simulation Control", "steps_per_ms", "10", "How many points are plotted per ms")
+setdt()
+
+//Proceedures for the different cases to be tested
+
+proc Ca_block(){   // Block all Ca++ channels
+f = 0.25
+  forall if(ismembrane("cat")) { 
+     for (x) { gcatbar_cat(x) = f*gcatbar_cat(x) }
+  }
+  forall if(ismembrane("calH")) { 
+     for (x) { gcalbar_calH(x) = f*gcalbar_calH(x) }
+  }
+  forall if(ismembrane("cal")) { 
+     for (x) { gcalbar_cal(x) = f*gcalbar_cal(x) }
+  }
+  forall if(ismembrane("car")) { 
+     for (x) { gcabar_car(x) = f*gcabar_car(x) }
+  }
+  forall if(ismembrane("somacar")) { 
+     for (x) { gcabar_somacar(x) = f*gcabar_somacar(x) }
+  }
+}
+
+proc A_block() {  // Block all A-type K+ channels 
+f = 0
+forall if(ismembrane("kad")) { // distal conductances
+     for(x) { gkabar_kad(x)= gkabar_kad(x)*f }
+  } else if(ismembrane("kap")) { // proximal conductances
+     for(x) { gkabar_kap(x)= gkabar_kap(x)*f }
+  }
+}
+
+// Call the blockade proceedure tested
+//A_block()
+//Ca_block()
+
+strdef data_dir
+data_dir       = "data/Hofman/control"                  // Define directory to save produced data for control case 
+//data_dir       = "data/Hofman/A-blocked"                // Define directory to save produced data for A-blocked case 
+//data_dir       = "data/Hofman/A_Ca-blocked"               // Define directory to save produced data for Ca-blocked case 
+
+if (unix_mac_pc() ==1 ) {
+	sprint(econ.syscmd,  "mkdir -p %s", data_dir)                               // make directory
+	system(econ.syscmd) 
+}
+
+// Insert current clamp into soma or dendritic section
+
+access soma
+objref ic,ic2
+ic = new IClamp(0.5)
+
+// Configure current clamp
+//allow enough time for voltage to reach a steady state in the blockade cases
+econ.defvar("Current Clamp Control", "ic.del", "140", "Determines the delay before onset of the current clamp.")
+econ.defvar("Current Clamp Control", "ic.dur", "50", "Determines the duration of the current clamp.")
+econ.defvar("Current Clamp Control", "ic.amp", ".3", "Determines the amplitude of the current clamp.")  
+
+// Create basic graphics
+
+econ.xopen_library("Terrence","basic-graphics")
+addgraph_2("soma.v(0.5)",              150,175,-72,20)
+addgraph_2("apical_dendrite[65].v(0.5)", 150,175,-72,20)     // 252.67 um from soma
+
+
+
+// Initialize and run the experiment
+
+finitialize(v_init)
+fcurrent()
+run()
+
+// Dump the graphical output to .eps files
+
+econ.xopen_library("Terrence","verbose-system")
+for i=0,windex {
+
+  sprint(econ.tmp_str, "%s/graph-%d.eps",data_dir, i)    // define the name of the .eps file  
+  win[i].printfile(econ.tmp_str)
+
+}
+

@@ -1,0 +1,44 @@
+// This function plot Histogram of Radial distance of
+// Branch Point and Terminal Point
+// Outputs:	Historgram Plots
+// Inputs:	vector_distance_Apic_BP_b
+//		vector_distance_Basal_BP_b
+//		vector_distance_Apic_TP_b
+//		vector_distance_Basal_TP_b
+// written by Jose Gomez, March 2006, jfcgomez@ull.es
+
+
+
+hist1b=vector_distance_Apic_BP_b.c
+hist2b=vector_distance_Basal_BP_b.c
+hist3b=vector_distance_Apic_TP_b.c
+hist4b=vector_distance_Basal_TP_b.c
+
+hist5b=L_TP_apical_b.c
+hist6b=L_TP_basal_b.c
+
+proc hist_graphb() {
+		
+		$o1=$o1.histogram(0,$3,50)
+		$o1=$o1.reverse
+		v1=new Vector($o1.size())
+		v1.indgen(-($3+50),50)
+		$o4=$o4.histogram(0,$5,50)
+		v4=new Vector($o4.size())
+		v4.indgen(0,50)	
+		$o1=$o1.append($o4)
+		v1=v1.append(v4)
+		$o1.plot($o2,v1)
+}
+
+
+
+g1b.erase()
+g2b.erase()
+//g3b.erase()
+
+
+hist_graphb(hist1b,g1b,550,hist2b,250)
+hist_graphb(hist3b,g2b,600,hist4b,400)
+hist_graphb(hist5b,g3b,1500,hist6b,700)
+

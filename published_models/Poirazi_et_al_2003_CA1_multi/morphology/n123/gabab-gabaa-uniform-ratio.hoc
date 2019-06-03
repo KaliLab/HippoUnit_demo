@@ -1,0 +1,16 @@
+// GABA_A and GABA_B conductances are estimated using
+// a ratio variable. In the experiments presented here, GABA_A conductance
+// is equal to AMPA conductance at every synapse, while GABA_B conductance is
+// equal to 60% of the GABA_A value.
+// written by Yiota Poirazi, July 2001, poirazi@LNC.usc.edu
+
+GABA_AMPA_RATIO=1   
+GABAb_GABAa_RATIO=0.6
+
+
+//old values used in previous experiments
+//GABA_AMPA_RATIO=0.6     // R. Miles_etal, Neuron 1996
+//GABAb_GABAa_RATIO=0.5 
+
+//GABA_AMPA_RATIO=0.8
+//GABAb_GABAa_RATIO=0.3

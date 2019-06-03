@@ -1,0 +1,80 @@
+// This function is used to calculate the AMPA coductance values 
+// such that a single pulse stimulus gives rise to a 5mV local depolarization 
+// at every synapse location along the cell (each synapse has both an AMPA and an NMDA mechanism).
+// AMPA values for each location tested, along the sections tested are saved in the tune_epsp_list
+// written by Terrence Brannon, last modified by Yiota Poirazi, July 2001, poirazi@LNC.usc.edu
+
+strdef fast_file
+strdef sec_str, recstr, tuning_code
+objref epsp_glu, epsp_nmda, vmvec, epsp_ic, tmpvec
+
+proc tune_epsp_fast () { 
+//  printf("proc tune_epsp_fast (%s.v(%g))\n", secname(), $2)
+
+  R = $2                 //  synapse location
+  epsp_glu  = new GLU(R)
+  epsp_nmda = new NMDA(R)
+  tuned = 0             //  initial values before tuning
+  old_GMAX = 0
+ 
+  while (!tuned) {
+
+   epsp_glu.gmax  = GMAX     // previously calculated maximum AMPA conductance
+   epsp_nmda.gmax = GMAX*NMDA_AMPA_RATIO  // maximum NMDA conductance 
+
+   fakecell {                            // single shock current injection to a fake cell
+     epsp_ic = new IClamp(0.5)           
+     epsp_ic.amp = 1
+     epsp_ic.dur = 1
+     epsp_ic.del = 0.1*tstop
+   }
+
+   setpointer epsp_glu.pre,  epsp_ic.i
+   setpointer epsp_nmda.pre, epsp_ic.i
+
+   tmpvec = new Vector(tstop/dt)
+   sprint(recstr, "tmpvec.record(&%s.v(%g))", secname(), R) // record depolarization at synapse
+   execute1(recstr)
+   init()
+   run()
+
+   vmvec = tmpvec.c
+   // test if resulting depolarization is closed to the desired value (5mV)
+
+   if (epsilon_equal(vmvec.max(),desired_voltage,$3)) {
+     tuned = 1  // if yes, stop         
+     printf("\t\tTUNED.\n")
+
+   } else {     // if no, update the GMAX value and test again
+
+     diffa = desired_voltage-BASELINE
+     diffb = vmvec.max()-BASELINE
+     ratio = diffa/diffb
+     GMAX = GMAX*ratio
+
+     print "\t\tnew GMAX: ", GMAX
+ }
+ }
+
+ sprint(tuning_code,"%s tune_epsp_list.append(new EPSPTuning(\"%s\",%f,%f,1))", secname(), secname(), x, GMAX)
+ $o4.printf("%s\n", tuning_code)
+
+}
+
+// test if difference between desired and actual voltage is smaller than epsilon
+
+func epsilon_equal() {
+  printf("epsilon_equal(%f,%f,%f)\n", $1,$2,$3)
+  diff = ($1-$2)
+  if (abs(diff) < $3) {
+    return(1)
+  } else {
+    return(0)
+  }
+}
+
+
+
+
+
+

@@ -1,0 +1,326 @@
+// Single shock synaptic stimulation of increasing numbers of synapses 
+// distributed uniformly on a single apical oblique branch. This experiment is used to 
+// show how A+B type stimulation can be sublinear, linear or supralinear 
+// depending on the strength and location of stimuli A,B 
+
+// The variable "times" is used to selected among a set of blockade cases to test
+// times: 0 = control , 1 = block_A, 2 =  block_NMDA, 3 = block_A_NMDA, 4 = block_Na, 5 =  block_Ca
+
+times = 0
+
+load_file("nrngui.hoc")
+load_file("../../template/load_templates.hoc")
+
+objref econ                          // initialize template parameters
+show_errs=1
+debug_lev=1
+econ=new ExperimentControl(show_errs,debug_lev)
+econ.self_define(econ)
+econ.morphology_dir = "../../morphology/n123"                                // set location for morphology files
+econ.add_lib_dir("Terrence","../../lib")                                     // set location for library files
+econ.generic_dir    = "../../experiment/"                                    // set location for cell-setup file
+
+econ.data_dir       = "data"						     // create directory to store data
+sprint(econ.syscmd, "mkdir -p %s", econ.data_dir)
+system(econ.syscmd)
+
+actual_resolution=75                                                         // maximum nseg number
+desired_resolution=1
+
+econ.xopen_geometry_dependent("cell")                                        // load raw cell morphology	
+econ.xopen_geometry_dependent("cell-analysis")                               // load user-defined semantics on morphology
+cell_analysis(econ)
+
+printf("Opening cell setup\n")                                               // load cell-setup to	
+econ.xopen_generic("cell-setup")                                             // specify all mechanisms,	
+printf("Opened. Setting up cell\n")                                          // membrane properties etc
+maximum_segment_length=actual_resolution
+cell_setup(econ)
+
+// Set simulation parameters for the experiment 
+
+econ.defvar("Simulation Control", "tstop", "260", "Defines when the simulation stops.")
+econ.defvar("Simulation Control", "dt", "0.1", "Timestep")
+econ.defvar("Simulation Control", "steps_per_ms", "10", "How many points are plotted per ms")
+setdt()
+
+// open files with NMDA/AMPA ratios
+econ.xopen_geometry_dependent("nmda-ampa-ratio")
+
+
+// Open file with tuned AMPA conductance values for all sections
+objref tune_epsp_list
+tune_epsp_list=new List()
+strdef tunings_file, select, temp, accstr
+sprint(tunings_file, "%s", "tunings")
+xopen("../tune-synapses/tunings.dat")
+
+// Open library functions that will be needed
+
+load_template("SynapseBand")
+econ.xopen_library("Terrence","choose-secs")    // used to randomly select sections from a list
+econ.xopen_library("Terrence","salloc")         // used to allocate synapses on sections
+econ.xopen_library("Terrence","deduce-ratio")   // used to extract NMDA/AMPA, GABA_A/AMPA and GABA_B/GABA_B ratios
+econ.xopen_library("Terrence","basic-graphics") // used to plot graphics 
+econ.xopen_library("Terrence","spikecount")     // used to count spikes
+
+synapses = 100                                 // maximum number of AMPA/NMDA synapses            
+maxruns = 2                                    // max number of runs for each synapse group in section (averaging)
+minsyn = 2                                     // minimum number of synapses in selected section
+maxsyn = 50                                    // maximum number of synapses in selected section
+syn_step = 4                                   // step for increasing synapses in selected section
+
+Deadtime_GLU=dt
+Deadtime_NMDA=dt
+hertz=2				              // frequency of stimulation for all synapses (single pulse)
+synch=0					      // synapses are stimulated randomly (NOT synchronously)
+perio=0					      // spike trains for each synapse are NOT periodic
+dendritic_spike_threshold=-25
+somatic_spike_threshold= 0 
+        
+objref band[2], rpid, vsoma, somarecf, vtip[100], dendrecf
+objref ampa[synapses], nmda[synapses], splot, sl
+strdef syscmd
+
+objref apical_tip, vrec, vf
+objref dendrec, meanvrec, maxvrec, meandendrec, maxdendrec, spikes, soma_spikes
+meanvrec = new Vector(maxruns)          // used to store the mean somatic depolarization in each run 
+maxvrec = new Vector(maxruns)           // used to store the max somatic depolarization in each run 
+meandendrec = new Vector(maxruns)       // used to store the mean dendritic depolarization in each run
+maxdendrec = new Vector(maxruns)        // used to store the max dendritic depolarization in each run
+spikes = new Vector(maxruns)            // used to store number of dendritic spikes per run 
+soma_spikes = new Vector(maxruns)       // used to store number of somatic spikes per run 
+
+
+// Sections that could be used to plot traces
+//addgraph("soma.v(0.5)",-72,20)
+//addgraph("apical_dendrite[57].v(0.5)",-72,20)   // Trunk middle
+//addgraph("apical_dendrite[72].v(0.5)",-72,20)   // Trunk distal 81 83 95 103 104
+//addgraph("apical_dendrite[58].v(0.5)",-72,20)   // Trunk middle
+//addgraph("apical_dendrite[46].v(0.5)",-72,20)   // Trunk proximal
+//addgraph("apical_dendrite[45].v(0.5)",-72,20)   // Tip proximal 
+//addgraph("apical_dendrite[59].v(0.5)",-72,20)   // Trunk middle
+//addgraph("apical_dendrite[68].v(0.5)",-72,20)   // Tip midle 
+//addgraph("apical_dendrite[73].v(0.5)",-72,20)   // Tip distal
+//addgraph("apical_dendrite[82].v(0.5)",-72,20)   // Tip distal
+//addgraph( "v(0.5)",-72,0)
+
+//Proceedures for the different cases to be tested
+
+proc Ca_block() {   // Block all Ca++ channels
+  forall if(ismembrane("cat")) { 
+     for (x) { gcatbar_cat(x) = 0 }trunkl
+  }
+  forall if(ismembrane("calH")) { 
+     for (x) { gcalbar_calH(x) = 0 }
+  }
+  forall if(ismembrane("cal")) { 
+     for (x) { gcalbar_cal(x) = 0 }
+  }
+  forall if(ismembrane("car")) { 
+     for (x) { gcabar_car(x) = 0 }
+  }
+  forall if(ismembrane("somacar")) { 
+     for (x) { gcabar_somacar(x) = 0 }
+  }
+}
+
+proc Na_block() {  // Block all Na+ channels
+  forall if(ismembrane("hha2")) { 
+     for (x) { gnabar_hha2(x) = 0 }
+  }
+  forall if(ismembrane("hha_old")) { 
+     for (x) { gnabar_hha_old(x) = 0 }
+  }
+}
+
+proc NMDA_block() {  // Block NMDA current 
+ for i=0, synapses -1 {
+   nmda[i].gmax = 0  
+ }
+}
+
+proc A_block() {  // Block all A-type K+ channels 
+f = 0.2
+forall if(ismembrane("kad")) { // distal conductances
+     for(x) { gkabar_kad(x)= gkabar_kad(x)*f }
+  } else if(ismembrane("kap")) { // proximal conductances
+     for(x) { gkabar_kap(x)= gkabar_kap(x)*f }
+  }
+}
+
+proc A_NMDA_block() { // block both A-current and NMDA current
+ NMDA_block()
+ A_block()
+}
+
+
+// Use to make a list with all apical obliques within 200 um from soma
+  //sl=new SectionList()
+  //apical_dendrite[111]   sl.append()   // 1 degree                106.30
+  //apical_dendrite[112]   sl.append()   // 0 degree                 88.52
+  //apical_dendrite[114]   sl.append()  // 1 degree                 123.9962
+  //apical_dendrite[115]   sl.append()   // 1 degree                117.79
+  //apical_dendrite[117]   sl.append()  // 1 degree                  67.6363
+  //apical_dendrite[118]   sl.append()   // 1 degree                 81.66
+
+
+// Make a list of all apical tip sections to be used  
+objref splot, apical_tipl, sl
+strdef csec, syscmd
+apical_tipl=new SectionList()
+sl=new SectionList()
+
+forsec apical_tip_list {
+      apical_tipl.append()
+      sl.append()
+}
+
+forsec apical_tip_list_addendum {
+      sl.append()
+}
+
+if (times == 0 || times == 2) {
+  temporal_offset = 10
+}else{
+  temporal_offset = 100        // leave some time for equalibrium to be reached when channels are blocked
+}
+tstop = tstop+temporal_offset  // simulation time period
+
+
+addgraph_2("soma.v(0.5)",0,tstop,-72,-20) // plot voltage at the soma
+
+//prepare to record at soma
+
+vsoma=new Vector((tstop-temporal_offset)/dt)
+sprint(accstr, "vsoma.record(&soma.v(0.5))")
+execute1(accstr)
+
+//prepare to record at oblique sections
+
+ind=0
+forsec sl {
+        vtip[ind]=new Vector((tstop-temporal_offset)/dt)
+        sprint(accstr, "vtip[%d].record(&%s.v(0.5))", ind, secname())
+        execute1(accstr)
+        ind=ind+1
+        }
+
+// Start the experiment
+r = 0
+forsec sl {                     // for all oblique dendrites in the list
+    nseg = maxsyn               // number of segments in each section is set equal to max number of synapses
+                                // to avoid inserting more than one synapses at the same location 
+                                // for increasing number for synapses in the branch
+    for (synapses=minsyn; synapses<=maxsyn; synapses=synapses+syn_step) {
+
+        for runs = 0, maxruns-1 { // for maxruns times
+           r = r + 1 
+           rpid = new Random(5*r+1)
+           PID = rpid.discunif(0,1000) 
+
+        if (synapses == minsyn) {   
+            print secname(), "is where we assess potency."
+            strdef recordsec
+            sprint(recordsec, "%s.v(0.5)",secname()) 
+            addgraph(recordsec,-72,0)  // plot voltage at currently accessed section
+        }
+
+        COLOR=4      
+        splot=new Shape()
+        for si=1,synapses {      // evenly devide synapses along apical oblique dendrite
+           posn = (2*si -1)/(2*synapses)          
+           printf("ampa[%d] = new GLU(%g)\n", si-1, posn)
+           ampa[si-1] = new GLU(posn)
+           nmda[si-1] = new NMDA(posn)
+           salloc2(ampa[si-1],nmda[si-1],posn,1,splot,COLOR) // mark ampa synapses on graph
+        }
+        splot.flush()
+        splot.show(1)
+
+        GABA_flag = 0    // Don't make both AMPA/NMDA and GABA trains in shiftsyn_init 
+        
+        // create the stimulation trains for AMPA & NMDA synapses
+        econ.xopen_library("Terrence","shiftsyn-initA")
+        shiftsyn_init(synapses,tstop,dt,hertz,synch,perio,PID,temporal_offset, GABA_flag ,"ampa","nmda")
+     
+        vrec=new Vector(tstop/dt)   // prepare to record somatic voltage
+        vrec.record(&soma.v(0.5))
+        
+        dendrec=new Vector(tstop/dt) // prepare to record dendritic voltage
+        dendrec.record(&v(0.5))
+
+        // Execute current-blockade proceedure specified
+ 
+        if (times == 0) {
+             sprint(select, "%s", "control")}  
+        if (times == 1) {
+             A_block()
+             sprint(select, "%s", "block_A_80")}
+        if (times == 2) {
+             NMDA_block() 
+             sprint(select, "%s", "block_NMDA")}
+        if (times == 3) {
+             A_NMDA_block() 
+             sprint(select, "%s", "block_A_NMDA")}
+        if (times == 4) {
+             Na_block()
+             sprint(select, "%s", "block_Na")}
+        if (times == 5) {
+             Ca_block()
+             sprint(select, "%s", "block_Ca")}
+
+        print  "secname = ", secname(), "  case = ", select, "  nseg = ", nseg, "  synapses = ", synapses, "  runs =", runs 
+
+        finitialize(v_init) //Inbitialize and run the experiment
+        fcurrent()
+        run()
+
+        meanvrec.x(runs) = vrec.mean(temporal_offset/dt,tstop/dt -1)      // mean somatic depolarization
+	maxvrec.x(runs) = vrec.max(temporal_offset/dt,tstop/dt -1)        // max somatic depolarization
+	meandendrec.x(runs)= dendrec.mean(temporal_offset/dt,tstop/dt -1) // mean dendritic depolarization
+	maxdendrec.x(runs) = dendrec.max(temporal_offset/dt,tstop/dt -1)  // max dendritic depolarization
+        spikes.x(runs) =  spikecount(dendrec,dendritic_spike_threshold)   // count current number of dendritic spikes
+        soma_spikes.x(runs) =  spikecount(vrec, somatic_spike_threshold)  // count current number of somatic spikes
+        }
+
+   // create the output file and write data in file
+   vf=new File()
+   sprint(temp, "data/%s/Apical_Tips/%s/", tunings_file, secname())
+   sprint(econ.syscmd,  "mkdir -p %s", temp)
+   system(econ.syscmd)   
+   sprint(econ.tmp_str2, "%s/%s_%d_%d", temp, select, minsyn, maxsyn)
+   vf.aopen(econ.tmp_str2)
+   vf.printf("%d %g %g %g %g %g %g %g %g %g %g %g %g\n", synapses, meanvrec.mean(), meanvrec.stdev(), maxvrec.mean(), maxvrec.stdev(), meandendrec.mean(), meandendrec.stdev(), maxdendrec.mean(), maxdendrec.stdev(), spikes.mean(), spikes.stdev(), soma_spikes.mean(), soma_spikes.stdev())
+   vf.close()
+       
+
+  //Print somatic trace in the same directory
+
+   objref somarecf
+   somarecf=new File()
+   sprint(temp, "data/%s/Apical_Tips/%s/Vsoma_%d",tunings_file, secname(), synapses)
+   somarecf.wopen(temp)
+   vrec.printf(somarecf, "%g\n")
+   somarecf.close()
+
+//Print dendritic trace in the same directory 
+
+  objref dendrecf
+  dendrecf=new File() 
+  sprint(temp, "data/%s/Apical_Tips/%s/Vlocal_%d",tunings_file, secname(),synapses)
+  dendrecf.wopen(temp)
+  dendrec.printf(dendrecf, "%g\n")
+  dendrecf.close()
+   
+//Use only to print graphics tp eps files
+  if (unix_mac_pc()==1) {
+     econ.xopen_library("Terrence","verbose-system")
+     for i=0,windex {
+     sprint(econ.tmp_str2, "data/%s/Apical_Tips/%s/graph-syns=%d-%d.eps", tunings_file, secname(), synapses, i)      
+     win[i].printfile(econ.tmp_str2)
+     }
+  }
+
+  }
+}

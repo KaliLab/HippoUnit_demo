@@ -1,0 +1,14 @@
+// This function is used to deduce the NMDA/AMPA conductance ratio 
+// for various sections in the cell (the ratio is defined in ../morphology/n123/nmda-ampa-ratio.hoc)
+// edited by Yiota Poirazi, July 2001, poirazi@LNC.usc.edu
+
+func deduce_ratio() {
+  ratio = 0
+  ifsec apical_trunk_list     { ratio = APICAL_TRUNK_NMDA_AMPA_RATIO }    
+  ifsec apical_non_trunk_list { ratio = APICAL_NON_TRUNK_NMDA_AMPA_RATIO }
+  ifsec soma_list             { ratio = SOMA_NMDA_AMPA_RATIO }
+  
+  if (!ratio) { print "section should not receive synapses" stop }
+//  print "The nmda-ampa ratio to be used is ", ratio
+  return(ratio)
+}

@@ -1,0 +1,74 @@
+//Original file 'Disperse_6_2.hoc' modified by Sára Sáray in order to run validation tests on the base model
+
+
+// This experiment is used to study the effect of synapse clustering
+// on the firing rate of our model cell. To this end, we perform a gradual
+// dispersion of 32 or 40 synaptic contacts onto the thin oblique dendrites.  We start 
+// with the optimal number of clusters (4 or 5) each consisting of the optimal 
+// number of synapses (6 or 2) and in each step we destroy one cluster and disperse
+// it's synapses until we end up with no intact clusters.
+// Type of inhibition included: 11 gabaa/gabab synapses, 5 in soma sections and 6 every
+// 60um along the apical trunk 
+
+// Synchronous (synch=1) or asynchronous (synch=0) cases can also be tested
+// In this experiment we can also include background synapses (50 excitatory and 50 inhibitory)
+// firing in 5Hz for the entire duration of the experiments to account for background activity
+
+BACK_GROUND = 0 // set to 1 when using background synapses
+synch = 0        // synapses are stimulated randomly (NOT synchronously), set to 1 for synchronous stimulation
+
+//load_proc("nrnmainmenu")
+//load_template("ExperimentControl")         // load needed templates
+//load_template("EPSPTuning")
+//load_template("RangeRef")
+//load_file("nrngui.hoc")
+load_file("../../template/load_templates_MODIFIED.hoc")
+
+objref econ                               // initialize template parameters
+show_errs=1
+debug_lev=1
+econ=new ExperimentControl(show_errs,debug_lev)
+econ.self_define(econ)
+econ.morphology_dir = "../../morphology/n123"                                 // set location for morphology files
+econ.add_lib_dir("Terrence","../../lib")                                      // set location for library files
+econ.generic_dir    = "../../experiment/"                                     // set location for cell-setup file
+econ.data_dir       = "data"                                                  // set directory to store data
+strdef tips_dir
+tips_dir = "../single-branch-potency/data/Apical_Tips" // set directory with single branch
+sprint(econ.syscmd, "mkdir -p %s", econ.data_dir)                             // 50 Hz stimulation results
+system(econ.syscmd)
+
+actual_resolution=75                                                          // maximum nseg number 
+desired_resolution=1
+
+econ.xopen_geometry_dependent("cell")                                         // load raw cell morphology	
+econ.xopen_geometry_dependent("cell-analysis")                                // load user-defined semantics on morphology 
+cell_analysis(econ) 
+
+printf("Opening cell setup\n")                                   
+econ.xopen_generic("cell-setup_MODIFIED")                                              // load cell-setup to
+printf("Opened. Setting up cell\n")                                           // specify all mechanisms,
+maximum_segment_length=actual_resolution                                      // membrane properties etc	 
+cell_setup(econ)
+
+// Creating section lists for validation
+objref oblique_tip_dendrites, oblique_dendrites
+oblique_tip_dendrites = new SectionList()
+
+forsec apical_tip_list {oblique_tip_dendrites.append()}
+forsec apical_tip_list_addendum {oblique_tip_dendrites.append()}
+
+//oblique_tip_dendrites.printnames()
+
+oblique_dendrites = new SectionList()
+for i = 0, 59 {
+	forsec pl[i] { oblique_dendrites.append() }
+}
+oblique_dendrites.unique()
+oblique_dendrites.remove(apical_trunk_list)
+oblique_dendrites.printnames()
+
+finitialize(v_init)
+fcurrent()
+
+

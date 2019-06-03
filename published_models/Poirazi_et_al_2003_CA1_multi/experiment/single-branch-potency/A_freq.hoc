@@ -1,0 +1,317 @@
+// Single branch, high frequency (50 Hz), synaptic stimulation of a group A of exciatory synapses
+// and one inhibitory synapse within a single apical oblique. This experiment is used to show how 
+// A+B type stimulation delivered on single branches can be sublinear, linear or supralinear depending
+// on the strength and location of stimuli A, B
+
+// Type of inhibition: one GABA_a/GABA_b synapse in the stimulated branch
+ 
+// The variable "times" is used to select among a set of blockade cases to test
+// times: 0 = control , 1 = block_A, 2 =  block_NMDA, 3 = block_A_NMDA, 4 = block_Na, 5 =  block_Ca
+
+times = 0
+
+//load_proc("nrnmainmenu")      
+//load_template("ExperimentControl") // load needed templates
+//load_template("EPSPTuning")
+//load_template("RangeRef")
+load_file("nrngui.hoc")
+load_file("../../template/load_templates.hoc")
+
+objref econ                        // initialize template parameters
+show_errs=1
+debug_lev=1
+econ=new ExperimentControl(show_errs,debug_lev)
+econ.self_define(econ)
+econ.morphology_dir = "../../morphology/n123"        // set location for morphology files
+econ.add_lib_dir("Terrence","../../lib")             // set location for library files
+econ.generic_dir    = "../../experiment/"            // set location for cell-setup file
+econ.data_dir       = "data"                                                 // set directory to store data
+sprint(econ.syscmd, "mkdir -p %s", econ.data_dir)
+system(econ.syscmd)
+
+actual_resolution=75							     // maximum nseg number
+desired_resolution=1
+
+econ.xopen_geometry_dependent("cell")					     // load raw cell morphology	
+econ.xopen_geometry_dependent("cell-analysis")				     // load user-defined semantics on morphology
+cell_analysis(econ)
+
+printf("Opening cell setup\n")						     // load cell-setup to	
+econ.xopen_generic("cell-setup")					     // specify all mechanisms,	
+printf("Opened. Setting up cell\n")					     // membrane properties etc	
+maximum_segment_length=actual_resolution
+cell_setup(econ)
+
+// Set simulation parameters for the experiment 
+ 
+econ.defvar("Simulation Control", "tstop", "250", "Defines when the simulation stops.")
+econ.defvar("Simulation Control", "dt", "0.1", "Timestep")
+econ.defvar("Simulation Control", "steps_per_ms", "10", "How many points are plotted per ms")
+setdt()
+
+// open files with NMDA/AMPA, GABA_A/AMPA and GABA_B/GABA_A ratios
+econ.xopen_geometry_dependent("nmda-ampa-ratio")
+econ.xopen_geometry_dependent("gabab-gabaa-uniform-ratio")
+
+// Open file with tuned AMPA conductance values for all sections
+objref tune_epsp_list
+tune_epsp_list=new List()
+strdef tunings_file, select
+sprint(tunings_file, "%s", "tunings")
+xopen("../tune-synapses/tunings.dat")
+
+// Open library functions that will be needed
+econ.xopen_library("Terrence","choose-secs")    // used to randomly select sections from a list
+econ.xopen_library("Terrence","salloc")         // used to allocate synapses on sections
+econ.xopen_library("Terrence","deduce-ratio")   // used to extract NMDA/AMPA, GABA_A/AMPA and GABA_B/GABA_B ratios
+econ.xopen_library("Terrence","basic-graphics") // used to plot graphics 
+econ.xopen_library("Terrence","spikecount")     // used to count spikes
+
+synapses = 100                                  // maximum number of AMPA/NMDA synapses
+gaba_synapses = 20			        // maximum number of GABA synapses
+
+maxruns = 1                                     // max number of runs for each synapse group in section (averaging)
+minsyn = 1                                      // minimum number of synapses in selected section
+maxsyn = 10                                     // maximum number of synapses in selected section
+
+Deadtime_GLU=dt
+Deadtime_NMDA=dt
+Deadtime_GABAa=dt
+Deadtime_GABAb=dt
+hertz=50				      // frequency of stimulation for all synapses
+synch=0					      // synapses are stimulated randomly (NOT synchronously)
+perio=0					      // spike trains for each synapse are NOT periodic
+dendritic_spike_threshold = -25
+somatic_spike_threshold = 0
+      
+objref rpid 
+objref ampa[synapses], nmda[synapses], gabaa[gaba_synapses], gabab[gaba_synapses]
+objref vrec, Cvrec, vf, dendrec, Cdendrec, meanvrec, maxvrec, meandendrec, maxdendrec, spikes, soma_spikes
+objref somarecf, dendrecf
+
+meanvrec = new Vector(maxruns)          // used to store the mean somatic depolarization in each run 
+maxvrec = new Vector(maxruns)           // used to store the max somatic depolarization in each run 
+meandendrec = new Vector(maxruns)       // used to store the mean dendritic depolarization in each run
+maxdendrec = new Vector(maxruns)        // used to store the max dendritic depolarization in each run
+spikes = new Vector(maxruns)            // used to store number of dendritic spikes per run 
+soma_spikes = new Vector(maxruns)       // used to store number of somatic spikes per run 
+
+//Proceedures for the different cases to be tested
+
+proc Ca_block(){   // Block all Ca++ channels
+  forall if(ismembrane("cat")) { 
+     for (x) { gcatbar_cat(x) = 0 }
+  }
+  forall if(ismembrane("calH")) { 
+     for (x) { gcalbar_calH(x) = 0 }
+  }
+  forall if(ismembrane("cal")) { 
+     for (x) { gcalbar_cal(x) = 0 }
+  }
+  forall if(ismembrane("car")) { 
+     for (x) { gcabar_car(x) = 0 }
+  }
+  forall if(ismembrane("somacar")) { 
+     for (x) { gcabar_somacar(x) = 0 }
+  }
+}
+
+proc Na_block(){  // Block all Na+ channels
+  forall if(ismembrane("hha2")) { 
+     for (x) { gnabar_hha2(x) = 0 }
+  }
+  forall if(ismembrane("hha_old")) { 
+     for (x) { gnabar_hha_old(x) = 0 }
+  }
+}
+
+proc NMDA_block(){  // Block NMDA current 
+ for i=0, synapses -1 {
+   nmda[i].gmax = 0  
+ }
+}
+
+proc A_block() {  // Block all A-type K+ channels 
+f = 0
+forall if(ismembrane("kad")) { // distal conductances
+     for(x) { gkabar_kad(x)= gkabar_kad(x)*f }
+  } else if(ismembrane("kap")) { // proximal conductances
+     for(x) { gkabar_kap(x)= gkabar_kap(x)*f }
+  }
+}
+
+proc A_NMDA_block(){ // block both A-current and NMDA current
+ NMDA_block()
+ A_block()
+}
+
+
+objref splot, gaba_band_shape
+strdef csec, syscmd,temp
+objref all_branches
+all_branches=new SectionList()
+
+// Make a list with all terminal oblique  dendrites
+forsec apical_tip_list { // list of all primary obliques
+   all_branches.append()
+}
+forsec apical_tip_list_addendum {
+   all_branches.append()   // list of all additional obliques
+}
+
+
+if (times == 0 || times == 2) {
+  temporal_offset = 10
+}else{
+  temporal_offset = 120        // allow some time for equalibrium to be reached when channels are blocked
+}
+tstop = tstop+temporal_offset  // simulation time period
+
+
+addgraph_2("soma.v(0.5)",0,tstop, -72,20) // plot voltage at the soma
+ 
+forsec all_branches { 
+    nseg = maxsyn  // number of segments in each section is set equal to max number of synapses
+                   // to avoid inserting more than one synapses at the same location 
+
+    for (synapses=minsyn; synapses<=maxsyn; synapses=synapses+1) { // for increasing number for synapses in the branch
+
+        for runs = 0, maxruns-1 {  // number of averaging runs 
+
+        rpid=new Random(runs+synapses)
+        PID=int(rpid.repick())
+        b = 0
+
+        if (synapses == minsyn && runs == 0) {
+           print secname(), "is where we assess potency."
+           strdef recordsec           
+           sprint(recordsec, "%s.v(0.5)",secname()) 
+           addgraph_2(recordsec,0,tstop,-72,20) // plot trace at current branch
+        }
+
+//Add one inhibitory GABAa/ GABAb synapse on the current branch
+//        posa = 0.5
+//        posb = 0.5
+//	gabaa[b] = new GABAa(posa)
+//   	SALLOC_GABAa(gabaa[b],posa,1,0)        
+//        gabab[b] = new GABAb(posa)
+//        SALLOC_GABAb(gabab[b],posa,1,0)
+//        gaba_synapses = 1 
+
+        for si=1,synapses {
+          posn=(2*si -1)/(2*synapses)     //explicitly specify synapse position  
+          printf("ampa[%d] = new GLU(%g)\n", si-1, posn)
+          ampa[si-1] = new GLU(posn)      // add an AMPA receptor at location posn
+          nmda[si-1] = new NMDA(posn)     // add an NMDA receptor at location posn
+          salloc(ampa[si-1],nmda[si-1],posn) // set pointers to mechanisms and plot on graph
+ 	}
+
+//Plot all inhibitory synapses in a shape graph
+        COLOR=4
+        splot=new Shape()
+        for i=0,synapses-1 {
+          splot.point_mark(ampa[i],COLOR)
+        }
+//          for i = 0, gaba_synapses -1 {
+//            splot.point_mark(gabaa[i],COLOR+1)
+//            splot.point_mark(gabab[i],COLOR-1)
+//          }
+        splot.flush()
+        splot.show(1)
+
+        GABA_flag = 0              // Don't make both AMPA/NMDA and GABA trains in shiftsyn_init         
+        // create the stimulation trains for AMPA & NMDA synapses
+        econ.xopen_library("Terrence","shiftsyn-initA") 
+        shiftsyn_init(synapses,tstop,dt,hertz,synch,perio,PID,temporal_offset, GABA_flag,"ampa","nmda")
+        
+        // Create the stimulation trains for GABA synapses
+//        econ.xopen_library("Terrence","GABA_shiftsyn")  
+//        gaba_shift(gaba_synapses,tstop,dt,hertz,synch,perio,PID,temporal_offset, "gabaa","gabab")
+     
+        vrec=new Vector(tstop/dt)    // prepare to record somatic voltage
+        vrec.record(&soma.v(0.5))
+        dendrec=new Vector(tstop/dt) // prepare to record dendritic voltage 
+        dendrec.record(&v(0.5))
+       
+        // Execute current-blockade proceedure specified
+ 
+        if (times == 0) {
+             sprint(select, "%s", "control")}  
+        if (times == 1 || times == 6) {
+             A_block()
+             sprint(select, "%s", "block_A")}
+        if (times == 2 || times == 6) {
+             NMDA_block() 
+             sprint(select, "%s", "block_NMDA")}
+        if (times == 3 || times == 6) {
+             A_NMDA_block() 
+             sprint(select, "%s", "block_A_NMDA")}
+        if (times == 4 || times == 6) {
+             Na_block()
+             sprint(select, "%s", "block_Na")}
+        if (times == 5) {
+             Ca_block()
+             sprint(select, "%s", "block_Ca")}
+
+        print "case = ", select, " secname = ", secname(), " synapses = ", synapses, " runs =", runs 
+        finitialize(v_init)
+        fcurrent()
+        run()
+ 
+        meanvrec.x(runs) = vrec.mean(temporal_offset/dt,tstop/dt -1)      // mean somatic depolarization
+        maxvrec.x(runs) = vrec.max(temporal_offset/dt,tstop/dt -1)        // max somatic depolarization
+        meandendrec.x(runs)= dendrec.mean(temporal_offset/dt,tstop/dt -1) // mean dendritic depolarization
+        maxdendrec.x(runs) = dendrec.max(temporal_offset/dt,tstop/dt -1)  // max dendritic depolarization
+
+        Cvrec = new Vector((tstop-temporal_offset)/dt)
+        Cdendrec = new Vector((tstop-temporal_offset)/dt)
+        Cvrec = vrec.c(temporal_offset/dt,tstop/dt -1)                    // copy the current somatic voltage trace
+        Cdendrec = dendrec.c(temporal_offset/dt,tstop/dt -1)              // copy the current dendritic voltage trace 
+        spikes.x(runs) =  spikecount(Cdendrec, dendritic_spike_threshold) // count current number of dendritic spikes
+        soma_spikes.x(runs) =  spikecount(Cvrec, somatic_spike_threshold) // count current number of somatic spikes
+        }
+
+
+        // Use only to print graphics to eps files
+ //       econ.xopen_library("Terrence","verbose-system")         
+ //       for i=0,windex {
+ //          sprint(econ.tmp_str2, "data/%s/Apical_Tips/Freq/Single_Tips/%s/graph-%d-%d.eps", tunings_file, secname(), minsyn, i)      
+ //          win[i].printfile(econ.tmp_str2)
+ //       }
+
+        // create the output file and prepare to write data
+        sprint(econ.tmp_str, "data/%s/Apical_Tips/Freq/Single_Tips/%s/",tunings_file,secname())
+        sprint(econ.syscmd,  "mkdir -p %s", econ.tmp_str)
+        system(econ.syscmd)   
+        sprint(econ.tmp_str2, "%s/%s_%d_%d", econ.tmp_str, select, minsyn, maxsyn) 
+        vf=new File()
+        vf.aopen(econ.tmp_str2)
+         
+        // print recordings and spike counts to the specified file 
+        vf.printf("%d %g %g %g %g %g %g %g %g %g %g %g %g\n", synapses, meanvrec.mean(), meanvrec.stdev(), maxvrec.mean(), maxvrec.stdev(), meandendrec.mean(), meandendrec.stdev(), maxdendrec.mean(), maxdendrec.stdev(), spikes.mean(), spikes.stdev(), soma_spikes.mean(), soma_spikes.stdev())
+        vf.close()
+  
+   //     sprint(econ.tmp_str, "data/%s/Apical_Tips/Freq/Single_Tips/%s/",tunings_file,secname())
+   //     somarecf=new File()
+   //     sprint(temp, "%s/Vsoma_%d", econ.tmp_str, synapses)
+   //     somarecf.wopen(temp)
+   //     vrec.printf(somarecf, "%g\n")
+   //     somarecf.close()
+        
+   //     sprint(econ.tmp_str, "data/%s/Apical_Tips/Freq/Single_Tips/%s/",tunings_file,secname())
+   //     dendrecf=new File()
+   //     sprint(temp, "%s/Vdend_%d", econ.tmp_str, synapses)
+   //     dendrecf.wopen(temp)
+   //     dendrec.printf(dendrecf, "%g\n")
+   //     dendrecf.close() 
+               
+   }
+}
+
+
+
+
+
+
+
+

@@ -1,0 +1,83 @@
+// This function is used to select dendritic sections (branches) to be used
+// in the experiments. For each selected section, one synapse candidate is allocated 
+
+objref vtmp,tmpo
+objref tipl,cand_tipl
+func choose_secs() {  local i, range_posn, copies, resolution, lo, hi
+
+  tipl = $o1    // neuron part (list) from which to select sections  
+  lo = $3       // lowest distance from soma for selected sections
+  hi = $4       // highest distance from soma for selected sections
+  actual_resolution = $5  // obsolete. Used only if more than one synapses are to be placed at a specific location
+  desired_resolution = $6 // obsolete. Used only if more than one synapses are to be placed at a specific location
+  section_count = 0       
+
+   forsec tipl {
+     for (range_posn) {
+ 
+        vtmp=new Vector()
+        vcreate2(vtmp,range_posn)
+        dist=vector_distance(vRP,vAPEX,vtmp,adjustment,1)
+//        print "The vertical distance for ", secname(), " is ", dist
+        if ((dist > lo) && (dist < hi)) {
+          section_count=section_count+1
+//        copies = int( L / (actual_resolution/desired_resolution) ) non used in the present experiments
+          copies = 1
+//          printf("Adding %d copies of synapse candidate at %s(%g)\n", copies, secname(),range_posn)
+          for i=1,copies {
+             tmpo = new RangeRef(range_posn,0)
+             $o2.append(tmpo)
+          } 
+        }
+     }
+   }
+  return(section_count) 
+}
+
+
+// Same as the above function, with an additional restriction: sections selected
+// are such that their middle (x=0.5) is within [lo high] microns from soma and 
+// synapses are allocated only at x=0.5  ==> choosing branches
+
+func choose_secs_branchwise() {  local i, range_posn, copies, resolution, lo, hi
+
+  tipl=$o1      
+  lo=$3
+  hi=$4
+  actual_resolution=$5  
+  desired_resolution=$6
+  section_count=0       
+
+   forsec tipl {
+
+        range_posn=0.5
+        vtmp=new Vector()
+        vcreate2(vtmp,range_posn)
+        dist=vector_distance(vRP,vAPEX,vtmp,adjustment,1)
+//        print "The vector distance for ", secname(), " is ", dist
+        if ((dist > lo) && (dist < hi)) {
+          section_count=section_count+1
+          //      copies = int( L / (actual_resolution/desired_resolution) )
+          copies = 1
+//          printf("Adding %d copies of synapse candidate at %s(%g)\n", copies, secname(),range_posn)
+          for i=1,copies {
+             tmpo = new RangeRef(range_posn,0)
+             $o2.append(tmpo)
+          } 
+     }
+   }
+  return(section_count) 
+}
+
+
+
+
+
+
+
+
+
+
+
+
+

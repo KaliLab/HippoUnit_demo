@@ -1,0 +1,33 @@
+{
+    "50": {}, 
+    "150": {
+        "('apical_dendrite[6]', 0.5)": {
+            "AP1_amp": "70.40896159043334 mV", 
+            "APlast_amp": "64.64017383576589 mV", 
+            "actual_distance": "135.036061981"
+        }, 
+        "('apical_dendrite[14]', 0.5)": {
+            "AP1_amp": "68.8635460675008 mV", 
+            "APlast_amp": "62.41733522635084 mV", 
+            "actual_distance": "155.582358868"
+        }
+    }, 
+    "250": {
+        "('apical_dendrite[22]', 0.5)": {
+            "AP1_amp": "63.51944998529772 mV", 
+            "APlast_amp": "53.9072645237516 mV", 
+            "actual_distance": "236.029878433"
+        }, 
+        "('apical_dendrite[23]', 0.5)": {
+            "AP1_amp": "63.38910552609312 mV", 
+            "APlast_amp": "53.72952968585849 mV", 
+            "actual_distance": "238.186532421"
+        }, 
+        "('apical_dendrite[25]', 0.5)": {
+            "AP1_amp": "61.57707105693711 mV", 
+            "APlast_amp": "51.53248386931176 mV", 
+            "actual_distance": "258.564169859"
+        }
+    }, 
+    "350": {}
+}

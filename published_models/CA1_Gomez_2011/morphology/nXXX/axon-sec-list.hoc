@@ -1,0 +1,10 @@
+// This function makes a list with all sections on the axon
+// written by Jose Gomez, April 2006, jfcgomez@ull.es
+
+	objref axon_sec_list
+	axon_sec_list = new SectionList()
+
+	forsec "axon" {
+      		axon_sec_list.append()
+	} 
+

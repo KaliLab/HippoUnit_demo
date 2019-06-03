@@ -1,0 +1,43 @@
+
+//analysisref=new File()			// Save the MAX of summed SOMA
+//sprint(temp, "%s/Expected/max_sum_soma/max_sum_soma_matrix.dat", econ.data_dir)
+//analysisref.wopen(temp)
+//max_vsoma_matrix.fprint(0,analysisref, "%f\t")
+//analysisref.close()  
+
+//analysisref=new File()			// Save the MAX of summed DENDRITE
+//sprint(temp, "%s/Expected/max_sum_apical/max_sum_apical_matrix.dat", econ.data_dir)
+//analysisref.wopen(temp)
+//max_vapical_matrix.fprint(0,analysisref, "%f\t")
+//analysisref.close()  
+
+
+//analysisref=new File()			// Save the MEAN of summed SOMA
+//sprint(temp, "%s/Expected/mean_sum_soma/mean_sum_soma_matrix.dat", econ.data_dir)
+//analysisref.wopen(temp)
+//mean_vsoma_matrix.fprint(0,analysisref, "%f\t")
+//analysisref.close()  
+
+
+//analysisref=new File()			// Save the MEAN of summed DENDRITE
+//sprint(temp, "%s/Expected/mean_sum_apical/mean_sum_apical_matrix.dat", econ.data_dir)
+//analysisref.wopen(temp)
+//mean_vapical_matrix.fprint(0,analysisref, "%f\t")
+//analysisref.close()  
+
+
+//analysisref=new File()			// Save the MAX of summed SOMA
+//sprint(temp, "%s/Expected/max_dif_sum_soma/max_dif_sum_soma_matrix.dat", econ.data_dir)
+//analysisref.wopen(temp)
+//max_dif_vsoma_matrix.fprint(0,analysisref, "%f\t")
+//analysisref.close()  
+
+
+//analysisref=new File()			// Save the MAX of summed DENDRITE
+//sprint(temp, "%s/Expected/max_dif_sum_apical/max_dif_sum_apical_matrix.dat", econ.data_dir)
+//analysisref.wopen(temp)
+//max_dif_vapical_matrix.fprint(0,analysisref, "%f\t")
+//analysisref.close() 
+
+
+
