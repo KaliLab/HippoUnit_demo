@@ -35,7 +35,7 @@ Modified hoc file used for running the validation tests of HippoUnit on the mode
 * HippoUnit_demo/published_models/Migliore_et_al_2011_Schizophr/main_model.hoc
 
 
-* The **Bianchi et al (2012) model** was designed to show the mechanisms behind depolarization block observed experimentally in the somatic spiking behavior of CA1 pyramidal cells. It has been developed by combining and modifying the Shah et al. (2008) and the Poirazi et al. (2003) models. The former was developed to show the significance of axonal M-type potassium channels.
+The **Bianchi et al (2012) model** was designed to show the mechanisms behind depolarization block observed experimentally in the somatic spiking behavior of CA1 pyramidal cells. It has been developed by combining and modifying the Shah et al. (2008) and the Poirazi et al. (2003) models. The former was developed to show the significance of axonal M-type potassium channels.
 
 (Bianchi D, Marasco A, Limongiello A, Marchetti C, Marie H, Tirozzi B, Migliore M (2012) On the mechanisms underlying the depolarization block in the spiking dynamics of CA1 pyramidal neurons. J Comput Neurosci 33:207-25; ModelDB accession number: 143719)
 
@@ -43,7 +43,7 @@ Modified hoc file used for running the validation tests of HippoUnit on the mode
 * HippoUnit_demo/published_models/Ca1_Bianchi_2012/experiment/main_model.hoc
 
 
-* The **Poirazi et al. (2003) model** was designed to clarify the issues about the integrative properties of thin apical dendrites, that may arise from the different and sometimes conflicting interpretation of available experimental data. This is a quite complex model in the sense that it contains a larger number of different types of ion channels, whose properties were adjusted to fit in vitro experimental data, and it also contains four types of synaptic receptors.
+The **Poirazi et al. (2003) model** was designed to clarify the issues about the integrative properties of thin apical dendrites, that may arise from the different and sometimes conflicting interpretation of available experimental data. This is a quite complex model in the sense that it contains a larger number of different types of ion channels, whose properties were adjusted to fit in vitro experimental data, and it also contains four types of synaptic receptors.
 
 (Poirazi P, Brannon T, Mel BW (2003) Arithmetic of subthreshold synaptic summation in a model CA1 pyramidal cell. Neuron 37:977-87; Poirazi P, Brannon T, Mel BW (2003) Pyramidal neuron as two-layer neural network. Neuron 37:989-99; ModelDB accession number: 20212)
 
@@ -51,7 +51,7 @@ Modified hoc file used for running the validation tests of HippoUnit on the mode
 * HippoUnit_demo/published_models/Poirazi_et_al_2003_CA1_multi/experiment/cluster-dispersion/main_model.hoc
 
 
-* The **Gómez González et al. (2011) model** is based on the Poirazi et al. (2003) model and it was modified to replicate the experimental data of Losonczy and Magee (2006) (A. Losonczy and J. C. Magee (2006) Neuron, 50: 291-307) on the nonlinear signal integration of radial oblique dendrites when the inputs arrive in a short time window. The model was adjusted to five different detailed morphologies.
+The **Gómez González et al. (2011) model** is based on the Poirazi et al. (2003) model and it was modified to replicate the experimental data of Losonczy and Magee (2006) (A. Losonczy and J. C. Magee (2006) Neuron, 50: 291-307) on the nonlinear signal integration of radial oblique dendrites when the inputs arrive in a short time window. The model was adjusted to five different detailed morphologies.
 
 (Gómez González JF, Mel BW, Poirazi P (2011) Distinguishing Linear vs. Non-Linear Integration in CA1 Radial Oblique Dendrites: It's about Time. Front Comput Neurosci 5:44; ModelDB accession number: 144450)
 
