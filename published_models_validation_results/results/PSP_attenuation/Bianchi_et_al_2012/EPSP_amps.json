@@ -1,52 +1,52 @@
 {
-    "('apical_dendrite[15]', 0.5)": {
-        "distance": 184.37116847005086, 
-        "EPSP_amp_dendrite": 0.49159690107299525, 
-        "EPSP_amp_soma": 0.26027657339227517
-    }, 
-    "('apical_dendrite[26]', 0.5)": {
-        "distance": 280.8432724271496, 
-        "EPSP_amp_dendrite": 0.5962006184286395, 
-        "EPSP_amp_soma": 0.1643514399669641
-    }, 
-    "('apical_dendrite[16]', 0.5)": {
-        "distance": 217.15191893791967, 
-        "EPSP_amp_dendrite": 0.5130154691641167, 
-        "EPSP_amp_soma": 0.22223404938962688
-    }, 
-    "('apical_dendrite[0]', 0.75)": {
-        "distance": 77.0016593090812, 
-        "EPSP_amp_dendrite": 0.4694666815912427, 
-        "EPSP_amp_soma": 0.39047446336419966
-    }, 
     "('apical_dendrite[27]', 0.5)": {
-        "distance": 315.27653819472596, 
-        "EPSP_amp_dendrite": 0.6798775626966176, 
-        "EPSP_amp_soma": 0.1376607236429237
-    }, 
+        "EPSP_amp_dendrite": 0.6798775626966176,
+        "EPSP_amp_soma": 0.1376607236429237,
+        "distance": 315.27653819472596
+    },
+    "('apical_dendrite[0]', 0.75)": {
+        "EPSP_amp_dendrite": 0.4694666815912427,
+        "EPSP_amp_soma": 0.39047446336419966,
+        "distance": 77.0016593090812
+    },
     "('apical_dendrite[14]', 0.5)": {
-        "distance": 155.58235886776595, 
-        "EPSP_amp_dendrite": 0.47436525301959875, 
-        "EPSP_amp_soma": 0.2944032418920557
-    }, 
-    "('apical_dendrite[4]', 0.5)": {
-        "distance": 115.38084272050826, 
-        "EPSP_amp_dendrite": 0.4629567233867533, 
-        "EPSP_amp_soma": 0.339653393163033
-    }, 
+        "EPSP_amp_dendrite": 0.47436525301959875,
+        "EPSP_amp_soma": 0.2944032418920557,
+        "distance": 155.58235886776595
+    },
+    "('apical_dendrite[15]', 0.5)": {
+        "EPSP_amp_dendrite": 0.49159690107299525,
+        "EPSP_amp_soma": 0.26027657339227517,
+        "distance": 184.37116847005086
+    },
+    "('apical_dendrite[16]', 0.5)": {
+        "EPSP_amp_dendrite": 0.5130154691641167,
+        "EPSP_amp_soma": 0.22223404938962688,
+        "distance": 217.15191893791967
+    },
     "('apical_dendrite[25]', 0.5)": {
-        "distance": 258.56416985918406, 
-        "EPSP_amp_dendrite": 0.5634188546193144, 
-        "EPSP_amp_soma": 0.18325202430975196
-    }, 
+        "EPSP_amp_dendrite": 0.5634188546193144,
+        "EPSP_amp_soma": 0.18325202430975196,
+        "distance": 258.56416985918406
+    },
+    "('apical_dendrite[4]', 0.5)": {
+        "EPSP_amp_dendrite": 0.4629567233867533,
+        "EPSP_amp_soma": 0.339653393163033,
+        "distance": 115.38084272050826
+    },
     "('apical_dendrite[22]', 0.5)": {
-        "distance": 236.02987843261795, 
-        "EPSP_amp_dendrite": 0.5196026089285652, 
-        "EPSP_amp_soma": 0.2048019890263646
-    }, 
+        "EPSP_amp_dendrite": 0.5196026089285652,
+        "EPSP_amp_soma": 0.2048019890263646,
+        "distance": 236.02987843261795
+    },
+    "('apical_dendrite[26]', 0.5)": {
+        "EPSP_amp_dendrite": 0.5962006184286395,
+        "EPSP_amp_soma": 0.1643514399669641,
+        "distance": 280.8432724271496
+    },
     "('apical_dendrite[6]', 0.5)": {
-        "distance": 135.0360619813264, 
-        "EPSP_amp_dendrite": 0.4674461553531444, 
-        "EPSP_amp_soma": 0.3217391456972507
+        "EPSP_amp_dendrite": 0.4674461553531444,
+        "EPSP_amp_soma": 0.3217391456972507,
+        "distance": 135.0360619813264
     }
 }

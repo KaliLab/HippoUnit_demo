@@ -1,1222 +1,1222 @@
 {
-    "AP2_amp.Step0.15": {
-        "feature mean": NaN, 
-        "feature sd": NaN
-    }, 
-    "decay_time_constant_after_stim.Step0.15": {
-        "feature mean": 18.382429799968676, 
-        "feature sd": 0.0
-    }, 
-    "AP_begin_voltage.Step0.2": {
-        "feature mean": NaN, 
-        "feature sd": NaN
-    }, 
-    "doublet_ISI.Step0.15": {
-        "feature mean": NaN, 
-        "feature sd": NaN
-    }, 
-    "peak_voltage.Step0.25": {
-        "feature mean": 1.8478623218306023, 
-        "feature sd": 0.9486527898106949
-    }, 
-    "AP_duration_half_width.Step0.15": {
-        "feature mean": NaN, 
-        "feature sd": NaN
-    }, 
-    "irregularity_index.Step0.15": {
-        "feature mean": NaN, 
-        "feature sd": NaN
-    }, 
-    "inv_third_ISI.Step0.25": {
-        "feature mean": 0.0, 
-        "feature sd": 0.0
-    }, 
-    "irregularity_index.Step0.25": {
-        "feature mean": 0.0, 
-        "feature sd": 0.0
-    }, 
-    "inv_time_to_first_spike.Step0.15": {
-        "feature mean": 0.0, 
-        "feature sd": 0.0
-    }, 
-    "voltage_base.Step-0.2": {
-        "feature mean": -66.08409973780053, 
-        "feature sd": 0.0
-    }, 
-    "inv_first_ISI.Step0.25": {
-        "feature mean": 39.68253968257577, 
-        "feature sd": 0.0
-    }, 
-    "fast_AHP_change.Step0.25": {
-        "feature mean": NaN, 
-        "feature sd": NaN
-    }, 
-    "AP_amplitude_from_voltagebase.Step0.25": {
-        "feature mean": 67.93196205963113, 
-        "feature sd": 0.9486527898106943
-    }, 
-    "spike_half_width.Step0.15": {
-        "feature mean": NaN, 
-        "feature sd": NaN
-    }, 
-    "voltage_deflection.Step-0.25": {
-        "feature mean": -14.647579418835846, 
-        "feature sd": 0.0
-    }, 
-    "steady_state_voltage_stimend.Step-0.25": {
-        "feature mean": -80.7081031988768, 
-        "feature sd": 0.0
-    }, 
-    "amp_drop_first_last.Step0.2": {
-        "feature mean": NaN, 
-        "feature sd": NaN
-    }, 
-    "mean_frequency.Step0.15": {
-        "feature mean": NaN, 
-        "feature sd": NaN
-    }, 
-    "AHP_depth_diff.Step0.25": {
-        "feature mean": -0.22149001635268561, 
-        "feature sd": 0.16351948802470773
-    }, 
-    "AP_begin_width.Step0.25": {
-        "feature mean": 3.5499999999967713, 
-        "feature sd": 0.049999999999954525
-    }, 
-    "steady_state_hyper.Step-0.1": {
-        "feature mean": -72.31763073960126, 
-        "feature sd": 0.0
-    }, 
-    "AP_fall_rate.Step0.25": {
-        "feature mean": -2.962355555370284, 
-        "feature sd": 2.5872024447877644
-    }, 
-    "AP1_peak.Step0.15": {
-        "feature mean": NaN, 
-        "feature sd": NaN
-    }, 
-    "voltage_deflection_begin.Step-0.1": {
-        "feature mean": -5.2959068180227575, 
-        "feature sd": 0.0
-    }, 
-    "time_to_last_spike.Step0.15": {
-        "feature mean": 0.0, 
-        "feature sd": 0.0
-    }, 
-    "AP_duration_half_width_change.Step0.2": {
-        "feature mean": NaN, 
-        "feature sd": NaN
-    }, 
-    "spike_width2.Step0.25": {
-        "feature mean": 1.708168899856787, 
-        "feature sd": 0.019488358084458923
-    }, 
-    "voltage_base.Step0.2": {
-        "feature mean": -66.08409973780053, 
-        "feature sd": 0.0
-    }, 
-    "AHP1_depth_from_peak.Step0.2": {
-        "feature mean": NaN, 
-        "feature sd": NaN
-    }, 
-    "AP2_begin_width.Step0.15": {
-        "feature mean": NaN, 
-        "feature sd": NaN
-    }, 
-    "AP_rise_time.Step0.25": {
-        "feature mean": 1.1999999999989086, 
-        "feature sd": 0.0
-    }, 
-    "AP_fall_rate.Step0.2": {
-        "feature mean": NaN, 
-        "feature sd": NaN
-    }, 
-    "voltage_after_stim.Step-0.25": {
-        "feature mean": -65.22340814095922, 
-        "feature sd": 0.0
-    }, 
-    "inv_fifth_ISI.Step0.1": {
-        "feature mean": 0.0, 
-        "feature sd": 0.0
-    }, 
-    "inv_fifth_ISI.Step0.2": {
-        "feature mean": 0.0, 
-        "feature sd": 0.0
-    }, 
-    "voltage_base.Step-0.25": {
-        "feature mean": -66.08409973780053, 
-        "feature sd": 0.0
-    }, 
-    "min_voltage_between_spikes.Step0.2": {
-        "feature mean": NaN, 
-        "feature sd": NaN
-    }, 
-    "AP2_peak.Step0.2": {
-        "feature mean": NaN, 
-        "feature sd": NaN
-    }, 
-    "decay_time_constant_after_stim.Step0.25": {
-        "feature mean": 16.618766518157777, 
-        "feature sd": 0.0
-    }, 
-    "amp_drop_first_second.Step0.2": {
-        "feature mean": NaN, 
-        "feature sd": NaN
-    }, 
-    "inv_second_ISI.Step0.25": {
-        "feature mean": 38.46153846157344, 
-        "feature sd": 0.0
-    }, 
-    "maximum_voltage_from_voltagebase.Step0.1": {
-        "feature mean": 6.190861325093991, 
-        "feature sd": 0.0
-    }, 
-    "inv_last_ISI.Step0.15": {
-        "feature mean": 0.0, 
-        "feature sd": 0.0
-    }, 
-    "voltage_after_stim.Step-0.05": {
-        "feature mean": -65.97874183011392, 
-        "feature sd": 0.0
-    }, 
-    "inv_fifth_ISI.Step0.25": {
-        "feature mean": 0.0, 
-        "feature sd": 0.0
-    }, 
-    "mean_frequency.Step0.25": {
-        "feature mean": 27.19854941067697, 
-        "feature sd": 0.0
-    }, 
-    "ISI_semilog_slope.Step0.25": {
-        "feature mean": NaN, 
-        "feature sd": NaN
-    }, 
-    "AHP1_depth_from_peak.Step0.15": {
-        "feature mean": NaN, 
-        "feature sd": NaN
-    }, 
-    "amp_drop_second_last.Step0.2": {
-        "feature mean": NaN, 
-        "feature sd": NaN
-    }, 
-    "AP1_peak.Step0.2": {
-        "feature mean": NaN, 
-        "feature sd": NaN
-    }, 
-    "number_initial_spikes.Step0.2": {
-        "feature mean": 0.0, 
-        "feature sd": 0.0
-    }, 
-    "maximum_voltage_from_voltagebase.Step0.25": {
-        "feature mean": 69.25895534479422, 
-        "feature sd": 0.0
-    }, 
-    "AP_duration.Step0.15": {
-        "feature mean": NaN, 
-        "feature sd": NaN
-    }, 
-    "inv_fifth_ISI.Step0.15": {
-        "feature mean": 0.0, 
-        "feature sd": 0.0
-    }, 
-    "AHP2_depth_from_peak.Step0.25": {
-        "feature mean": 53.30370168393995, 
-        "feature sd": 0.0
-    }, 
-    "APlast_amp.Step0.2": {
-        "feature mean": NaN, 
-        "feature sd": NaN
-    }, 
-    "voltage_after_stim.Step0.25": {
-        "feature mean": -66.79335863132914, 
-        "feature sd": 0.0
-    }, 
-    "AHP2_depth_from_peak.Step0.2": {
-        "feature mean": NaN, 
-        "feature sd": NaN
-    }, 
-    "Spikecount.Step0.15": {
-        "feature mean": 0.0, 
-        "feature sd": 0.0
-    }, 
-    "decay_time_constant_after_stim.Step-0.05": {
-        "feature mean": 18.398422844841118, 
-        "feature sd": 0.0
-    }, 
-    "time_to_first_spike.Step0.2": {
-        "feature mean": NaN, 
-        "feature sd": NaN
-    }, 
-    "AP_rise_time.Step0.2": {
-        "feature mean": NaN, 
-        "feature sd": NaN
-    }, 
-    "min_AHP_values.Step0.25": {
-        "feature mean": -52.057381779754884, 
-        "feature sd": 0.19658874444755722
-    }, 
-    "voltage_deflection.Step-0.15": {
-        "feature mean": -9.212249877879486, 
-        "feature sd": 0.0
-    }, 
-    "time_to_last_spike.Step0.25": {
-        "feature mean": 110.30000000008567, 
-        "feature sd": 0.0
-    }, 
-    "voltage_deflection_vb_ssse.Step-0.1": {
-        "feature mean": -6.232584193274832, 
-        "feature sd": 0.0
-    }, 
-    "voltage_after_stim.Step-0.15": {
-        "feature mean": -65.65488950484612, 
-        "feature sd": 0.0
-    }, 
-    "AP1_peak.Step0.25": {
-        "feature mean": 3.1748556069936913, 
-        "feature sd": 0.0
-    }, 
-    "Spikecount.Step0.2": {
-        "feature mean": 0.0, 
-        "feature sd": 0.0
-    }, 
-    "AP_duration_half_width.Step0.2": {
-        "feature mean": NaN, 
-        "feature sd": NaN
-    }, 
-    "voltage_deflection_begin.Step-0.25": {
-        "feature mean": -13.445975397878215, 
-        "feature sd": 0.0
-    }, 
-    "AHP_depth_diff.Step0.2": {
-        "feature mean": NaN, 
-        "feature sd": NaN
-    }, 
-    "Spikecount.Step0.1": {
-        "feature mean": 0.0, 
-        "feature sd": 0.0
-    }, 
-    "Spikecount_stimint.Step0.15": {
-        "feature mean": 0.0, 
-        "feature sd": 0.0
-    }, 
-    "AP_rise_rate_change.Step0.25": {
-        "feature mean": -0.11397305444972596, 
-        "feature sd": 0.0
-    }, 
-    "inv_first_ISI.Step0.1": {
-        "feature mean": 0.0, 
-        "feature sd": 0.0
-    }, 
-    "voltage_after_stim.Step-0.1": {
-        "feature mean": -65.83454789032088, 
-        "feature sd": 0.0
-    }, 
-    "inv_first_ISI.Step0.2": {
-        "feature mean": 0.0, 
-        "feature sd": 0.0
-    }, 
-    "burst_mean_freq.Step0.25": {
-        "feature mean": NaN, 
-        "feature sd": NaN
-    }, 
-    "spike_width2.Step0.15": {
-        "feature mean": NaN, 
-        "feature sd": NaN
-    }, 
-    "ISI_log_slope_skip.Step0.25": {
-        "feature mean": NaN, 
-        "feature sd": NaN
-    }, 
-    "AHP_depth_from_peak.Step0.2": {
-        "feature mean": NaN, 
-        "feature sd": NaN
-    }, 
-    "decay_time_constant_after_stim.Step0.05": {
-        "feature mean": 18.606549100746314, 
-        "feature sd": 0.0
-    }, 
-    "time_to_first_spike.Step0.15": {
-        "feature mean": NaN, 
-        "feature sd": NaN
-    }, 
-    "max_amp_difference.Step0.25": {
-        "feature mean": 1.8195227107921532, 
-        "feature sd": 0.0
-    }, 
-    "steady_state_voltage.Step0.1": {
-        "feature mean": -65.69968263845998, 
-        "feature sd": 0.0
-    }, 
-    "time_constant.Step-0.25": {
-        "feature mean": 20.636032483636704, 
-        "feature sd": 0.0
-    }, 
-    "ISI_log_slope_skip.Step0.2": {
-        "feature mean": NaN, 
-        "feature sd": NaN
-    }, 
-    "steady_state_voltage.Step0.2": {
-        "feature mean": -65.22462119553555, 
-        "feature sd": 0.0
-    }, 
-    "voltage_base.Step-0.1": {
-        "feature mean": -66.08409973780053, 
-        "feature sd": 0.0
-    }, 
-    "voltage_deflection.Step-0.2": {
-        "feature mean": -12.013752853838952, 
-        "feature sd": 0.0
-    }, 
-    "AP_rise_rate.Step0.2": {
-        "feature mean": NaN, 
-        "feature sd": NaN
-    }, 
-    "single_burst_ratio.Step0.25": {
-        "feature mean": NaN, 
-        "feature sd": NaN
-    }, 
-    "ISI_values.Step0.2": {
-        "feature mean": NaN, 
-        "feature sd": NaN
-    }, 
-    "AP_width.Step0.25": {
-        "feature mean": 1.7499999999984084, 
-        "feature sd": 0.049999999999954525
-    }, 
-    "AHP_time_from_peak.Step0.25": {
-        "feature mean": 5.733333333328119, 
-        "feature sd": 0.0942809041581206
-    }, 
-    "AP_duration.Step0.25": {
-        "feature mean": 1.2999999999988177, 
-        "feature sd": 0.0
-    }, 
-    "voltage_base.Step0.05": {
-        "feature mean": -66.08409973780053, 
-        "feature sd": 0.0
-    }, 
-    "peak_voltage.Step0.15": {
-        "feature mean": NaN, 
-        "feature sd": NaN
-    }, 
-    "minimum_voltage.Step-0.1": {
-        "feature mean": -72.84394297173624, 
-        "feature sd": 0.0
-    }, 
-    "minimum_voltage.Step-0.2": {
-        "feature mean": -79.73183379517921, 
-        "feature sd": 0.0
-    }, 
-    "AP_begin_voltage.Step0.15": {
-        "feature mean": NaN, 
-        "feature sd": NaN
-    }, 
-    "steady_state_voltage.Step-0.1": {
-        "feature mean": -66.36595004942312, 
-        "feature sd": 0.0
-    }, 
-    "AP_rise_rate.Step0.15": {
-        "feature mean": NaN, 
-        "feature sd": NaN
-    }, 
-    "AP_amplitude_change.Step0.15": {
-        "feature mean": NaN, 
-        "feature sd": NaN
-    }, 
-    "AP_height.Step0.25": {
-        "feature mean": 1.8478623218306023, 
-        "feature sd": 0.9486527898106949
-    }, 
-    "sag_ratio2.Step-0.2": {
-        "feature mean": 0.878672274314512, 
-        "feature sd": 0.0
-    }, 
-    "sag_ratio2.Step-0.1": {
-        "feature mean": 0.9220012916847038, 
-        "feature sd": 0.0
-    }, 
-    "decay_time_constant_after_stim.Step-0.1": {
-        "feature mean": 18.02123841879809, 
-        "feature sd": 0.0
-    }, 
-    "decay_time_constant_after_stim.Step-0.2": {
-        "feature mean": 16.90549746419606, 
-        "feature sd": 0.0
-    }, 
-    "sag_amplitude.Step-0.15": {
-        "feature mean": 1.022658937896182, 
-        "feature sd": 0.0
-    }, 
-    "AHP_depth.Step0.2": {
-        "feature mean": NaN, 
-        "feature sd": NaN
-    }, 
-    "inv_fourth_ISI.Step0.15": {
-        "feature mean": 0.0, 
-        "feature sd": 0.0
-    }, 
-    "sag_ratio1.Step-0.15": {
-        "feature mean": 0.100099438377088, 
-        "feature sd": 0.0
-    }, 
-    "doublet_ISI.Step0.2": {
-        "feature mean": NaN, 
-        "feature sd": NaN
-    }, 
-    "AHP_depth_abs.Step0.15": {
-        "feature mean": NaN, 
-        "feature sd": NaN
-    }, 
     "ISI_values.Step0.15": {
-        "feature mean": NaN, 
+        "feature mean": NaN,
         "feature sd": NaN
-    }, 
-    "time_to_last_spike.Step0.2": {
-        "feature mean": 0.0, 
-        "feature sd": 0.0
-    }, 
-    "AP_rise_rate_change.Step0.15": {
-        "feature mean": NaN, 
-        "feature sd": NaN
-    }, 
-    "sag_amplitude.Step-0.05": {
-        "feature mean": 0.19133473278444058, 
-        "feature sd": 0.0
-    }, 
-    "AP_amplitude.Step0.2": {
-        "feature mean": NaN, 
-        "feature sd": NaN
-    }, 
-    "voltage_deflection_vb_ssse.Step-0.25": {
-        "feature mean": -14.62400346107627, 
-        "feature sd": 0.0
-    }, 
-    "spike_half_width.Step0.25": {
-        "feature mean": 1.8539410977329087, 
-        "feature sd": 0.03776385729883922
-    }, 
-    "AP2_begin_width.Step0.2": {
-        "feature mean": NaN, 
-        "feature sd": NaN
-    }, 
-    "AP2_peak.Step0.15": {
-        "feature mean": NaN, 
-        "feature sd": NaN
-    }, 
-    "maximum_voltage_from_voltagebase.Step0.05": {
-        "feature mean": 3.187032424564478, 
-        "feature sd": 0.0
-    }, 
-    "AP2_amp.Step0.25": {
-        "feature mean": 45.55031632260338, 
-        "feature sd": 0.0
-    }, 
-    "number_initial_spikes.Step0.15": {
-        "feature mean": 0.0, 
-        "feature sd": 0.0
-    }, 
-    "AP_amplitude_from_voltagebase.Step0.15": {
-        "feature mean": NaN, 
-        "feature sd": NaN
-    }, 
-    "AP_duration_half_width.Step0.25": {
-        "feature mean": 0.7499999999993179, 
-        "feature sd": 0.049999999999954525
-    }, 
-    "burst_mean_freq.Step0.2": {
-        "feature mean": NaN, 
-        "feature sd": NaN
-    }, 
-    "AP_begin_voltage.Step0.25": {
-        "feature mean": -43.991353605815306, 
-        "feature sd": 0.20362982058653145
-    }, 
-    "voltage_base.Step0.15": {
-        "feature mean": -66.08409973780053, 
-        "feature sd": 0.0
-    }, 
-    "voltage_base.Step0.25": {
-        "feature mean": -66.08409973780053, 
-        "feature sd": 0.0
-    }, 
-    "AHP_depth.Step0.25": {
-        "feature mean": 14.026717958045646, 
-        "feature sd": 0.19658874444755722
-    }, 
-    "APlast_amp.Step0.15": {
-        "feature mean": NaN, 
-        "feature sd": NaN
-    }, 
-    "voltage_base.Step-0.05": {
-        "feature mean": -66.08409973780053, 
-        "feature sd": 0.0
-    }, 
-    "AP_amplitude.Step0.25": {
-        "feature mean": 45.17571928506437, 
-        "feature sd": 0.3745970375390115
-    }, 
-    "initburst_sahp_ssse.Step0.25": {
-        "feature mean": NaN, 
-        "feature sd": NaN
-    }, 
-    "AP_begin_width.Step0.15": {
-        "feature mean": NaN, 
-        "feature sd": NaN
-    }, 
-    "amp_drop_second_last.Step0.25": {
-        "feature mean": 0.34193443390496037, 
-        "feature sd": 0.0
-    }, 
-    "initburst_sahp.Step0.25": {
-        "feature mean": NaN, 
-        "feature sd": NaN
-    }, 
-    "voltage_base.Step-0.15": {
-        "feature mean": -66.08409973780053, 
-        "feature sd": 0.0
-    }, 
-    "steady_state_voltage.Step-0.2": {
-        "feature mean": -66.45994053536597, 
-        "feature sd": 0.0
-    }, 
-    "AHP_depth_abs.Step0.2": {
-        "feature mean": NaN, 
-        "feature sd": NaN
-    }, 
-    "AP2_width.Step0.15": {
-        "feature mean": NaN, 
-        "feature sd": NaN
-    }, 
-    "AP_width.Step0.2": {
-        "feature mean": NaN, 
-        "feature sd": NaN
-    }, 
-    "steady_state_voltage_stimend.Step-0.1": {
-        "feature mean": -72.31668393107536, 
-        "feature sd": 0.0
-    }, 
-    "sag_ratio1.Step-0.05": {
-        "feature mean": 0.05736964043247779, 
-        "feature sd": 0.0
-    }, 
-    "steady_state_hyper.Step-0.2": {
-        "feature mean": -78.08246751373274, 
-        "feature sd": 0.0
-    }, 
-    "inv_third_ISI.Step0.15": {
-        "feature mean": 0.0, 
-        "feature sd": 0.0
-    }, 
+    },
     "Spikecount.Step0.25": {
-        "feature mean": 3.0, 
+        "feature mean": 3.0,
         "feature sd": 0.0
-    }, 
-    "AHP_depth_abs.Step0.25": {
-        "feature mean": -52.057381779754884, 
-        "feature sd": 0.19658874444755722
-    }, 
-    "decay_time_constant_after_stim.Step0.1": {
-        "feature mean": 18.50476967792847, 
+    },
+    "inv_first_ISI.Step0.1": {
+        "feature mean": 0.0,
         "feature sd": 0.0
-    }, 
-    "AP_fall_time.Step0.2": {
-        "feature mean": NaN, 
-        "feature sd": NaN
-    }, 
-    "spike_width2.Step0.2": {
-        "feature mean": NaN, 
-        "feature sd": NaN
-    }, 
-    "AP_rise_rate.Step0.25": {
-        "feature mean": 37.64643273758787, 
-        "feature sd": 0.3121641979494605
-    }, 
-    "ISI_CV.Step0.25": {
-        "feature mean": NaN, 
-        "feature sd": NaN
-    }, 
-    "ISI_values.Step0.25": {
-        "feature mean": 25.999999999976353, 
-        "feature sd": 0.0
-    }, 
-    "AHP_depth_from_peak.Step0.25": {
-        "feature mean": 53.90524410158548, 
-        "feature sd": 0.8204392548222742
-    }, 
-    "inv_second_ISI.Step0.15": {
-        "feature mean": 0.0, 
-        "feature sd": 0.0
-    }, 
-    "AP_fall_time.Step0.15": {
-        "feature mean": NaN, 
-        "feature sd": NaN
-    }, 
-    "AP2_width.Step0.25": {
-        "feature mean": 1.800612079576962, 
-        "feature sd": 0.0
-    }, 
-    "AHP2_depth_from_peak.Step0.15": {
-        "feature mean": NaN, 
-        "feature sd": NaN
-    }, 
-    "inv_second_ISI.Step0.1": {
-        "feature mean": 0.0, 
-        "feature sd": 0.0
-    }, 
-    "minimum_voltage.Step-0.05": {
-        "feature mean": -69.4192214387921, 
-        "feature sd": 0.0
-    }, 
+    },
     "ISI_log_slope.Step0.25": {
-        "feature mean": NaN, 
+        "feature mean": NaN,
         "feature sd": NaN
-    }, 
-    "AHP_depth_diff.Step0.15": {
-        "feature mean": NaN, 
-        "feature sd": NaN
-    }, 
-    "maximum_voltage_from_voltagebase.Step0.15": {
-        "feature mean": 9.067006309122057, 
-        "feature sd": 0.0
-    }, 
-    "inv_second_ISI.Step0.2": {
-        "feature mean": 0.0, 
-        "feature sd": 0.0
-    }, 
-    "time_to_second_spike.Step0.2": {
-        "feature mean": NaN, 
-        "feature sd": NaN
-    }, 
-    "voltage_after_stim.Step0.2": {
-        "feature mean": -66.2273588168565, 
-        "feature sd": 0.0
-    }, 
-    "voltage_after_stim.Step0.1": {
-        "feature mean": -66.19665217133915, 
-        "feature sd": 0.0
-    }, 
-    "amp_drop_first_second.Step0.25": {
-        "feature mean": 1.8195227107921532, 
-        "feature sd": 0.0
-    }, 
-    "sag_ratio1.Step-0.2": {
-        "feature mean": 0.12132772568548804, 
-        "feature sd": 0.0
-    }, 
-    "amp_drop_first_last.Step0.25": {
-        "feature mean": 2.1614571446971134, 
-        "feature sd": 0.0
-    }, 
-    "maximum_voltage.Step0.25": {
-        "feature mean": 3.1748556069936913, 
-        "feature sd": 0.0
-    }, 
-    "sag_ratio1.Step-0.1": {
-        "feature mean": 0.07799870831529616, 
-        "feature sd": 0.0
-    }, 
-    "time_to_second_spike.Step0.15": {
-        "feature mean": NaN, 
-        "feature sd": NaN
-    }, 
-    "voltage_deflection.Step-0.1": {
-        "feature mean": -6.248530217517427, 
-        "feature sd": 0.0
-    }, 
-    "ISI_log_slope.Step0.2": {
-        "feature mean": NaN, 
-        "feature sd": NaN
-    }, 
-    "max_amp_difference.Step0.15": {
-        "feature mean": NaN, 
-        "feature sd": NaN
-    }, 
-    "AP_amplitude.Step0.15": {
-        "feature mean": NaN, 
-        "feature sd": NaN
-    }, 
-    "fast_AHP.Step0.15": {
-        "feature mean": NaN, 
-        "feature sd": NaN
-    }, 
-    "voltage_deflection_vb_ssse.Step-0.2": {
-        "feature mean": -11.991885523436551, 
-        "feature sd": 0.0
-    }, 
-    "mean_frequency.Step0.2": {
-        "feature mean": NaN, 
-        "feature sd": NaN
-    }, 
-    "AP_duration_change.Step0.15": {
-        "feature mean": NaN, 
-        "feature sd": NaN
-    }, 
-    "min_voltage_between_spikes.Step0.25": {
-        "feature mean": -51.919383523574425, 
-        "feature sd": 0.028985264163988944
-    }, 
-    "amp_drop_second_last.Step0.15": {
-        "feature mean": NaN, 
-        "feature sd": NaN
-    }, 
-    "voltage_after_stim.Step-0.2": {
-        "feature mean": -65.4478913253595, 
-        "feature sd": 0.0
-    }, 
-    "AP_width.Step0.15": {
-        "feature mean": NaN, 
-        "feature sd": NaN
-    }, 
-    "fast_AHP.Step0.2": {
-        "feature mean": NaN, 
-        "feature sd": NaN
-    }, 
-    "time_constant.Step-0.15": {
-        "feature mean": 20.80953772469883, 
-        "feature sd": 0.0
-    }, 
-    "voltage_deflection_vb_ssse.Step-0.05": {
-        "feature mean": -3.143786968207138, 
-        "feature sd": 0.0
-    }, 
-    "sag_ratio1.Step-0.25": {
-        "feature mean": 0.13995437703609392, 
-        "feature sd": 0.0
-    }, 
-    "ISI_semilog_slope.Step0.2": {
-        "feature mean": NaN, 
-        "feature sd": NaN
-    }, 
-    "adaptation_index.Step0.25": {
-        "feature mean": NaN, 
-        "feature sd": NaN
-    }, 
-    "steady_state_hyper.Step-0.25": {
-        "feature mean": -80.71626479595004, 
-        "feature sd": 0.0
-    }, 
-    "steady_state_voltage.Step-0.05": {
-        "feature mean": -66.24569109620313, 
-        "feature sd": 0.0
-    }, 
-    "adaptation_index2.Step0.2": {
-        "feature mean": NaN, 
-        "feature sd": NaN
-    }, 
-    "AP_height.Step0.2": {
-        "feature mean": NaN, 
-        "feature sd": NaN
-    }, 
-    "steady_state_voltage_stimend.Step-0.15": {
-        "feature mean": -75.27787112635322, 
-        "feature sd": 0.0
-    }, 
-    "voltage_deflection_begin.Step-0.15": {
-        "feature mean": -7.991953378693253, 
-        "feature sd": 0.0
-    }, 
-    "adaptation_index.Step0.2": {
-        "feature mean": NaN, 
-        "feature sd": NaN
-    }, 
-    "AHP_time_from_peak.Step0.15": {
-        "feature mean": NaN, 
-        "feature sd": NaN
-    }, 
-    "minimum_voltage.Step-0.15": {
-        "feature mean": -76.3005300642494, 
-        "feature sd": 0.0
-    }, 
-    "inv_fourth_ISI.Step0.1": {
-        "feature mean": 0.0, 
-        "feature sd": 0.0
-    }, 
-    "AP2_begin_width.Step0.25": {
-        "feature mean": 3.599999999996726, 
-        "feature sd": 0.0
-    }, 
-    "AP_rise_rate_change.Step0.2": {
-        "feature mean": NaN, 
-        "feature sd": NaN
-    }, 
-    "maximum_voltage.Step0.15": {
-        "feature mean": -57.01709342867847, 
-        "feature sd": 0.0
-    }, 
-    "steady_state_voltage_stimend.Step-0.2": {
-        "feature mean": -78.07598526123708, 
-        "feature sd": 0.0
-    }, 
-    "doublet_ISI.Step0.25": {
-        "feature mean": 25.19999999997708, 
-        "feature sd": 0.0
-    }, 
-    "AHP1_depth_from_peak.Step0.25": {
-        "feature mean": 55.06525386640412, 
-        "feature sd": 0.0
-    }, 
-    "fast_AHP.Step0.25": {
-        "feature mean": 7.753385361336569, 
-        "feature sd": 0.0
-    }, 
-    "AP_fall_rate.Step0.15": {
-        "feature mean": NaN, 
-        "feature sd": NaN
-    }, 
-    "AP_duration_half_width_change.Step0.15": {
-        "feature mean": NaN, 
-        "feature sd": NaN
-    }, 
-    "inv_third_ISI.Step0.1": {
-        "feature mean": 0.0, 
-        "feature sd": 0.0
-    }, 
-    "AP_rise_time.Step0.15": {
-        "feature mean": NaN, 
-        "feature sd": NaN
-    }, 
-    "decay_time_constant_after_stim.Step-0.15": {
-        "feature mean": 17.50438110379193, 
-        "feature sd": 0.0
-    }, 
-    "steady_state_voltage.Step-0.15": {
-        "feature mean": -66.43705490313923, 
-        "feature sd": 0.0
-    }, 
-    "ISI_CV.Step0.2": {
-        "feature mean": NaN, 
-        "feature sd": NaN
-    }, 
-    "number_initial_spikes.Step0.25": {
-        "feature mean": 0.0, 
-        "feature sd": 0.0
-    }, 
-    "steady_state_voltage_stimend.Step-0.05": {
-        "feature mean": -69.22788670600767, 
-        "feature sd": 0.0
-    }, 
-    "AP_duration.Step0.2": {
-        "feature mean": NaN, 
-        "feature sd": NaN
-    }, 
-    "AP2_amp.Step0.2": {
-        "feature mean": NaN, 
-        "feature sd": NaN
-    }, 
-    "AP2_begin_voltage.Step0.15": {
-        "feature mean": NaN, 
-        "feature sd": NaN
-    }, 
-    "voltage_base.Step0.1": {
-        "feature mean": -66.08409973780053, 
-        "feature sd": 0.0
-    }, 
-    "inv_last_ISI.Step0.25": {
-        "feature mean": 38.46153846157344, 
-        "feature sd": 0.0
-    }, 
-    "peak_voltage.Step0.2": {
-        "feature mean": NaN, 
-        "feature sd": NaN
-    }, 
-    "AP2_width.Step0.2": {
-        "feature mean": NaN, 
-        "feature sd": NaN
-    }, 
-    "sag_ratio2.Step-0.15": {
-        "feature mean": 0.899900561622912, 
-        "feature sd": 0.0
-    }, 
-    "voltage_after_stim.Step0.15": {
-        "feature mean": -66.21911355562224, 
-        "feature sd": 0.0
-    }, 
-    "time_constant.Step-0.05": {
-        "feature mean": 21.16321751962047, 
-        "feature sd": 0.0
-    }, 
-    "AP_amplitude_from_voltagebase.Step0.2": {
-        "feature mean": NaN, 
-        "feature sd": NaN
-    }, 
-    "AHP_time_from_peak.Step0.2": {
-        "feature mean": NaN, 
-        "feature sd": NaN
-    }, 
-    "maximum_voltage.Step0.1": {
-        "feature mean": -59.89323841270654, 
-        "feature sd": 0.0
-    }, 
-    "maximum_voltage.Step0.2": {
-        "feature mean": -53.51830424142711, 
-        "feature sd": 0.0
-    }, 
-    "AP_amplitude_change.Step0.2": {
-        "feature mean": NaN, 
-        "feature sd": NaN
-    }, 
-    "steady_state_voltage.Step-0.25": {
-        "feature mean": -66.44145257190885, 
-        "feature sd": 0.0
-    }, 
-    "min_AHP_values.Step0.15": {
-        "feature mean": NaN, 
-        "feature sd": NaN
-    }, 
-    "AP_amplitude_change.Step0.25": {
-        "feature mean": -0.025343297509355676, 
-        "feature sd": 0.008081852799436103
-    }, 
-    "minimum_voltage.Step-0.25": {
-        "feature mean": -83.08785287670814, 
-        "feature sd": 0.0
-    }, 
-    "maximum_voltage_from_voltagebase.Step0.2": {
-        "feature mean": 12.565795496373418, 
-        "feature sd": 0.0
-    }, 
-    "burst_number.Step0.2": {
-        "feature mean": NaN, 
-        "feature sd": NaN
-    }, 
-    "AP2_peak.Step0.25": {
-        "feature mean": 1.355332896201538, 
-        "feature sd": 0.0
-    }, 
-    "time_to_first_spike.Step0.25": {
-        "feature mean": 59.10000000013224, 
-        "feature sd": 0.0
-    }, 
-    "sag_amplitude.Step-0.1": {
-        "feature mean": 0.5272590406608799, 
-        "feature sd": 0.0
-    }, 
-    "sag_amplitude.Step-0.25": {
-        "feature mean": 2.3797496778313416, 
-        "feature sd": 0.0
-    }, 
-    "Spikecount_stimint.Step0.25": {
-        "feature mean": 3.0, 
-        "feature sd": 0.0
-    }, 
-    "spike_half_width.Step0.2": {
-        "feature mean": NaN, 
-        "feature sd": NaN
-    }, 
-    "sag_ratio2.Step-0.25": {
-        "feature mean": 0.8600456229639061, 
-        "feature sd": 0.0
-    }, 
-    "AP2_begin_voltage.Step0.2": {
-        "feature mean": NaN, 
-        "feature sd": NaN
-    }, 
-    "steady_state_hyper.Step-0.05": {
-        "feature mean": -69.22796373700473, 
-        "feature sd": 0.0
-    }, 
-    "inv_time_to_first_spike.Step0.1": {
-        "feature mean": 0.0, 
-        "feature sd": 0.0
-    }, 
-    "steady_state_voltage.Step0.15": {
-        "feature mean": -65.49387471205395, 
-        "feature sd": 0.0
-    }, 
-    "AP2_AP1_peak_diff.Step0.15": {
-        "feature mean": NaN, 
-        "feature sd": NaN
-    }, 
-    "inv_time_to_first_spike.Step0.2": {
-        "feature mean": 0.0, 
-        "feature sd": 0.0
-    }, 
-    "steady_state_voltage.Step0.25": {
-        "feature mean": -65.57706601869958, 
-        "feature sd": 0.0
-    }, 
-    "AP2_begin_voltage.Step0.25": {
-        "feature mean": -44.19498342640184, 
-        "feature sd": 0.0
-    }, 
-    "AP_begin_width.Step0.2": {
-        "feature mean": NaN, 
-        "feature sd": NaN
-    }, 
-    "maximum_voltage.Step0.05": {
-        "feature mean": -62.89706731323605, 
-        "feature sd": 0.0
-    }, 
-    "single_burst_ratio.Step0.2": {
-        "feature mean": NaN, 
-        "feature sd": NaN
-    }, 
-    "sag_amplitude.Step-0.2": {
-        "feature mean": 1.6558485339421338, 
-        "feature sd": 0.0
-    }, 
-    "Spikecount_stimint.Step0.1": {
-        "feature mean": 0.0, 
-        "feature sd": 0.0
-    }, 
-    "Spikecount_stimint.Step0.2": {
-        "feature mean": 0.0, 
-        "feature sd": 0.0
-    }, 
-    "AHP_depth_from_peak.Step0.15": {
-        "feature mean": NaN, 
-        "feature sd": NaN
-    }, 
-    "voltage_after_stim.Step0.05": {
-        "feature mean": -66.1545166269599, 
-        "feature sd": 0.0
-    }, 
-    "AP_duration_change.Step0.2": {
-        "feature mean": NaN, 
-        "feature sd": NaN
-    }, 
-    "inv_last_ISI.Step0.1": {
-        "feature mean": 0.0, 
-        "feature sd": 0.0
-    }, 
-    "steady_state_hyper.Step-0.15": {
-        "feature mean": -75.28116946367524, 
-        "feature sd": 0.0
-    }, 
-    "max_amp_difference.Step0.2": {
-        "feature mean": NaN, 
-        "feature sd": NaN
-    }, 
-    "inv_first_ISI.Step0.15": {
-        "feature mean": 0.0, 
-        "feature sd": 0.0
-    }, 
-    "AP_duration_half_width_change.Step0.25": {
-        "feature mean": 0.14285714285714285, 
-        "feature sd": 0.0
-    }, 
-    "sag_ratio2.Step-0.05": {
-        "feature mean": 0.9426303595675222, 
-        "feature sd": 0.0
-    }, 
-    "AP2_AP1_peak_diff.Step0.2": {
-        "feature mean": NaN, 
-        "feature sd": NaN
-    }, 
-    "decay_time_constant_after_stim.Step0.2": {
-        "feature mean": 18.551139470920536, 
-        "feature sd": 0.0
-    }, 
-    "inv_time_to_first_spike.Step0.25": {
-        "feature mean": 16.92047377322779, 
-        "feature sd": 0.0
-    }, 
-    "AP_duration_change.Step0.25": {
-        "feature mean": 0.08333333333333333, 
-        "feature sd": 0.0
-    }, 
-    "AP_fall_time.Step0.25": {
-        "feature mean": 0.09999999999990905, 
-        "feature sd": 0.0
-    }, 
-    "fast_AHP_change.Step0.2": {
-        "feature mean": NaN, 
-        "feature sd": NaN
-    }, 
-    "inv_third_ISI.Step0.2": {
-        "feature mean": 0.0, 
-        "feature sd": 0.0
-    }, 
-    "APlast_amp.Step0.25": {
-        "feature mean": 44.801122247525356, 
-        "feature sd": 0.0
-    }, 
-    "AHP_depth.Step0.15": {
-        "feature mean": NaN, 
-        "feature sd": NaN
-    }, 
-    "time_constant.Step-0.1": {
-        "feature mean": 20.94369929746839, 
-        "feature sd": 0.0
-    }, 
-    "time_to_second_spike.Step0.25": {
-        "feature mean": 84.30000000010932, 
-        "feature sd": 0.0
-    }, 
-    "time_constant.Step-0.2": {
-        "feature mean": 20.689260585739255, 
-        "feature sd": 0.0
-    }, 
-    "initburst_sahp_vb.Step0.25": {
-        "feature mean": NaN, 
-        "feature sd": NaN
-    }, 
-    "inv_fourth_ISI.Step0.2": {
-        "feature mean": 0.0, 
-        "feature sd": 0.0
-    }, 
-    "AP_height.Step0.15": {
-        "feature mean": NaN, 
-        "feature sd": NaN
-    }, 
-    "voltage_deflection_vb_ssse.Step-0.15": {
-        "feature mean": -9.19377138855269, 
-        "feature sd": 0.0
-    }, 
-    "voltage_deflection_begin.Step-0.2": {
-        "feature mean": -10.711995525976377, 
-        "feature sd": 0.0
-    }, 
-    "voltage_deflection_begin.Step-0.05": {
-        "feature mean": -2.6335404344414, 
-        "feature sd": 0.0
-    }, 
-    "decay_time_constant_after_stim.Step-0.25": {
-        "feature mean": 16.274937280231743, 
-        "feature sd": 0.0
-    }, 
-    "min_AHP_values.Step0.2": {
-        "feature mean": NaN, 
-        "feature sd": NaN
-    }, 
-    "AP2_AP1_peak_diff.Step0.25": {
-        "feature mean": -1.8195227107921532, 
-        "feature sd": 0.0
-    }, 
-    "inv_fourth_ISI.Step0.25": {
-        "feature mean": 0.0, 
-        "feature sd": 0.0
-    }, 
-    "steady_state_voltage.Step0.05": {
-        "feature mean": -65.89739803165618, 
-        "feature sd": 0.0
-    }, 
-    "inv_last_ISI.Step0.2": {
-        "feature mean": 0.0, 
-        "feature sd": 0.0
-    }, 
-    "voltage_deflection.Step-0.05": {
-        "feature mean": -3.158786472770913, 
-        "feature sd": 0.0
-    }, 
+    },
     "adaptation_index2.Step0.25": {
-        "feature mean": NaN, 
+        "feature mean": NaN,
         "feature sd": NaN
-    }, 
-    "amp_drop_first_second.Step0.15": {
-        "feature mean": NaN, 
+    },
+    "time_to_first_spike.Step0.25": {
+        "feature mean": 59.10000000013224,
+        "feature sd": 0.0
+    },
+    "AHP1_depth_from_peak.Step0.15": {
+        "feature mean": NaN,
         "feature sd": NaN
-    }, 
-    "amp_drop_first_last.Step0.15": {
-        "feature mean": NaN, 
-        "feature sd": NaN
-    }, 
+    },
+    "voltage_deflection.Step-0.05": {
+        "feature mean": -3.1587780585771554,
+        "feature sd": 0.0
+    },
+    "AP_rise_time.Step0.25": {
+        "feature mean": 1.1999999999989086,
+        "feature sd": 0.0
+    },
     "irregularity_index.Step0.2": {
-        "feature mean": NaN, 
+        "feature mean": NaN,
         "feature sd": NaN
-    }, 
+    },
+    "voltage_deflection_vb_ssse.Step-0.1": {
+        "feature mean": -6.232572333037297,
+        "feature sd": 0.0
+    },
+    "irregularity_index.Step0.15": {
+        "feature mean": NaN,
+        "feature sd": NaN
+    },
+    "spike_half_width.Step0.15": {
+        "feature mean": NaN,
+        "feature sd": NaN
+    },
+    "decay_time_constant_after_stim.Step-0.2": {
+        "feature mean": 16.905469078547302,
+        "feature sd": 0.0
+    },
+    "fast_AHP.Step0.15": {
+        "feature mean": NaN,
+        "feature sd": NaN
+    },
+    "AHP2_depth_from_peak.Step0.2": {
+        "feature mean": NaN,
+        "feature sd": NaN
+    },
+    "inv_fifth_ISI.Step0.15": {
+        "feature mean": 0.0,
+        "feature sd": 0.0
+    },
+    "voltage_base.Step-0.25": {
+        "feature mean": -66.08409941972754,
+        "feature sd": 0.0
+    },
+    "minimum_voltage.Step-0.15": {
+        "feature mean": -76.30051292091856,
+        "feature sd": 0.0
+    },
+    "AP2_amp.Step0.25": {
+        "feature mean": 45.58309368254499,
+        "feature sd": 0.0
+    },
+    "ISI_semilog_slope.Step0.2": {
+        "feature mean": NaN,
+        "feature sd": NaN
+    },
+    "AP_rise_time.Step0.2": {
+        "feature mean": NaN,
+        "feature sd": NaN
+    },
+    "min_voltage_between_spikes.Step0.2": {
+        "feature mean": NaN,
+        "feature sd": NaN
+    },
+    "inv_time_to_first_spike.Step0.15": {
+        "feature mean": 0.0,
+        "feature sd": 0.0
+    },
+    "steady_state_voltage.Step-0.05": {
+        "feature mean": -66.24569026498185,
+        "feature sd": 0.0
+    },
+    "voltage_base.Step-0.1": {
+        "feature mean": -66.08409941972754,
+        "feature sd": 0.0
+    },
+    "inv_fourth_ISI.Step0.2": {
+        "feature mean": 0.0,
+        "feature sd": 0.0
+    },
+    "AP_duration_change.Step0.15": {
+        "feature mean": NaN,
+        "feature sd": NaN
+    },
+    "voltage_base.Step-0.05": {
+        "feature mean": -66.08409941972754,
+        "feature sd": 0.0
+    },
+    "amp_drop_first_last.Step0.2": {
+        "feature mean": NaN,
+        "feature sd": NaN
+    },
+    "steady_state_voltage.Step0.15": {
+        "feature mean": -65.49388144582935,
+        "feature sd": 0.0
+    },
+    "voltage_after_stim.Step0.15": {
+        "feature mean": -66.21911184042213,
+        "feature sd": 0.0
+    },
+    "AP_amplitude.Step0.25": {
+        "feature mean": 45.215083231108736,
+        "feature sd": 0.368010451436259
+    },
+    "APlast_amp.Step0.2": {
+        "feature mean": NaN,
+        "feature sd": NaN
+    },
+    "time_constant.Step-0.1": {
+        "feature mean": 20.943703920272903,
+        "feature sd": 0.0
+    },
+    "AP_fall_rate.Step0.2": {
+        "feature mean": NaN,
+        "feature sd": NaN
+    },
+    "initburst_sahp.Step0.25": {
+        "feature mean": NaN,
+        "feature sd": NaN
+    },
+    "time_constant.Step-0.25": {
+        "feature mean": 20.636039194737407,
+        "feature sd": 0.0
+    },
+    "steady_state_voltage.Step0.05": {
+        "feature mean": -65.89739917898537,
+        "feature sd": 0.0
+    },
+    "voltage_after_stim.Step-0.25": {
+        "feature mean": -65.22341637008392,
+        "feature sd": 0.0
+    },
+    "voltage_deflection_begin.Step-0.1": {
+        "feature mean": -5.295900338199814,
+        "feature sd": 0.0
+    },
+    "decay_time_constant_after_stim.Step0.05": {
+        "feature mean": 18.60645133089159,
+        "feature sd": 0.0
+    },
+    "AP2_AP1_peak_diff.Step0.15": {
+        "feature mean": NaN,
+        "feature sd": NaN
+    },
+    "AP_begin_width.Step0.25": {
+        "feature mean": 3.599999999996726,
+        "feature sd": 0.09999999999990905
+    },
+    "AP2_begin_voltage.Step0.15": {
+        "feature mean": NaN,
+        "feature sd": NaN
+    },
+    "steady_state_voltage_stimend.Step-0.05": {
+        "feature mean": -69.22787801165317,
+        "feature sd": 0.0
+    },
+    "Spikecount.Step0.1": {
+        "feature mean": 0.0,
+        "feature sd": 0.0
+    },
+    "steady_state_voltage.Step-0.15": {
+        "feature mean": -66.4370552824645,
+        "feature sd": 0.0
+    },
+    "inv_last_ISI.Step0.2": {
+        "feature mean": 0.0,
+        "feature sd": 0.0
+    },
+    "voltage_base.Step0.05": {
+        "feature mean": -66.08409941972754,
+        "feature sd": 0.0
+    },
+    "sag_ratio1.Step-0.1": {
+        "feature mean": 0.07799848216263079,
+        "feature sd": 0.0
+    },
+    "AP_begin_voltage.Step0.15": {
+        "feature mean": NaN,
+        "feature sd": NaN
+    },
+    "AP2_begin_voltage.Step0.25": {
+        "feature mean": -44.2329985816392,
+        "feature sd": 0.0
+    },
+    "time_to_first_spike.Step0.2": {
+        "feature mean": NaN,
+        "feature sd": NaN
+    },
+    "voltage_after_stim.Step0.05": {
+        "feature mean": -66.15451545873175,
+        "feature sd": 0.0
+    },
+    "AP_duration_half_width_change.Step0.15": {
+        "feature mean": NaN,
+        "feature sd": NaN
+    },
+    "time_to_second_spike.Step0.2": {
+        "feature mean": NaN,
+        "feature sd": NaN
+    },
+    "inv_time_to_first_spike.Step0.2": {
+        "feature mean": 0.0,
+        "feature sd": 0.0
+    },
+    "voltage_deflection.Step-0.2": {
+        "feature mean": -12.013739973183021,
+        "feature sd": 0.0
+    },
+    "voltage_deflection_vb_ssse.Step-0.15": {
+        "feature mean": -9.193758551168045,
+        "feature sd": 0.0
+    },
+    "AP2_begin_width.Step0.2": {
+        "feature mean": NaN,
+        "feature sd": NaN
+    },
+    "number_initial_spikes.Step0.15": {
+        "feature mean": 0.0,
+        "feature sd": 0.0
+    },
+    "voltage_base.Step0.25": {
+        "feature mean": -66.08409941972754,
+        "feature sd": 0.0
+    },
+    "fast_AHP_change.Step0.25": {
+        "feature mean": NaN,
+        "feature sd": NaN
+    },
+    "steady_state_voltage.Step0.1": {
+        "feature mean": -65.69968585488009,
+        "feature sd": 0.0
+    },
+    "amp_drop_first_last.Step0.25": {
+        "feature mean": 2.1491723776502063,
+        "feature sd": 0.0
+    },
+    "doublet_ISI.Step0.2": {
+        "feature mean": NaN,
+        "feature sd": NaN
+    },
+    "voltage_base.Step0.15": {
+        "feature mean": -66.08409941972754,
+        "feature sd": 0.0
+    },
+    "AP1_peak.Step0.2": {
+        "feature mean": NaN,
+        "feature sd": NaN
+    },
+    "AP_amplitude_from_voltagebase.Step0.2": {
+        "feature mean": NaN,
+        "feature sd": NaN
+    },
+    "burst_mean_freq.Step0.25": {
+        "feature mean": NaN,
+        "feature sd": NaN
+    },
+    "inv_second_ISI.Step0.25": {
+        "feature mean": 38.46153846157344,
+        "feature sd": 0.0
+    },
+    "voltage_deflection_vb_ssse.Step-0.25": {
+        "feature mean": -14.623991106196215,
+        "feature sd": 0.0
+    },
+    "initburst_sahp_ssse.Step0.25": {
+        "feature mean": NaN,
+        "feature sd": NaN
+    },
+    "steady_state_hyper.Step-0.15": {
+        "feature mean": -75.28115627420972,
+        "feature sd": 0.0
+    },
+    "time_constant.Step-0.05": {
+        "feature mean": 21.16322345956608,
+        "feature sd": 0.0
+    },
+    "AP2_peak.Step0.2": {
+        "feature mean": NaN,
+        "feature sd": NaN
+    },
+    "fast_AHP.Step0.25": {
+        "feature mean": 7.715015157946098,
+        "feature sd": 0.0
+    },
+    "AP1_peak.Step0.25": {
+        "feature mean": 3.1700820030199646,
+        "feature sd": 0.0
+    },
+    "AHP_depth_from_peak.Step0.25": {
+        "feature mean": 53.90414500419382,
+        "feature sd": 0.817853970888568
+    },
+    "amp_drop_second_last.Step0.15": {
+        "feature mean": NaN,
+        "feature sd": NaN
+    },
+    "number_initial_spikes.Step0.25": {
+        "feature mean": 0.0,
+        "feature sd": 0.0
+    },
+    "decay_time_constant_after_stim.Step-0.15": {
+        "feature mean": 17.50434387093434,
+        "feature sd": 0.0
+    },
+    "mean_frequency.Step0.15": {
+        "feature mean": NaN,
+        "feature sd": NaN
+    },
+    "fast_AHP.Step0.2": {
+        "feature mean": NaN,
+        "feature sd": NaN
+    },
+    "AP_begin_width.Step0.15": {
+        "feature mean": NaN,
+        "feature sd": NaN
+    },
+    "steady_state_voltage.Step0.2": {
+        "feature mean": -65.22464480570963,
+        "feature sd": 0.0
+    },
+    "sag_ratio1.Step-0.2": {
+        "feature mean": 0.12132751410383263,
+        "feature sd": 0.0
+    },
+    "fast_AHP_change.Step0.2": {
+        "feature mean": NaN,
+        "feature sd": NaN
+    },
+    "AHP_depth.Step0.2": {
+        "feature mean": NaN,
+        "feature sd": NaN
+    },
+    "doublet_ISI.Step0.25": {
+        "feature mean": 25.19999999997708,
+        "feature sd": 0.0
+    },
+    "Spikecount_stimint.Step0.15": {
+        "feature mean": 0.0,
+        "feature sd": 0.0
+    },
+    "inv_last_ISI.Step0.25": {
+        "feature mean": 38.46153846157344,
+        "feature sd": 0.0
+    },
+    "inv_fourth_ISI.Step0.1": {
+        "feature mean": 0.0,
+        "feature sd": 0.0
+    },
+    "ISI_values.Step0.25": {
+        "feature mean": 25.999999999976353,
+        "feature sd": 0.0
+    },
+    "AHP_depth_diff.Step0.25": {
+        "feature mean": -0.22143450081138738,
+        "feature sd": 0.16365353226503387
+    },
+    "AHP_time_from_peak.Step0.25": {
+        "feature mean": 5.733333333328119,
+        "feature sd": 0.0942809041581206
+    },
+    "steady_state_voltage_stimend.Step-0.2": {
+        "feature mean": -78.07597215520101,
+        "feature sd": 0.0
+    },
+    "AP_height.Step0.25": {
+        "feature mean": 1.8470289097651706,
+        "feature sd": 0.9451429821299632
+    },
+    "spike_width2.Step0.15": {
+        "feature mean": NaN,
+        "feature sd": NaN
+    },
+    "sag_ratio1.Step-0.05": {
+        "feature mean": 0.05736941447491798,
+        "feature sd": 0.0
+    },
+    "ISI_CV.Step0.2": {
+        "feature mean": NaN,
+        "feature sd": NaN
+    },
+    "sag_amplitude.Step-0.15": {
+        "feature mean": 1.0226549500229822,
+        "feature sd": 0.0
+    },
+    "steady_state_voltage_stimend.Step-0.15": {
+        "feature mean": -75.27785797089558,
+        "feature sd": 0.0
+    },
+    "voltage_after_stim.Step0.2": {
+        "feature mean": -66.22736027485266,
+        "feature sd": 0.0
+    },
+    "AP_duration.Step0.2": {
+        "feature mean": NaN,
+        "feature sd": NaN
+    },
+    "AP_rise_rate_change.Step0.25": {
+        "feature mean": -0.11333009974036605,
+        "feature sd": 0.0
+    },
+    "time_to_last_spike.Step0.25": {
+        "feature mean": 110.30000000008567,
+        "feature sd": 0.0
+    },
+    "peak_voltage.Step0.25": {
+        "feature mean": 1.8470289097651706,
+        "feature sd": 0.9451429821299632
+    },
+    "decay_time_constant_after_stim.Step0.15": {
+        "feature mean": 18.382309381595746,
+        "feature sd": 0.0
+    },
+    "number_initial_spikes.Step0.2": {
+        "feature mean": 0.0,
+        "feature sd": 0.0
+    },
+    "inv_third_ISI.Step0.15": {
+        "feature mean": 0.0,
+        "feature sd": 0.0
+    },
+    "AHP_depth_abs.Step0.2": {
+        "feature mean": NaN,
+        "feature sd": NaN
+    },
+    "AP2_begin_voltage.Step0.2": {
+        "feature mean": NaN,
+        "feature sd": NaN
+    },
+    "voltage_base.Step-0.2": {
+        "feature mean": -66.08409941972754,
+        "feature sd": 0.0
+    },
+    "AP2_width.Step0.2": {
+        "feature mean": NaN,
+        "feature sd": NaN
+    },
+    "decay_time_constant_after_stim.Step0.1": {
+        "feature mean": 18.50466302360383,
+        "feature sd": 0.0
+    },
+    "inv_last_ISI.Step0.1": {
+        "feature mean": 0.0,
+        "feature sd": 0.0
+    },
+    "AHP_depth_abs.Step0.25": {
+        "feature mean": -52.05711609442866,
+        "feature sd": 0.19657183763001673
+    },
+    "AP_rise_rate.Step0.2": {
+        "feature mean": NaN,
+        "feature sd": NaN
+    },
+    "maximum_voltage.Step0.2": {
+        "feature mean": -53.51849543983401,
+        "feature sd": 0.0
+    },
+    "inv_fourth_ISI.Step0.25": {
+        "feature mean": 0.0,
+        "feature sd": 0.0
+    },
+    "Spikecount_stimint.Step0.2": {
+        "feature mean": 0.0,
+        "feature sd": 0.0
+    },
+    "AP2_amp.Step0.2": {
+        "feature mean": NaN,
+        "feature sd": NaN
+    },
+    "decay_time_constant_after_stim.Step-0.1": {
+        "feature mean": 18.021188589979705,
+        "feature sd": 0.0
+    },
+    "adaptation_index2.Step0.2": {
+        "feature mean": NaN,
+        "feature sd": NaN
+    },
+    "AHP2_depth_from_peak.Step0.25": {
+        "feature mean": 53.29810884049109,
+        "feature sd": 0.0
+    },
+    "voltage_deflection_vb_ssse.Step-0.2": {
+        "feature mean": -11.991872735473478,
+        "feature sd": 0.0
+    },
+    "inv_first_ISI.Step0.2": {
+        "feature mean": 0.0,
+        "feature sd": 0.0
+    },
+    "AP_fall_rate.Step0.15": {
+        "feature mean": NaN,
+        "feature sd": NaN
+    },
+    "voltage_deflection.Step-0.1": {
+        "feature mean": -6.24851830036846,
+        "feature sd": 0.0
+    },
+    "Spikecount_stimint.Step0.25": {
+        "feature mean": 3.0,
+        "feature sd": 0.0
+    },
+    "Spikecount.Step0.15": {
+        "feature mean": 0.0,
+        "feature sd": 0.0
+    },
+    "AP_duration.Step0.25": {
+        "feature mean": 1.2999999999988177,
+        "feature sd": 0.0
+    },
+    "sag_ratio2.Step-0.1": {
+        "feature mean": 0.9220015178373692,
+        "feature sd": 0.0
+    },
+    "AP_begin_width.Step0.2": {
+        "feature mean": NaN,
+        "feature sd": NaN
+    },
+    "steady_state_voltage_stimend.Step-0.1": {
+        "feature mean": -72.31667175276483,
+        "feature sd": 0.0
+    },
+    "AP_duration_change.Step0.25": {
+        "feature mean": 0.08333333333333333,
+        "feature sd": 0.0
+    },
+    "sag_ratio2.Step-0.2": {
+        "feature mean": 0.8786724858961674,
+        "feature sd": 0.0
+    },
+    "AP2_AP1_peak_diff.Step0.25": {
+        "feature mean": -1.819986902114176,
+        "feature sd": 0.0
+    },
+    "amp_drop_first_second.Step0.15": {
+        "feature mean": NaN,
+        "feature sd": NaN
+    },
+    "AP_duration.Step0.15": {
+        "feature mean": NaN,
+        "feature sd": NaN
+    },
+    "AP_rise_rate.Step0.15": {
+        "feature mean": NaN,
+        "feature sd": NaN
+    },
+    "amp_drop_first_second.Step0.25": {
+        "feature mean": 1.819986902114176,
+        "feature sd": 0.0
+    },
+    "AP_fall_time.Step0.2": {
+        "feature mean": NaN,
+        "feature sd": NaN
+    },
+    "AP2_peak.Step0.25": {
+        "feature mean": 1.3500951009057887,
+        "feature sd": 0.0
+    },
+    "ISI_semilog_slope.Step0.25": {
+        "feature mean": NaN,
+        "feature sd": NaN
+    },
+    "inv_fifth_ISI.Step0.25": {
+        "feature mean": 0.0,
+        "feature sd": 0.0
+    },
+    "steady_state_hyper.Step-0.05": {
+        "feature mean": -69.22795504968231,
+        "feature sd": 0.0
+    },
+    "AP_amplitude_change.Step0.15": {
+        "feature mean": NaN,
+        "feature sd": NaN
+    },
+    "sag_ratio2.Step-0.05": {
+        "feature mean": 0.942630585525082,
+        "feature sd": 0.0
+    },
+    "AP2_peak.Step0.15": {
+        "feature mean": NaN,
+        "feature sd": NaN
+    },
+    "AHP1_depth_from_peak.Step0.2": {
+        "feature mean": NaN,
+        "feature sd": NaN
+    },
+    "AP_begin_voltage.Step0.2": {
+        "feature mean": NaN,
+        "feature sd": NaN
+    },
+    "inv_time_to_first_spike.Step0.25": {
+        "feature mean": 16.92047377322779,
+        "feature sd": 0.0
+    },
+    "voltage_deflection.Step-0.25": {
+        "feature mean": -14.647566990790509,
+        "feature sd": 0.0
+    },
+    "voltage_deflection_begin.Step-0.05": {
+        "feature mean": -2.6335364040444205,
+        "feature sd": 0.0
+    },
+    "minimum_voltage.Step-0.25": {
+        "feature mean": -83.08783447208228,
+        "feature sd": 0.0
+    },
+    "decay_time_constant_after_stim.Step0.2": {
+        "feature mean": 18.55095782714012,
+        "feature sd": 0.0
+    },
+    "AP_amplitude_change.Step0.25": {
+        "feature mean": -0.024786376037944775,
+        "feature sd": 0.007937369133363546
+    },
+    "AP_height.Step0.2": {
+        "feature mean": NaN,
+        "feature sd": NaN
+    },
+    "AP_amplitude_from_voltagebase.Step0.15": {
+        "feature mean": NaN,
+        "feature sd": NaN
+    },
+    "maximum_voltage_from_voltagebase.Step0.15": {
+        "feature mean": 9.066963153743252,
+        "feature sd": 0.0
+    },
+    "voltage_deflection_begin.Step-0.15": {
+        "feature mean": -7.991945383253309,
+        "feature sd": 0.0
+    },
+    "spike_width2.Step0.25": {
+        "feature mean": 1.711111463651605,
+        "feature sd": 0.018218882334394948
+    },
+    "decay_time_constant_after_stim.Step-0.05": {
+        "feature mean": 18.398356391251216,
+        "feature sd": 0.0
+    },
+    "sag_ratio1.Step-0.15": {
+        "feature mean": 0.10009921288950974,
+        "feature sd": 0.0
+    },
+    "mean_frequency.Step0.25": {
+        "feature mean": 27.19854941067697,
+        "feature sd": 0.0
+    },
+    "AHP_depth.Step0.25": {
+        "feature mean": 14.02698332529888,
+        "feature sd": 0.1965718376300167
+    },
+    "AP_width.Step0.2": {
+        "feature mean": NaN,
+        "feature sd": NaN
+    },
+    "doublet_ISI.Step0.15": {
+        "feature mean": NaN,
+        "feature sd": NaN
+    },
+    "max_amp_difference.Step0.25": {
+        "feature mean": 1.819986902114176,
+        "feature sd": 0.0
+    },
+    "amp_drop_second_last.Step0.25": {
+        "feature mean": 0.3291854755360306,
+        "feature sd": 0.0
+    },
+    "burst_number.Step0.2": {
+        "feature mean": NaN,
+        "feature sd": NaN
+    },
+    "irregularity_index.Step0.25": {
+        "feature mean": 0.0,
+        "feature sd": 0.0
+    },
+    "min_voltage_between_spikes.Step0.25": {
+        "feature mean": -51.91912325531212,
+        "feature sd": 0.028890484273176753
+    },
+    "ISI_log_slope.Step0.2": {
+        "feature mean": NaN,
+        "feature sd": NaN
+    },
+    "burst_mean_freq.Step0.2": {
+        "feature mean": NaN,
+        "feature sd": NaN
+    },
+    "ISI_CV.Step0.25": {
+        "feature mean": NaN,
+        "feature sd": NaN
+    },
+    "AP2_AP1_peak_diff.Step0.2": {
+        "feature mean": NaN,
+        "feature sd": NaN
+    },
+    "AHP_time_from_peak.Step0.15": {
+        "feature mean": NaN,
+        "feature sd": NaN
+    },
+    "voltage_after_stim.Step0.1": {
+        "feature mean": -66.19665056284705,
+        "feature sd": 0.0
+    },
+    "voltage_base.Step0.1": {
+        "feature mean": -66.08409941972754,
+        "feature sd": 0.0
+    },
+    "steady_state_hyper.Step-0.25": {
+        "feature mean": -80.71625209619202,
+        "feature sd": 0.0
+    },
+    "maximum_voltage.Step0.25": {
+        "feature mean": 3.1700820030199646,
+        "feature sd": 0.0
+    },
+    "time_constant.Step-0.2": {
+        "feature mean": 20.689266695134506,
+        "feature sd": 0.0
+    },
+    "AP_fall_rate.Step0.25": {
+        "feature mean": -2.784957191197378,
+        "feature sd": 2.5698164077398578
+    },
+    "inv_second_ISI.Step0.1": {
+        "feature mean": 0.0,
+        "feature sd": 0.0
+    },
+    "amp_drop_first_last.Step0.15": {
+        "feature mean": NaN,
+        "feature sd": NaN
+    },
+    "time_to_last_spike.Step0.2": {
+        "feature mean": 0.0,
+        "feature sd": 0.0
+    },
+    "maximum_voltage_from_voltagebase.Step0.05": {
+        "feature mean": 3.1870184795964107,
+        "feature sd": 0.0
+    },
+    "AP_rise_time.Step0.15": {
+        "feature mean": NaN,
+        "feature sd": NaN
+    },
+    "voltage_after_stim.Step-0.05": {
+        "feature mean": -65.978742803512,
+        "feature sd": 0.0
+    },
+    "sag_amplitude.Step-0.2": {
+        "feature mean": 1.655843481841373,
+        "feature sd": 0.0
+    },
+    "AP_amplitude_change.Step0.2": {
+        "feature mean": NaN,
+        "feature sd": NaN
+    },
+    "AP2_amp.Step0.15": {
+        "feature mean": NaN,
+        "feature sd": NaN
+    },
+    "AHP_depth.Step0.15": {
+        "feature mean": NaN,
+        "feature sd": NaN
+    },
+    "sag_amplitude.Step-0.05": {
+        "feature mean": 0.19133342353525506,
+        "feature sd": 0.0
+    },
+    "spike_width2.Step0.2": {
+        "feature mean": NaN,
+        "feature sd": NaN
+    },
+    "inv_first_ISI.Step0.25": {
+        "feature mean": 39.68253968257577,
+        "feature sd": 0.0
+    },
+    "inv_fifth_ISI.Step0.1": {
+        "feature mean": 0.0,
+        "feature sd": 0.0
+    },
+    "max_amp_difference.Step0.15": {
+        "feature mean": NaN,
+        "feature sd": NaN
+    },
+    "min_AHP_values.Step0.2": {
+        "feature mean": NaN,
+        "feature sd": NaN
+    },
+    "AHP1_depth_from_peak.Step0.25": {
+        "feature mean": 55.06031477405891,
+        "feature sd": 0.0
+    },
+    "ISI_log_slope_skip.Step0.25": {
+        "feature mean": NaN,
+        "feature sd": NaN
+    },
+    "AP2_width.Step0.25": {
+        "feature mean": 1.8082980713338264,
+        "feature sd": 0.0
+    },
+    "decay_time_constant_after_stim.Step0.25": {
+        "feature mean": 16.61736413694448,
+        "feature sd": 0.0
+    },
+    "AP_amplitude.Step0.15": {
+        "feature mean": NaN,
+        "feature sd": NaN
+    },
+    "maximum_voltage.Step0.15": {
+        "feature mean": -57.017136265984284,
+        "feature sd": 0.0
+    },
+    "amp_drop_second_last.Step0.2": {
+        "feature mean": NaN,
+        "feature sd": NaN
+    },
+    "AP_width.Step0.25": {
+        "feature mean": 1.7499999999984084,
+        "feature sd": 0.049999999999954525
+    },
+    "sag_ratio2.Step-0.25": {
+        "feature mean": 0.8600458111802342,
+        "feature sd": 0.0
+    },
+    "adaptation_index.Step0.25": {
+        "feature mean": NaN,
+        "feature sd": NaN
+    },
+    "sag_amplitude.Step-0.25": {
+        "feature mean": 2.379743946158527,
+        "feature sd": 0.0
+    },
+    "AHP2_depth_from_peak.Step0.15": {
+        "feature mean": NaN,
+        "feature sd": NaN
+    },
+    "AHP_time_from_peak.Step0.2": {
+        "feature mean": NaN,
+        "feature sd": NaN
+    },
+    "APlast_amp.Step0.15": {
+        "feature mean": NaN,
+        "feature sd": NaN
+    },
+    "spike_half_width.Step0.2": {
+        "feature mean": NaN,
+        "feature sd": NaN
+    },
+    "voltage_deflection.Step-0.15": {
+        "feature mean": -9.212236958350374,
+        "feature sd": 0.0
+    },
     "min_voltage_between_spikes.Step0.15": {
-        "feature mean": NaN, 
+        "feature mean": NaN,
         "feature sd": NaN
+    },
+    "steady_state_hyper.Step-0.2": {
+        "feature mean": -78.08245436342023,
+        "feature sd": 0.0
+    },
+    "single_burst_ratio.Step0.25": {
+        "feature mean": NaN,
+        "feature sd": NaN
+    },
+    "voltage_after_stim.Step0.25": {
+        "feature mean": -66.79353476759199,
+        "feature sd": 0.0
+    },
+    "time_to_last_spike.Step0.15": {
+        "feature mean": 0.0,
+        "feature sd": 0.0
+    },
+    "inv_last_ISI.Step0.15": {
+        "feature mean": 0.0,
+        "feature sd": 0.0
+    },
+    "inv_first_ISI.Step0.15": {
+        "feature mean": 0.0,
+        "feature sd": 0.0
+    },
+    "Spikecount.Step0.2": {
+        "feature mean": 0.0,
+        "feature sd": 0.0
+    },
+    "maximum_voltage.Step0.1": {
+        "feature mean": -59.89326479037698,
+        "feature sd": 0.0
+    },
+    "AHP_depth_from_peak.Step0.15": {
+        "feature mean": NaN,
+        "feature sd": NaN
+    },
+    "AP_begin_voltage.Step0.25": {
+        "feature mean": -44.02958086797096,
+        "feature sd": 0.20341771366824446
+    },
+    "AHP_depth_abs.Step0.15": {
+        "feature mean": NaN,
+        "feature sd": NaN
+    },
+    "AP_rise_rate_change.Step0.15": {
+        "feature mean": NaN,
+        "feature sd": NaN
+    },
+    "AHP_depth_diff.Step0.2": {
+        "feature mean": NaN,
+        "feature sd": NaN
+    },
+    "AP_duration_half_width.Step0.15": {
+        "feature mean": NaN,
+        "feature sd": NaN
+    },
+    "voltage_base.Step0.2": {
+        "feature mean": -66.08409941972754,
+        "feature sd": 0.0
+    },
+    "min_AHP_values.Step0.25": {
+        "feature mean": -52.05711609442866,
+        "feature sd": 0.19657183763001673
+    },
+    "AP_fall_time.Step0.15": {
+        "feature mean": NaN,
+        "feature sd": NaN
+    },
+    "spike_half_width.Step0.25": {
+        "feature mean": 1.8590191762385129,
+        "feature sd": 0.03599252387739365
+    },
+    "steady_state_voltage.Step0.25": {
+        "feature mean": -65.57745845857684,
+        "feature sd": 0.0
+    },
+    "initburst_sahp_vb.Step0.25": {
+        "feature mean": NaN,
+        "feature sd": NaN
+    },
+    "time_to_second_spike.Step0.15": {
+        "feature mean": NaN,
+        "feature sd": NaN
+    },
+    "AP_duration_half_width_change.Step0.25": {
+        "feature mean": 0.14285714285714285,
+        "feature sd": 0.0
+    },
+    "voltage_after_stim.Step-0.15": {
+        "feature mean": -65.65489381847439,
+        "feature sd": 0.0
+    },
+    "inv_fourth_ISI.Step0.15": {
+        "feature mean": 0.0,
+        "feature sd": 0.0
+    },
+    "minimum_voltage.Step-0.2": {
+        "feature mean": -79.73181563704239,
+        "feature sd": 0.0
+    },
+    "maximum_voltage_from_voltagebase.Step0.2": {
+        "feature mean": 12.565603979893524,
+        "feature sd": 0.0
+    },
+    "ISI_log_slope_skip.Step0.2": {
+        "feature mean": NaN,
+        "feature sd": NaN
+    },
+    "inv_second_ISI.Step0.2": {
+        "feature mean": 0.0,
+        "feature sd": 0.0
+    },
+    "Spikecount_stimint.Step0.1": {
+        "feature mean": 0.0,
+        "feature sd": 0.0
+    },
+    "steady_state_voltage.Step-0.2": {
+        "feature mean": -66.45994206137769,
+        "feature sd": 0.0
+    },
+    "time_to_second_spike.Step0.25": {
+        "feature mean": 84.30000000010932,
+        "feature sd": 0.0
+    },
+    "inv_third_ISI.Step0.25": {
+        "feature mean": 0.0,
+        "feature sd": 0.0
+    },
+    "peak_voltage.Step0.2": {
+        "feature mean": NaN,
+        "feature sd": NaN
+    },
+    "inv_third_ISI.Step0.1": {
+        "feature mean": 0.0,
+        "feature sd": 0.0
+    },
+    "amp_drop_first_second.Step0.2": {
+        "feature mean": NaN,
+        "feature sd": NaN
+    },
+    "AHP_depth_diff.Step0.15": {
+        "feature mean": NaN,
+        "feature sd": NaN
+    },
+    "AP2_begin_width.Step0.15": {
+        "feature mean": NaN,
+        "feature sd": NaN
+    },
+    "AP_amplitude_from_voltagebase.Step0.25": {
+        "feature mean": 67.93112832949271,
+        "feature sd": 0.9451429821299671
+    },
+    "voltage_base.Step-0.15": {
+        "feature mean": -66.08409941972754,
+        "feature sd": 0.0
+    },
+    "minimum_voltage.Step-0.05": {
+        "feature mean": -69.41921143518843,
+        "feature sd": 0.0
+    },
+    "inv_time_to_first_spike.Step0.1": {
+        "feature mean": 0.0,
+        "feature sd": 0.0
+    },
+    "time_constant.Step-0.15": {
+        "feature mean": 20.809543049034133,
+        "feature sd": 0.0
+    },
+    "adaptation_index.Step0.2": {
+        "feature mean": NaN,
+        "feature sd": NaN
+    },
+    "AP_rise_rate.Step0.25": {
+        "feature mean": 37.67923602595821,
+        "feature sd": 0.30667537619716256
+    },
+    "APlast_amp.Step0.25": {
+        "feature mean": 44.84707277967247,
+        "feature sd": 0.0
+    },
+    "maximum_voltage.Step0.05": {
+        "feature mean": -62.897080940131126,
+        "feature sd": 0.0
+    },
+    "maximum_voltage_from_voltagebase.Step0.1": {
+        "feature mean": 6.1908346293505545,
+        "feature sd": 0.0
+    },
+    "AP_rise_rate_change.Step0.2": {
+        "feature mean": NaN,
+        "feature sd": NaN
+    },
+    "sag_ratio1.Step-0.25": {
+        "feature mean": 0.13995418881976587,
+        "feature sd": 0.0
+    },
+    "AP2_width.Step0.15": {
+        "feature mean": NaN,
+        "feature sd": NaN
+    },
+    "AP_width.Step0.15": {
+        "feature mean": NaN,
+        "feature sd": NaN
+    },
+    "steady_state_hyper.Step-0.1": {
+        "feature mean": -72.31761855080535,
+        "feature sd": 0.0
+    },
+    "decay_time_constant_after_stim.Step-0.25": {
+        "feature mean": 16.274915080721204,
+        "feature sd": 0.0
+    },
+    "AP_height.Step0.15": {
+        "feature mean": NaN,
+        "feature sd": NaN
+    },
+    "inv_second_ISI.Step0.15": {
+        "feature mean": 0.0,
+        "feature sd": 0.0
+    },
+    "AP1_peak.Step0.15": {
+        "feature mean": NaN,
+        "feature sd": NaN
+    },
+    "time_to_first_spike.Step0.15": {
+        "feature mean": NaN,
+        "feature sd": NaN
+    },
+    "voltage_deflection_begin.Step-0.2": {
+        "feature mean": -10.711986517409159,
+        "feature sd": 0.0
+    },
+    "AP_duration_half_width.Step0.2": {
+        "feature mean": NaN,
+        "feature sd": NaN
+    },
+    "steady_state_voltage.Step-0.25": {
+        "feature mean": -66.4414553706985,
+        "feature sd": 0.0
+    },
+    "ISI_values.Step0.2": {
+        "feature mean": NaN,
+        "feature sd": NaN
+    },
+    "sag_amplitude.Step-0.1": {
+        "feature mean": 0.5272563792367464,
+        "feature sd": 0.0
+    },
+    "maximum_voltage_from_voltagebase.Step0.25": {
+        "feature mean": 69.25418142274751,
+        "feature sd": 0.0
+    },
+    "AP2_begin_width.Step0.25": {
+        "feature mean": 3.699999999996635,
+        "feature sd": 0.0
+    },
+    "AP_amplitude.Step0.2": {
+        "feature mean": NaN,
+        "feature sd": NaN
+    },
+    "single_burst_ratio.Step0.2": {
+        "feature mean": NaN,
+        "feature sd": NaN
+    },
+    "AP_duration_change.Step0.2": {
+        "feature mean": NaN,
+        "feature sd": NaN
+    },
+    "inv_fifth_ISI.Step0.2": {
+        "feature mean": 0.0,
+        "feature sd": 0.0
+    },
+    "minimum_voltage.Step-0.1": {
+        "feature mean": -72.84392813200158,
+        "feature sd": 0.0
+    },
+    "min_AHP_values.Step0.15": {
+        "feature mean": NaN,
+        "feature sd": NaN
+    },
+    "AP_duration_half_width.Step0.25": {
+        "feature mean": 0.7499999999993179,
+        "feature sd": 0.049999999999954525
+    },
+    "voltage_deflection_vb_ssse.Step-0.05": {
+        "feature mean": -3.1437785919256385,
+        "feature sd": 0.0
+    },
+    "steady_state_voltage.Step-0.1": {
+        "feature mean": -66.36594955763718,
+        "feature sd": 0.0
+    },
+    "voltage_after_stim.Step-0.2": {
+        "feature mean": -65.44789756113938,
+        "feature sd": 0.0
+    },
+    "peak_voltage.Step0.15": {
+        "feature mean": NaN,
+        "feature sd": NaN
+    },
+    "steady_state_voltage_stimend.Step-0.25": {
+        "feature mean": -80.70809052592375,
+        "feature sd": 0.0
+    },
+    "voltage_after_stim.Step-0.1": {
+        "feature mean": -65.83455042619683,
+        "feature sd": 0.0
+    },
+    "sag_ratio2.Step-0.15": {
+        "feature mean": 0.8999007871104903,
+        "feature sd": 0.0
+    },
+    "voltage_deflection_begin.Step-0.25": {
+        "feature mean": -13.4459656701802,
+        "feature sd": 0.0
+    },
+    "max_amp_difference.Step0.2": {
+        "feature mean": NaN,
+        "feature sd": NaN
+    },
+    "inv_third_ISI.Step0.2": {
+        "feature mean": 0.0,
+        "feature sd": 0.0
+    },
+    "AHP_depth_from_peak.Step0.2": {
+        "feature mean": NaN,
+        "feature sd": NaN
+    },
+    "AP_duration_half_width_change.Step0.2": {
+        "feature mean": NaN,
+        "feature sd": NaN
+    },
+    "mean_frequency.Step0.2": {
+        "feature mean": NaN,
+        "feature sd": NaN
+    },
+    "AP_fall_time.Step0.25": {
+        "feature mean": 0.09999999999990905,
+        "feature sd": 0.0
     }
 }

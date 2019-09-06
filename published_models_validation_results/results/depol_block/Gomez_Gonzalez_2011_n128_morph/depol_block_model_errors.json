@@ -1,6 +1,6 @@
 {
-    "I_below_depol_block_error": NaN, 
-    "Veq_error": NaN, 
-    "I_maxNumAP_error": 3.3333333333333335, 
-    "I_diff_penalty": 0
+    "I_diff_penalty": 0,
+    "I_maxNumAP_error": 3.3333333333333335,
+    "Veq_error": NaN,
+    "I_below_depol_block_error": NaN
 }

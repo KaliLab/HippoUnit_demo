@@ -1,62 +1,62 @@
 {
-    "('trunk[3]', 0.30000000000000004)": {
-        "distance": 54.82855538203904, 
-        "attenuation_soma/dendrite": 0.9711569174089606
-    }, 
-    "('trunk[14]', 0.8999999999999999)": {
-        "distance": 286.4236329369423, 
-        "attenuation_soma/dendrite": 0.1937198009537979
-    }, 
-    "('trunk[10]', 0.8999999999999999)": {
-        "distance": 220.59982828818949, 
-        "attenuation_soma/dendrite": 0.28191314320001704
-    }, 
-    "('trunk[15]', 0.1)": {
-        "distance": 296.5160101405574, 
-        "attenuation_soma/dendrite": 0.182729425029478
-    }, 
-    "('trunk[13]', 0.1)": {
-        "distance": 249.1215048765315, 
-        "attenuation_soma/dendrite": 0.23641589807999427
-    }, 
-    "('trunk[10]', 0.30000000000000004)": {
-        "distance": 180.70720622131324, 
-        "attenuation_soma/dendrite": 0.3822683442761673
-    }, 
-    "('trunk[13]', 0.7)": {
-        "distance": 263.4783942663559, 
-        "attenuation_soma/dendrite": 0.2180757517021044
-    }, 
-    "('trunk[15]', 0.7)": {
-        "distance": 346.55907737846553, 
-        "attenuation_soma/dendrite": 0.1401352873211837
-    }, 
-    "('trunk[3]', 0.5)": {
-        "distance": 64.32402718104117, 
-        "attenuation_soma/dendrite": 0.9573277552756678
-    }, 
-    "('trunk[3]', 0.7)": {
-        "distance": 73.81949898004332, 
-        "attenuation_soma/dendrite": 0.9434624697994387
-    }, 
     "('trunk[10]', 0.1)": {
-        "distance": 167.4096655323545, 
-        "attenuation_soma/dendrite": 0.44837062284149237
-    }, 
-    "('trunk[5]', 0.7)": {
-        "distance": 109.92681368817263, 
-        "attenuation_soma/dendrite": 0.8743589656421524
-    }, 
-    "('trunk[10]', 0.5)": {
-        "distance": 194.004746910272, 
-        "attenuation_soma/dendrite": 0.33749712136738785
-    }, 
-    "('trunk[15]', 0.30000000000000004)": {
-        "distance": 313.1970325531934, 
-        "attenuation_soma/dendrite": 0.1660784793152883
-    }, 
+        "distance": 167.4096655323545,
+        "attenuation_soma/dendrite": 0.44837031387975657
+    },
+    "('trunk[13]', 0.1)": {
+        "distance": 249.1215048765315,
+        "attenuation_soma/dendrite": 0.23641561922852314
+    },
+    "('trunk[15]', 0.1)": {
+        "distance": 296.5160101405574,
+        "attenuation_soma/dendrite": 0.18272917045655887
+    },
+    "('trunk[3]', 0.30000000000000004)": {
+        "distance": 54.82855538203904,
+        "attenuation_soma/dendrite": 0.9711568896410214
+    },
     "('trunk[12]', 0.8999999999999999)": {
-        "distance": 244.80339737839984, 
-        "attenuation_soma/dendrite": 0.24261317426731419
+        "distance": 244.80339737839984,
+        "attenuation_soma/dendrite": 0.24261289283222698
+    },
+    "('trunk[14]', 0.8999999999999999)": {
+        "distance": 286.4236329369423,
+        "attenuation_soma/dendrite": 0.19371953924999094
+    },
+    "('trunk[15]', 0.30000000000000004)": {
+        "distance": 313.1970325531934,
+        "attenuation_soma/dendrite": 0.1660782381688727
+    },
+    "('trunk[3]', 0.5)": {
+        "distance": 64.32402718104117,
+        "attenuation_soma/dendrite": 0.9573277131821938
+    },
+    "('trunk[10]', 0.30000000000000004)": {
+        "distance": 180.70720622131324,
+        "attenuation_soma/dendrite": 0.3822680466197845
+    },
+    "('trunk[10]', 0.8999999999999999)": {
+        "distance": 220.59982828818949,
+        "attenuation_soma/dendrite": 0.2819128518398642
+    },
+    "('trunk[5]', 0.7)": {
+        "distance": 109.92681368817263,
+        "attenuation_soma/dendrite": 0.8743588019092317
+    },
+    "('trunk[15]', 0.7)": {
+        "distance": 346.55907737846553,
+        "attenuation_soma/dendrite": 0.14013506557780325
+    },
+    "('trunk[10]', 0.5)": {
+        "distance": 194.004746910272,
+        "attenuation_soma/dendrite": 0.3374968292487279
+    },
+    "('trunk[13]', 0.7)": {
+        "distance": 263.4783942663559,
+        "attenuation_soma/dendrite": 0.21807547845263317
+    },
+    "('trunk[3]', 0.7)": {
+        "distance": 73.81949898004332,
+        "attenuation_soma/dendrite": 0.9434624074082153
     }
 }

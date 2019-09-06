@@ -1,11 +1,11 @@
 {
-    "threshold_error": 0.36027492639794206, 
-    "prox_threshold_error": 0.453472263899411, 
-    "dist_threshold_error": 0.28625062303418347, 
-    "nonlin_at_th_error": 0.6698980002084799, 
-    "nonlin_suprath_error": 1.0271282710711025, 
-    "peak_deriv_error": 0.2217542809280806, 
-    "amp_at_th_error": 1.0607182620105349, 
-    "time_to_peak_error": 5.182723502521603, 
+    "threshold_error": 0.36027492639794206,
+    "prox_threshold_error": 0.453472263899411,
+    "dist_threshold_error": 0.28625062303418347,
+    "nonlin_at_th_error": 0.6698980002084799,
+    "nonlin_suprath_error": 1.0271282710711025,
+    "peak_deriv_error": 0.2217542809280806,
+    "amp_at_th_error": 1.0607182620105349,
+    "time_to_peak_error": 5.182723502521603,
     "async_nonlin_error": 1.0225824056273576
 }

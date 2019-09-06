@@ -1,5 +1,5 @@
 {
-    "I_below_depol_block": "0.9 nA", 
-    "I_maxNumAP": "0.9 nA", 
-    "Veq": "-28.99074528137448 mV"
+    "I_below_depol_block": "0.9 nA",
+    "Veq": "-28.99074528137448 mV",
+    "I_maxNumAP": "0.9 nA"
 }
