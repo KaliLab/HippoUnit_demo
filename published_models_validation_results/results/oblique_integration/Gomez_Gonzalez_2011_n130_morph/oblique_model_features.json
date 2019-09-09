@@ -1,39 +1,39 @@
 {
-    "suprath_degree_of_nonlinearity": {
-        "sd": "27.4138078779453", 
-        "mean": "116.64635274161029"
-    }, 
-    "asynch_degree_of_nonlin_at_th": {
-        "sd": "14.09952561297618", 
-        "mean": "101.28746559909835"
-    }, 
-    "degree_of_nonlinearity_at_th": {
-        "sd": "37.11502306640164", 
-        "mean": "131.1716203124523"
-    }, 
-    "amplitude_at_th": {
-        "sd": "4.003646148057688 mV", 
-        "mean": "4.545059928934581 mV"
-    }, 
-    "threshold": {
-        "sd": "3.540151541628815 mV", 
-        "mean": "3.7293447942643847 mV"
-    }, 
-    "distal_threshold": {
-        "sd": "3.173910236578181 mV", 
-        "mean": "3.056018385823863 mV"
-    }, 
-    "proximal_threshold": {
-        "sd": "3.765773814809188 mV", 
-        "mean": "4.463882694381318 mV"
-    }, 
     "time_to_peak_at_th": {
-        "sd": "2.1014088576803718 ms", 
+        "sd": "2.1014088576803718 ms",
         "mean": "4.922826086952556 ms"
-    }, 
+    },
+    "amplitude_at_th": {
+        "sd": "4.00364293521293 mV",
+        "mean": "4.545057120603539 mV"
+    },
+    "degree_of_nonlinearity_at_th": {
+        "sd": "37.11508901324677",
+        "mean": "131.17167352865985"
+    },
+    "distal_threshold": {
+        "sd": "3.173908323275386 mV",
+        "mean": "3.05601618985615 mV"
+    },
     "peak_dV/dt_at_th": {
-        "sd": "3.396098744955422 V/s", 
-        "mean": "3.7923552777348246 V/s"
-    }, 
-    "num_of_locations": "23"
+        "sd": "3.396097836801319 V/s",
+        "mean": "3.7923541471795392 V/s"
+    },
+    "asynch_degree_of_nonlin_at_th": {
+        "sd": "14.099577310475649",
+        "mean": "101.28742409016013"
+    },
+    "num_of_locations": "23",
+    "threshold": {
+        "sd": "3.540149564904955 mV",
+        "mean": "3.729342236645917 mV"
+    },
+    "suprath_degree_of_nonlinearity": {
+        "sd": "27.413883000760762",
+        "mean": "116.64637061633545"
+    },
+    "proximal_threshold": {
+        "sd": "3.765771835979662 mV",
+        "mean": "4.463879742234753 mV"
+    }
 }

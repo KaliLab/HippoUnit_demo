@@ -1,62 +1,62 @@
 {
     "('trunk[6]', 0.1)": {
-        "distance": 305.3122613174445, 
-        "attenuation_soma/dendrite": 0.732073878764314
-    }, 
-    "('trunk[1]', 0.5)": {
-        "distance": 120.07993531352795, 
-        "attenuation_soma/dendrite": 0.9257377156801481
-    }, 
-    "('trunk[1]', 0.1)": {
-        "distance": 80.405768523308, 
-        "attenuation_soma/dendrite": 0.966260391540662
-    }, 
-    "('trunk[3]', 0.30000000000000004)": {
-        "distance": 249.97819595354377, 
-        "attenuation_soma/dendrite": 0.8102575497656261
-    }, 
-    "('trunk[0]', 0.8999999999999999)": {
-        "distance": 67.60684899727273, 
-        "attenuation_soma/dendrite": 0.9778132258947208
-    }, 
-    "('trunk[2]', 0.30000000000000004)": {
-        "distance": 189.3851291185975, 
-        "attenuation_soma/dendrite": 0.8619036569736929
-    }, 
-    "('trunk[1]', 0.7)": {
-        "distance": 139.91701870863795, 
-        "attenuation_soma/dendrite": 0.9064059150685372
-    }, 
-    "('trunk[2]', 0.1)": {
-        "distance": 176.24347224040113, 
-        "attenuation_soma/dendrite": 0.8735542526497386
-    }, 
-    "('trunk[3]', 0.5)": {
-        "distance": 259.7097077943831, 
-        "attenuation_soma/dendrite": 0.7999089766261404
-    }, 
-    "('trunk[1]', 0.8999999999999999)": {
-        "distance": 159.75410210374795, 
-        "attenuation_soma/dendrite": 0.8881872655527467
-    }, 
+        "distance": 305.3122613174445,
+        "attenuation_soma/dendrite": 0.7320734578957174
+    },
     "('trunk[3]', 0.8999999999999999)": {
-        "distance": 279.1727314760617, 
-        "attenuation_soma/dendrite": 0.7806459773071187
-    }, 
-    "('trunk[3]', 0.7)": {
-        "distance": 269.4412196352224, 
-        "attenuation_soma/dendrite": 0.7900417842477798
-    }, 
+        "distance": 279.1727314760617,
+        "attenuation_soma/dendrite": 0.780645623473789
+    },
     "('trunk[6]', 0.30000000000000004)": {
-        "distance": 340.8243484496006, 
-        "attenuation_soma/dendrite": 0.6624413709556672
-    }, 
-    "('trunk[2]', 0.7)": {
-        "distance": 215.66844287499023, 
-        "attenuation_soma/dendrite": 0.840579150435603
-    }, 
+        "distance": 340.8243484496006,
+        "attenuation_soma/dendrite": 0.6624408734799515
+    },
+    "('trunk[0]', 0.8999999999999999)": {
+        "distance": 67.60684899727273,
+        "attenuation_soma/dendrite": 0.977813212111115
+    },
     "('trunk[1]', 0.30000000000000004)": {
-        "distance": 100.24285191841798, 
-        "attenuation_soma/dendrite": 0.9458646223281685
+        "distance": 100.24285191841798,
+        "attenuation_soma/dendrite": 0.9458645794797088
+    },
+    "('trunk[2]', 0.30000000000000004)": {
+        "distance": 189.3851291185975,
+        "attenuation_soma/dendrite": 0.8619034919782301
+    },
+    "('trunk[3]', 0.7)": {
+        "distance": 269.4412196352224,
+        "attenuation_soma/dendrite": 0.7900414515116283
+    },
+    "('trunk[2]', 0.7)": {
+        "distance": 215.66844287499023,
+        "attenuation_soma/dendrite": 0.8405789333399897
+    },
+    "('trunk[3]', 0.30000000000000004)": {
+        "distance": 249.97819595354377,
+        "attenuation_soma/dendrite": 0.8102572599540306
+    },
+    "('trunk[2]', 0.1)": {
+        "distance": 176.24347224040113,
+        "attenuation_soma/dendrite": 0.873554112651357
+    },
+    "('trunk[3]', 0.5)": {
+        "distance": 259.7097077943831,
+        "attenuation_soma/dendrite": 0.7999086639399356
+    },
+    "('trunk[1]', 0.5)": {
+        "distance": 120.07993531352795,
+        "attenuation_soma/dendrite": 0.9257376501283113
+    },
+    "('trunk[1]', 0.8999999999999999)": {
+        "distance": 159.75410210374795,
+        "attenuation_soma/dendrite": 0.888187150213584
+    },
+    "('trunk[1]', 0.1)": {
+        "distance": 80.405768523308,
+        "attenuation_soma/dendrite": 0.9662603675117609
+    },
+    "('trunk[1]', 0.7)": {
+        "distance": 139.91701870863795,
+        "attenuation_soma/dendrite": 0.9064058248039899
     }
 }

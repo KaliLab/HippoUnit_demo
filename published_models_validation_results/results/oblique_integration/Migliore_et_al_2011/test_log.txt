@@ -7,9 +7,9 @@ The default NMDA model of HippoUnit is used with Jahr, Stevens voltage dependenc
 ---------------------------------------------------------------------------------------------------
 The dendritic spike at dendrite apical_dendrite[28](0.1) generated somatic AP - this location is not used in the test
 ---------------------------------------------------------------------------------------------------
-The dendritic spike at dendrite apical_dendrite[28](0.3) generated somatic AP - this location is not used in the test
+The dendritic spike at dendrite apical_dendrite[28](0.30000000000000004) generated somatic AP - this location is not used in the test
 ---------------------------------------------------------------------------------------------------
-The dendritic spike at dendrite apical_dendrite[29](0.3) generated somatic AP - this location is not used in the test
+The dendritic spike at dendrite apical_dendrite[29](0.30000000000000004) generated somatic AP - this location is not used in the test
 ---------------------------------------------------------------------------------------------------
 The dendritic spike at dendrite apical_dendrite[29](0.5) generated somatic AP - this location is not used in the test
 ---------------------------------------------------------------------------------------------------
