@@ -78,7 +78,7 @@ The *target_features* folder of this repository contains the target experimental
 
 * **depol_block_target_data.json**: contains target feature values for the **Depolarization Block Test** of HippoUnit obtained from the paper Bianchi et al. 2012 (J Comput Neurosci, 33: 207-225; doi: 10.1007/s10827-012-0383-y)
 
-* **oblique_target_data.json**: contains target feature values for the **Depolarization Block Test** of HippoUnit obtained from the paper A. Losonczy and J. C. Magee 2006 (Neuron, 50: 291-307; DOI: 10.1016/j.neuron.2006.03.016) 
+* **oblique_target_data.json**: contains target feature values for the **Oblique Integration Test** of HippoUnit obtained from the paper A. Losonczy and J. C. Magee 2006 (Neuron, 50: 291-307; DOI: 10.1016/j.neuron.2006.03.016) 
 
 
 ## Jupyter notebooks
@@ -96,4 +96,7 @@ The *published_models_validation_results* folder of this repository contains all
 
 This research has been partially supported by the Human Brain Project, funded from the European Union’s Horizon 2020 Framework Programme for Research and Innovation under Specific Grant Agreements No. 720270 and No. 785907 (Human Brain Project SGA1 and SGA2).
 
+SUPPORTED BY THE ÚNKP-19-3-III NEW NATIONAL EXCELLENCE PROGRAM OF THE MINISTRY FOR INNOVATION AND TECHNOLOGY.  
+
 This research has been partially supported by the European Union, co-financed by the European Social Fund (EFOP-3.6.3-VEKOP- 16-2017-00002 ).
+

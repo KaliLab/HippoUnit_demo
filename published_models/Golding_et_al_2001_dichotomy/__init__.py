@@ -1,5 +1,6 @@
 # Added by Sara Saray and Shailesh Appukuttan to run validation tests and register the results in the HBP Validation Framework
 
+from __future__ import print_function
 import os
 from hippounit.utils import ModelLoader
 
@@ -11,7 +12,7 @@ class Golding_et_al_2001_weak_fig8A(ModelLoader):
     def __init__(self):
         # path to mod files
         model_path = os.path.dirname(os.path.abspath(__file__))
-        print "model_path = ", model_path
+        print("model_path = ", model_path)
         mod_files_path = model_path + "/fig08/"
 
         #Load cell model
@@ -48,7 +49,7 @@ class Golding_et_al_2001_strong_fig8B(ModelLoader):
     def __init__(self):
         # path to mod files
         model_path = os.path.dirname(os.path.abspath(__file__))
-        print "model_path = ", model_path
+        print("model_path = ", model_path)
         mod_files_path = model_path + "/fig08/"
 
         #Load cell model
@@ -85,7 +86,7 @@ class Golding_et_al_2001_weak_fig9B(ModelLoader):
     def __init__(self):
         # path to mod files
         model_path = os.path.dirname(os.path.abspath(__file__))
-        print "model_path = ", model_path
+        print("model_path = ", model_path)
         mod_files_path = model_path + "/fig09/"
 
         #Load cell model

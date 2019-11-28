@@ -1,5 +1,6 @@
 # Added by Sara Saray and Shailesh Appukuttan to run validation tests and register the results in the HBP Validation Framework
 
+from __future__ import print_function
 import os
 from hippounit.utils import ModelLoader
 from neuron import h
@@ -13,13 +14,13 @@ class Poirazi_2003_CA1(ModelLoader):
     def __init__(self):
         # path to mod files
         model_path = os.path.dirname(os.path.abspath(__file__))
-        print "model_path = ", model_path
+        print("model_path = ", model_path)
         mod_files_path = model_path + "/mechanism/"
 
         #Load cell model
         ModelLoader.__init__(self, mod_files_path = mod_files_path)
 
-	super(Poirazi_2003_CA1, self).__init__(mod_files_path=mod_files_path)
+        super(Poirazi_2003_CA1, self).__init__(mod_files_path=mod_files_path)
 
         # outputs will be saved in subfolders named like this:
         self.name="Poirazi_et_al_2003"
@@ -46,7 +47,7 @@ class Poirazi_2003_CA1(ModelLoader):
 
         #setting synapse parameters
         self.AMPA_name = 'GLU'
-        self.NMDA_name = 'NMDA' 
+        self.NMDA_name = 'NMDA'
         self.AMPA_NMDA_ratio = 1/2.5
 
     def set_multiple_ampa_nmda(self, dend_loc, number, AMPA_weight):
@@ -66,11 +67,11 @@ class Poirazi_2003_CA1(ModelLoader):
 
                 self.ampa_list[i].gmax = AMPA_weight
                 # self.ampa_list[i].Deadtime = 0.025
-            else: 
+            else:
                 self.ampa_list[i] = h.Exp2Syn(xloc, sec=self.dendrite)
                 self.ampa_list[i].tau1 = self.AMPA_tau1
                 self.ampa_list[i].tau2 = self.AMPA_tau2
-                print 'The built in Exp2Syn is used as the AMPA component. Tau1 = ', self.AMPA_tau1, ', Tau2 = self.AMPA_tau2.'
+                print('The built in Exp2Syn is used as the AMPA component. Tau1 = ', self.AMPA_tau1, ', Tau2 = self.AMPA_tau2.')
 
             exec("self.nmda_list[i] = h."+self.NMDA_name+"(xloc, sec=self.dendrite)")
             self.nmda_list[i].gmax = AMPA_weight/self.AMPA_NMDA_ratio
@@ -87,7 +88,7 @@ class Poirazi_2003_CA1(ModelLoader):
         for i in range(number):
             self.epsp_ic[i] = h.IClamp(self.fakecell(0.5))
             self.epsp_ic[i].amp = 1
-            self.epsp_ic[i].dur = 0.05  # let it be shorter than the interval bw synapse activation 
+            self.epsp_ic[i].dur = 0.05  # let it be shorter than the interval bw synapse activation
             self.epsp_ic[i].delay = self.start + (i*interval)
             # print self.ampa_list[i].gmax
 
@@ -103,8 +104,8 @@ class Poirazi_2003_CA1(ModelLoader):
     def run_multiple_syn(self, dend_loc, interval, number, weight):
         """Used in ObliqueIntegrationTest"""
 
-        self.ampa_list = [None] * number 
-        self.nmda_list = [None] * number 
+        self.ampa_list = [None] * number
+        self.nmda_list = [None] * number
         self.ns_list = [None] * number
 
         self.epsp_ic = [None] * number
