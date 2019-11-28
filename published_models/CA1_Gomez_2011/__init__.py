@@ -1,5 +1,6 @@
 # Added by Sara Saray and Shailesh Appukuttan to run validation tests and register the results in the HBP Validation Framework
 
+from __future__ import print_function
 import os
 from hippounit.utils import ModelLoader
 
@@ -11,7 +12,7 @@ class CA1_Gomez_2011_n123(ModelLoader):
     def __init__(self):
         # path to mod files
         model_path = os.path.dirname(os.path.abspath(__file__))
-        print "model_path = ", model_path
+        print("model_path = ", model_path)
         mod_files_path = model_path + "/mechanism/"
 
         #Load cell model
@@ -55,7 +56,7 @@ class CA1_Gomez_2011_n125(ModelLoader):
     def __init__(self):
         # path to mod files
         model_path = os.path.dirname(os.path.abspath(__file__))
-        print "model_path = ", model_path
+        print("model_path = ", model_path)
         mod_files_path = model_path + "/mechanism/"
 
         #Load cell model
@@ -99,7 +100,7 @@ class CA1_Gomez_2011_n128(ModelLoader):
     def __init__(self):
         # path to mod files
         model_path = os.path.dirname(os.path.abspath(__file__))
-        print "model_path = ", model_path
+        print("model_path = ", model_path)
         mod_files_path = model_path + "/mechanism/"
 
         #Load cell model
@@ -143,7 +144,7 @@ class CA1_Gomez_2011_n129(ModelLoader):
     def __init__(self):
         # path to mod files
         model_path = os.path.dirname(os.path.abspath(__file__))
-        print "model_path = ", model_path
+        print("model_path = ", model_path)
         mod_files_path = model_path + "/mechanism/"
 
         #Load cell model
@@ -187,7 +188,7 @@ class CA1_Gomez_2011_n130(ModelLoader):
     def __init__(self):
         # path to mod files
         model_path = os.path.dirname(os.path.abspath(__file__))
-        print "model_path = ", model_path
+        print("model_path = ", model_path)
         mod_files_path = model_path + "/mechanism/"
 
         #Load cell model

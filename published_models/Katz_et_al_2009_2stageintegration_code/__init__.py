@@ -1,5 +1,6 @@
 # Added by Sara Saray and Shailesh Appukuttan to run validation tests and register the results in the HBP Validation Framework
 
+from __future__ import print_function
 import os
 from hippounit.utils import ModelLoader
 
@@ -11,7 +12,7 @@ class Katz_et_al_2009(ModelLoader):
     def __init__(self):
         # path to mod files
         model_path = os.path.dirname(os.path.abspath(__file__))
-        print "model_path = ", model_path
+        print("model_path = ", model_path)
         mod_files_path = model_path + "/"
 
         #Load cell model
