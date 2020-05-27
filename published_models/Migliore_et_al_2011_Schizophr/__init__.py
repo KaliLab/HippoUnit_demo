@@ -38,6 +38,9 @@ class Migliore_et_al_2011(ModelLoader):
         # For the Oblique Integration Test a section list containing the oblique dendritic sections is needed
         self.ObliqueSecList_name = 'oblique_dendrites'
 
+        #This will be argument to those tests, where dendritic locatins are selected according to distances. If not set, the end of the above given soma section will be used as reference point for distance determination
+        self.trunk_origin = ['soma[1]', 1] 
+
         self.v_init = -65
         self.celsius = 35
 

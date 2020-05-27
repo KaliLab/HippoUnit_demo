@@ -1,9 +1,11 @@
 Dendrites and locations to be tested:
-[['apical_dendrite[22]', 0.30000000000000004, 'prox'], ['apical_dendrite[22]', 0.5, 'dist'], ['apical_dendrite[24]', 0.1, 'prox'], ['apical_dendrite[24]', 0.30000000000000004, 'dist'], ['apical_dendrite[25]', 0.21428571428571427, 'prox'], ['apical_dendrite[25]', 0.3571428571428571, 'dist'], ['apical_dendrite[28]', 0.1, 'prox'], ['apical_dendrite[28]', 0.30000000000000004, 'dist'], ['apical_dendrite[29]', 0.30000000000000004, 'prox'], ['apical_dendrite[29]', 0.5, 'dist'], ['apical_dendrite[30]', 0.1, 'prox'], ['apical_dendrite[30]', 0.5, 'dist']]
+[['apical_dendrite[17]', 0.30000000000000004, 'prox'], ['apical_dendrite[17]', 0.5, 'dist'], ['apical_dendrite[18]', 0.05555555555555555, 'prox'], ['apical_dendrite[18]', 0.2777777777777778, 'dist'], ['apical_dendrite[20]', 0.1, 'prox'], ['apical_dendrite[20]', 0.5, 'dist'], ['apical_dendrite[21]', 0.30000000000000004, 'prox'], ['apical_dendrite[21]', 0.5, 'dist'], ['apical_dendrite[22]', 0.30000000000000004, 'prox'], ['apical_dendrite[22]', 0.5, 'dist'], ['apical_dendrite[24]', 0.1, 'prox'], ['apical_dendrite[24]', 0.30000000000000004, 'dist'], ['apical_dendrite[25]', 0.21428571428571427, 'prox'], ['apical_dendrite[25]', 0.3571428571428571, 'dist'], ['apical_dendrite[28]', 0.1, 'prox'], ['apical_dendrite[28]', 0.30000000000000004, 'dist'], ['apical_dendrite[29]', 0.30000000000000004, 'prox'], ['apical_dendrite[29]', 0.5, 'dist'], ['apical_dendrite[30]', 0.1, 'prox'], ['apical_dendrite[30]', 0.5, 'dist']]
 ---------------------------------------------------------------------------------------------------
 The built in Exp2Syn is used as the AMPA component. Tau1 = 0.4, Tau2 = 1.
 ---------------------------------------------------------------------------------------------------
 The default NMDA model of HippoUnit is used with Jahr, Stevens voltage dependence.
+---------------------------------------------------------------------------------------------------
+The dendritic spike at dendrite apical_dendrite[18](0.05555555555555555) generated somatic AP - this location is not used in the test
 ---------------------------------------------------------------------------------------------------
 The dendritic spike at dendrite apical_dendrite[28](0.1) generated somatic AP - this location is not used in the test
 ---------------------------------------------------------------------------------------------------
@@ -17,5 +19,5 @@ The dendritic spike at dendrite apical_dendrite[30](0.1) generated somatic AP - 
 ---------------------------------------------------------------------------------------------------
 The dendritic spike at dendrite apical_dendrite[30](0.5) generated somatic AP - this location is not used in the test
 ---------------------------------------------------------------------------------------------------
-ZScore_avg = 1.25
+ZScore_avg = 1.26
 ---------------------------------------------------------------------------------------------------
