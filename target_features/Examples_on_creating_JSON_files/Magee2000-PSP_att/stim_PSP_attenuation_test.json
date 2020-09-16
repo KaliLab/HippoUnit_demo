@@ -1,0 +1,11 @@
+{
+    "target_distances": [
+        100, 
+        200, 
+        300
+    ], 
+    "type": "double exponential synapse", 
+    "amplitude": null, 
+    "tau_rise": 0.1, 
+    "tau_decay": 3.0
+}
