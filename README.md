@@ -80,11 +80,11 @@ The *target_features* folder of this repository contains the target experimental
 
 * **oblique_target_data.json**: contains target feature values for the **Oblique Integration Test** of HippoUnit obtained from the paper A. Losonczy and J. C. Magee 2006 (Neuron, 50: 291-307; DOI: 10.1016/j.neuron.2006.03.016) 
 
-The *Examples_on_creating_JSON_files* subfolder contains some examples on how the JSON files were created.
+The **Examples_on_creating_JSON_files** subfolder contains some examples on how the JSON files were created.
 
-* **Somatic_Features** subfolder contains an example script on how to convert the output (features.json) of [BluePyEfe](https://github.com/BlueBrain/BluePyEfe) to a stimulus and a featre JSON file that are compatible with the Somatic Features Test of HippoUnit.
+*  The **Somatic_Features** subfolder contains an example script on how to convert the output (features.json) of [BluePyEfe](https://github.com/BlueBrain/BluePyEfe) to a stimulus and a feature JSON file that are compatible with the Somatic Features Test of HippoUnit.
 
-* **Magee2000-PSP_att** subfolder contains data digitized from the figures of the paper and a script (extract.py) that converts these data for the feature and stimulus JSON files pf The PSP Attenuation Test of HippoUnit.
+*  The **Magee2000-PSP_att** subfolder contains data digitized from the figures of the paper and a script (extract.py) that converts these data for the feature and stimulus JSON files of the PSP Attenuation Test of HippoUnit.
 
 
 ## Jupyter notebooks
