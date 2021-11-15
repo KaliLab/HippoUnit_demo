@@ -1,9 +1,15 @@
 Dendrites and locations to be tested:
-[['dendA5_00', 0.22499999999999998, 'prox'], ['dendA5_00', 0.625, 'dist'], ['dendA5_0101', 0.6428571428571428, 'prox'], ['dendA5_0101', 0.9, 'dist'], ['dendA5_0100', 0.7, 'prox'], ['dendA5_0100', 0.9, 'dist'], ['dendA5_01110', 0.875, 'prox'], ['dendA5_01110', 0.9, 'dist'], ['dendA5_01100', 0.1956521739130435, 'prox'], ['dendA5_01100', 0.4565217391304347, 'dist'], ['dendA5_011010', 0.875, 'prox'], ['dendA5_011010', 0.9, 'dist'], ['dendA5_0110111', 0.35, 'prox'], ['dendA5_0110111', 0.8499999999999999, 'dist'], ['dendA5_0110110', 0.6428571428571428, 'prox'], ['dendA5_0110110', 0.9, 'dist']]
+[['dendA5_00', 0.225, 'prox'], ['dendA5_00', 0.625, 'dist'], ['dendA5_0101', 0.6428571428571429, 'prox'], ['dendA5_0101', 0.9, 'dist'], ['dendA5_0100', 0.7, 'prox'], ['dendA5_0100', 0.9, 'dist'], ['dendA5_01110', 0.875, 'prox'], ['dendA5_01110', 0.9, 'dist'], ['dendA5_01100', 0.1956521739130435, 'prox'], ['dendA5_01100', 0.45652173913043476, 'dist']]
 ---------------------------------------------------------------------------------------------------
 The built in Exp2Syn is used as the AMPA component. Tau1 = 0.1, Tau2 = 2.0.
 ---------------------------------------------------------------------------------------------------
 The default NMDA model of HippoUnit is used with Jahr, Stevens voltage dependence.
 ---------------------------------------------------------------------------------------------------
-ZScore_avg = 1.03
+Dendrite dendA5_01110(0.875) generates dendritic spike even to smaller number of inputs - this location is not used in the test
+---------------------------------------------------------------------------------------------------
+Dendrite dendA5_01110(0.9) generates dendritic spike even to smaller number of inputs - this location is not used in the test
+---------------------------------------------------------------------------------------------------
+No dendritic spike could be generated at dendrite dendA5_01100(0.45652173913043476) - this location is not used in the test
+---------------------------------------------------------------------------------------------------
+ZScore_avg = 0.94
 ---------------------------------------------------------------------------------------------------
