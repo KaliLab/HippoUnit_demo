@@ -1,39 +1,39 @@
 {
-    "asynch_degree_of_nonlin_at_th": {
-        "sd": "0.0",
-        "mean": "134.81979183035006"
-    },
-    "distal_threshold": {
-        "sd": "0.0 mV",
-        "mean": "3.9121936599366336 mV"
-    },
     "threshold": {
-        "sd": "0.0 mV",
-        "mean": "3.9121936599366336 mV"
-    },
-    "suprath_degree_of_nonlinearity": {
-        "sd": "0.0",
-        "mean": "98.98907634896632"
-    },
-    "time_to_peak_at_th": {
-        "sd": "0.0 ms",
-        "mean": "7.374999999993804 ms"
-    },
-    "peak_dV/dt_at_th": {
-        "sd": "0.0 V/s",
-        "mean": "2.881143180955297 V/s"
-    },
-    "amplitude_at_th": {
-        "sd": "0.0 mV",
-        "mean": "3.9469234725557527 mV"
+        "mean": "3.9121936599366336 mV",
+        "sd": "0.0 mV"
     },
     "proximal_threshold": {
-        "sd": "nan mV",
-        "mean": "nan mV"
+        "mean": "nan mV",
+        "sd": "nan mV"
+    },
+    "distal_threshold": {
+        "mean": "3.9121936599366336 mV",
+        "sd": "0.0 mV"
+    },
+    "peak_dV/dt_at_th": {
+        "mean": "2.829098233578706 V/s",
+        "sd": "0.0 V/s"
     },
     "degree_of_nonlinearity_at_th": {
-        "sd": "0.0",
-        "mean": "100.88773244982157"
+        "mean": "101.65717835024775",
+        "sd": "0.0"
+    },
+    "suprath_degree_of_nonlinearity": {
+        "mean": "100.07625369731794",
+        "sd": "0.0"
+    },
+    "amplitude_at_th": {
+        "mean": "3.9770256862888687 mV",
+        "sd": "0.0 mV"
+    },
+    "time_to_peak_at_th": {
+        "mean": "7.824999999993395 ms",
+        "sd": "0.0 ms"
+    },
+    "asynch_degree_of_nonlin_at_th": {
+        "mean": "105.30710085406803",
+        "sd": "0.0"
     },
     "num_of_locations": "1"
 }

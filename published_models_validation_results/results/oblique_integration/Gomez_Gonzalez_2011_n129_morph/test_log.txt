@@ -21,9 +21,13 @@ The dendritic spike at dendrite apical_dendrite[83](0.5) generated somatic AP - 
 ---------------------------------------------------------------------------------------------------
 The dendritic spike at dendrite apical_dendrite[83](0.9) generated somatic AP - this location is not used in the test
 ---------------------------------------------------------------------------------------------------
+The dendritic spike at dendrite apical_dendrite[86](0.5) generated somatic AP - this location is not used in the test
+---------------------------------------------------------------------------------------------------
+The dendritic spike at dendrite apical_dendrite[86](0.9) generated somatic AP - this location is not used in the test
+---------------------------------------------------------------------------------------------------
 The dendritic spike at dendrite apical_dendrite[88](0.5) generated somatic AP - this location is not used in the test
 ---------------------------------------------------------------------------------------------------
 The dendritic spike at dendrite apical_dendrite[88](0.9) generated somatic AP - this location is not used in the test
 ---------------------------------------------------------------------------------------------------
-ZScore_avg = 2.23
+ZScore_avg = 1.66
 ---------------------------------------------------------------------------------------------------

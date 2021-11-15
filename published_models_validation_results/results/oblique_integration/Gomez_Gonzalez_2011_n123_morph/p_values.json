@@ -1,11 +1,11 @@
 {
+    "threshold": NaN,
     "proximal_threshold": NaN,
+    "distal_threshold": NaN,
     "peak_dV/dt_at_th": NaN,
     "degree_of_nonlinearity_at_th": NaN,
-    "distal_threshold": NaN,
+    "suprath_degree_of_nonlinearity": NaN,
     "amplitude_at_th": NaN,
-    "threshold": NaN,
     "time_to_peak_at_th": NaN,
-    "asynch_degree_of_nonlin_at_th": NaN,
-    "suprath_degree_of_nonlinearity": NaN
+    "asynch_degree_of_nonlin_at_th": NaN
 }

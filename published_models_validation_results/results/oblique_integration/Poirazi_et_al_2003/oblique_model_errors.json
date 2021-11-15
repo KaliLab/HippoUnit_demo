@@ -2,10 +2,10 @@
     "threshold_error": 0.2669994022135895,
     "prox_threshold_error": NaN,
     "dist_threshold_error": 0.9891031868847776,
-    "nonlin_at_th_error": 0.476250021043508,
-    "nonlin_suprath_error": 0.5214758467005746,
-    "peak_deriv_error": 0.0732780070537949,
-    "amp_at_th_error": 0.3280663497490704,
-    "time_to_peak_error": 3.1928769652521876,
-    "async_nonlin_error": 0.8032963543583078
+    "nonlin_at_th_error": 0.46733665653928674,
+    "nonlin_suprath_error": 0.5025848343866027,
+    "peak_deriv_error": 0.05971285492021835,
+    "amp_at_th_error": 0.3168578757162463,
+    "time_to_peak_error": 2.9582982494381915,
+    "async_nonlin_error": 0.03406867108743704
 }
