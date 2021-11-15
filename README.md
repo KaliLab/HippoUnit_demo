@@ -2,6 +2,11 @@
 
 The purpose of this repository is to provide examples on how to run the validation tests of [HippoUnit](https://github.com/KaliLab/hippounit) on models of the hippocampal CA1 pyramidal cell available in the literature and on [ModelDB](https://senselab.med.yale.edu/modeldb/)
 
+# Journal Paper
+
+Sára Sáray, Christian A. Rössert, Shailesh Appukuttan, Rosanna Migliore, Paola Vitale, Carmen A. Lupascu, Luca L. Bologna, Werner Van Geit, Armando Romani, Andrew P. Davison, Eilif Muller, Tamás F. Freund, Szabolcs Káli: Systematic comparison and automated validation of detailed models of hippocampal neurons, PLOS Computational Biology; 
+https://doi.org/10.1371/journal.pcbi.1008114  
+
 ## Models tested
 
 Models from literature published on ModelDB typically implement their own simulations and plots to make it possible for users and readers to reproduce and visualize the results that have been shown in the corresponding paper. Therefore to be able to test the models described below using HippoUnit, we needed to create standalone versions of them. These standalone versions should not display any GUI, or contain any built in simulations and run-time modifications, but their behavior should be identical to the published version of the models. We also added section lists of the radial oblique and the trunk dendritic sections to those models where this was not done yet, as some of the tests require the implementation of these. 
