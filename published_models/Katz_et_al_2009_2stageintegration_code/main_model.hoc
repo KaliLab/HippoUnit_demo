@@ -68,11 +68,30 @@ init()
 
 //creating oblique section list for validation
 
-objref oblique_dendrites
+objref oblique_dendrites, tuft_dendrites
 oblique_dendrites = new SectionList()
 
 for i = 0, 15 {
 	forsec d[i] { oblique_dendrites.append() }
 }
 //oblique_dendrites.printnames()
+
+tuft_dendrites = new SectionList()
+
+forsec all_apicals {tuft_dendrites.append()}
+
+tuft_dendrites.remove(primary_apical_list)
+tuft_dendrites.remove(oblique_dendrites)
+//tuft_dendrites.printnames()
 //quit()
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,8 @@
+SC AMPA weight: 0.0008980139892180309
+PP AMPA weight: 0.0019703588139499983
+current_amp_final: 0.1891153970088307
+SC dencd_loc: [['apical_dendrite[10]', 0.16666666666666666], ['apical_dendrite[72]', 0.5], ['apical_dendrite[68]', 0.75], ['apical_dendrite[13]', 0.25], ['apical_dendrite[57]', 0.25], ['apical_dendrite[54]', 0.5], ['apical_dendrite[63]', 0.8333333333333334], ['apical_dendrite[70]', 0.75], ['apical_dendrite[6]', 0.5], ['apical_dendrite[0]', 0.5], ['apical_dendrite[84]', 0.8333333333333334], ['apical_dendrite[14]', 0.25], ['apical_dendrite[63]', 0.16666666666666666], ['apical_dendrite[69]', 0.5], ['apical_dendrite[27]', 0.25], ['apical_dendrite[15]', 0.5], ['apical_dendrite[56]', 0.5], ['apical_dendrite[59]', 0.5], ['apical_dendrite[55]', 0.25], ['apical_dendrite[13]', 0.75], ['apical_dendrite[7]', 0.25], ['apical_dendrite[86]', 0.5], ['apical_dendrite[31]', 0.125], ['apical_dendrite[58]', 0.75], ['apical_dendrite[12]', 0.125], ['apical_dendrite[66]', 0.5], ['apical_dendrite[79]', 0.5], ['apical_dendrite[10]', 0.8333333333333334], ['apical_dendrite[80]', 0.5], ['apical_dendrite[64]', 0.5], ['apical_dendrite[31]', 0.625], ['apical_dendrite[68]', 0.25]]
+PP dencd_loc: [['apical_dendrite[17]', 0.5833333333333334], ['apical_dendrite[46]', 0.5], ['apical_dendrite[44]', 0.25], ['apical_dendrite[20]', 0.25], ['apical_dendrite[33]', 0.8333333333333334], ['apical_dendrite[33]', 0.16666666666666666], ['apical_dendrite[41]', 0.5], ['apical_dendrite[45]', 0.5]]
+---------------------------------------------------------------------------------------------------
+ZScore_avg = 3.76
+---------------------------------------------------------------------------------------------------

@@ -50,4 +50,13 @@ oblique_dendrites.unique()
 oblique_dendrites.remove(apical_trunk_list)
 //oblique_dendrites.printnames()
 
+objref tuft_dendrites
+tuft_dendrites = new SectionList()
 
+for i = 85, 105 {
+	apical_dendrite[i] tuft_dendrites.append()
+}
+for i = 75, 80 {
+	apical_dendrite[i] tuft_dendrites.append()
+}
+//tuft_dendrites.printnames()

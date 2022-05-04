@@ -1,0 +1,28 @@
+{
+    "SC": {
+        "num AP": 4.494665749754947
+    },
+    "PP": {
+        "num AP": 31.622776601683796
+    },
+    "SC+PP": {
+        "plateau amplitude": 3.1027884485600983,
+        "plateau duration": 0.5501547550585726,
+        "1st plateau duration": 0.3979983379541915,
+        "3-5th plateau duration": 0.44285756669811854,
+        "somatic AP ISI": NaN
+    },
+    "SC+depol": {
+        "num AP": 4.290581651605166,
+        "bAP amp": 2.4726910885961346,
+        "1st plateau duration": 0.5149414555791024,
+        "3-5th plateau duration": 0.25526707292950657
+    },
+    "PP+depol": {
+        "num AP": 3.0669939049341504,
+        "bAP amp": NaN,
+        "plateau duration": 0.5565884356346792,
+        "1st plateau duration": 0.2012342243583615,
+        "3-5th plateau duration": 0.6356199703319978
+    }
+}

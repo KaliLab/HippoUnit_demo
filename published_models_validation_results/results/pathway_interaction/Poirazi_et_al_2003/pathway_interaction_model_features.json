@@ -1,0 +1,76 @@
+{
+    "SC": {
+        "num AP": {
+            "mean": "0.4",
+            "std": "0.48989794855663565"
+        }
+    },
+    "PP": {
+        "num AP": {
+            "mean": "0.0",
+            "std": "0.0"
+        }
+    },
+    "SC+PP": {
+        "plateau amplitude": {
+            "mean": "12.428106014852137 mV",
+            "std": "0.4433893433134393 mV"
+        },
+        "plateau duration": {
+            "mean": "89.53000000026839 ms",
+            "std": "26.336174741372087 ms"
+        },
+        "1st plateau duration": {
+            "mean": "63.02499999994268 ms",
+            "std": "0.0 ms"
+        },
+        "3-5th plateau duration": {
+            "mean": "104.86666666704816 ms",
+            "std": "23.659884591708426 ms"
+        },
+        "somatic AP ISI": {
+            "mean": "nan ms",
+            "std": "nan ms"
+        }
+    },
+    "SC+depol": {
+        "num AP": {
+            "mean": "2.8",
+            "std": "0.39999999999999997"
+        },
+        "bAP amp": {
+            "mean": "40.302938395199384 mV",
+            "std": "2.405763732620064 mV"
+        },
+        "1st plateau duration": {
+            "mean": "30.299999999972442 ms",
+            "std": "0.0 ms"
+        },
+        "3-5th plateau duration": {
+            "mean": "64.61666666690174 ms",
+            "std": "0.35492565731873876 ms"
+        }
+    },
+    "PP+depol": {
+        "num AP": {
+            "mean": "3.0",
+            "std": "0.0"
+        },
+        "bAP amp": {
+            "mean": "35.203113994223244 mV",
+            "std": "3.6653337638095613 mV"
+        },
+        "plateau duration": {
+            "mean": "58.680000000194674 ms",
+            "std": "19.366171537094214 ms"
+        },
+        "1st plateau duration": {
+            "mean": "20.674999999981196 ms",
+            "std": "0.0 ms"
+        },
+        "3-5th plateau duration": {
+            "mean": "67.18333333357775 ms",
+            "std": "4.390061376453536 ms"
+        }
+    }
+}
