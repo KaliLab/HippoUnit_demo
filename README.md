@@ -83,7 +83,9 @@ The *target_features* folder of this repository contains the target experimental
 
 * **depol_block_target_data.json**: contains target feature values for the **Depolarization Block Test** of HippoUnit obtained from the paper Bianchi et al. 2012 (J Comput Neurosci, 33: 207-225; doi: 10.1007/s10827-012-0383-y)
 
-* **oblique_target_data.json**: contains target feature values for the **Oblique Integration Test** of HippoUnit obtained from the paper A. Losonczy and J. C. Magee 2006 (Neuron, 50: 291-307; DOI: 10.1016/j.neuron.2006.03.016) 
+* **oblique_target_data.json**: contains target feature values for the **Oblique Integration Test** of HippoUnit obtained from the paper A. Losonczy and J. C. Magee 2006 (Neuron, 50: 291-307; DOI: 10.1016/j.neuron.2006.03.016)
+
+* **pathway_interaction_target_data.json**: contains target feature values for the **Pathway Interaction Test** of HippoUnit obtained from the paper Takahashi and Magee 2009 (Neuron, 62: 102–111; DOI: 10.1016/j.neuron.2009.03.007)
 
 The **Examples_on_creating_JSON_files** subfolder contains some examples on how the JSON files were created.
 

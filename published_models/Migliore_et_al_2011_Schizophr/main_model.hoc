@@ -35,11 +35,13 @@ seed=1
 xopen("geo9068802.hoc")             // geometry file
 xopen("fixnseg.hoc")
 
-objref trunk_sec_list, oblique_dendrites
+objref trunk_sec_list, oblique_dendrites, tuft_dendrites
 trunk_sec_list = new SectionList()
 	for i = 0,11 user5[i] trunk_sec_list.append()
 oblique_dendrites = new SectionList()
 	for i = 0,30 apical_dendrite[i] oblique_dendrites.append()
+tuft_dendrites = new SectionList()
+	for i = 13,36 user5[i] tuft_dendrites.append()
 
 Rm = 28000
 RmDend = Rm/1

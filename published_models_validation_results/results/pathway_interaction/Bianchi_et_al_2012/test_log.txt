@@ -1,0 +1,12 @@
+The built in Exp2Syn is used as the AMPA component. Tau1 = 0.1, Tau2 = 2.0.
+---------------------------------------------------------------------------------------------------
+The default NMDA model of HippoUnit is used with Jahr, Stevens voltage dependence.
+---------------------------------------------------------------------------------------------------
+SC AMPA weight: 0.0013239020687940617
+PP AMPA weight: 0.0047641926991728875
+current_amp_final: 0.2646128806615853
+SC dencd_loc: [['apical_dendrite[118]', 0.5], ['apical_dendrite[102]', 0.75], ['apical_dendrite[93]', 0.5], ['apical_dendrite[36]', 0.16666666666666666], ['apical_dendrite[57]', 0.7], ['apical_dendrite[51]', 0.75], ['apical_dendrite[76]', 0.75], ['apical_dendrite[97]', 0.16666666666666666]]
+PP dencd_loc: [['apical_dendrite[89]', 0.75], ['apical_dendrite[76]', 0.25]]
+---------------------------------------------------------------------------------------------------
+ZScore_avg = 4.33
+---------------------------------------------------------------------------------------------------

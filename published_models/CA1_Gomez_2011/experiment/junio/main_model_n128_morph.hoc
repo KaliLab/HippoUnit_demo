@@ -141,6 +141,13 @@ econ.xopen_lib_dependent("Oblique-lib2")
 
 oblique_sections(apical_tip_list,apical_trunk_list,num_tips)	// apical dendrite path lists and degree of tips
 
+objref tuft_dendrites
+tuft_dendrites = new SectionList()
+
+for i = 0, 33 {
+	apical_dendrite[i] tuft_dendrites.append()
+}
+
 //creating oblique section list for validation (plcount, tmp_pl are from Oblique-lib2.hoc/oblique_sections
 
 objref oblique_dendrites
@@ -151,6 +158,7 @@ for i = 0, plcount {
 }
 oblique_dendrites.unique()
 oblique_dendrites.remove(apical_trunk_list)
+oblique_dendrites.remove(tuft_dendrites)
 //oblique_dendrites.printnames()
 
 

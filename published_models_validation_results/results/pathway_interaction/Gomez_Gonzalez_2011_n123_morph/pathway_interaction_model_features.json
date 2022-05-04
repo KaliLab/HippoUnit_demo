@@ -1,0 +1,76 @@
+{
+    "SC": {
+        "num AP": {
+            "mean": "0.8",
+            "std": "0.4000000000000001"
+        }
+    },
+    "PP": {
+        "num AP": {
+            "mean": "0.0",
+            "std": "0.0"
+        }
+    },
+    "SC+PP": {
+        "plateau amplitude": {
+            "mean": "13.883760213610788 mV",
+            "std": "0.8352490335970411 mV"
+        },
+        "plateau duration": {
+            "mean": "48.350000000132034 ms",
+            "std": "1.7352953639172999 ms"
+        },
+        "1st plateau duration": {
+            "mean": "48.22499999995614 ms",
+            "std": "0.0 ms"
+        },
+        "3-5th plateau duration": {
+            "mean": "49.28333333351262 ms",
+            "std": "1.3256025883480342 ms"
+        },
+        "somatic AP ISI": {
+            "mean": "9.789999999997814 ms",
+            "std": "0.741889479640262 ms"
+        }
+    },
+    "SC+depol": {
+        "num AP": {
+            "mean": "4.0",
+            "std": "1.0954451150103321"
+        },
+        "bAP amp": {
+            "mean": "40.53628352298349 mV",
+            "std": "4.5695194792203315 mV"
+        },
+        "1st plateau duration": {
+            "mean": "59.74999999994566 ms",
+            "std": "0.0 ms"
+        },
+        "3-5th plateau duration": {
+            "mean": "47.11666666683808 ms",
+            "std": "5.476325308919029 ms"
+        }
+    },
+    "PP+depol": {
+        "num AP": {
+            "mean": "3.0",
+            "std": "0.6324555320336759"
+        },
+        "bAP amp": {
+            "mean": "37.418325998967404 mV",
+            "std": "4.690496842644396 mV"
+        },
+        "plateau duration": {
+            "mean": "45.69500000011849 ms",
+            "std": "15.562008225197422 ms"
+        },
+        "1st plateau duration": {
+            "mean": "52.49999999995225 ms",
+            "std": "0.0 ms"
+        },
+        "3-5th plateau duration": {
+            "mean": "53.00000000019281 ms",
+            "std": "7.738324538755296 ms"
+        }
+    }
+}

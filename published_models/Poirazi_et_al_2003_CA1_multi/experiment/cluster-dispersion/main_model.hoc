@@ -57,8 +57,18 @@ oblique_tip_dendrites = new SectionList()
 
 forsec apical_tip_list {oblique_tip_dendrites.append()}
 forsec apical_tip_list_addendum {oblique_tip_dendrites.append()}
-
 //oblique_tip_dendrites.printnames()
+
+objref tuft_dendrites
+tuft_dendrites = new SectionList()
+
+for i = 85, 105 {
+	apical_dendrite[i] tuft_dendrites.append()
+}
+for i = 75, 80 {
+	apical_dendrite[i] tuft_dendrites.append()
+}
+//tuft_dendrites.printnames()
 
 oblique_dendrites = new SectionList()
 for i = 0, 59 {
@@ -66,7 +76,10 @@ for i = 0, 59 {
 }
 oblique_dendrites.unique()
 oblique_dendrites.remove(apical_trunk_list)
+oblique_dendrites.remove(tuft_dendrites)
 //oblique_dendrites.printnames()
+
+
 
 finitialize(v_init)
 fcurrent()
